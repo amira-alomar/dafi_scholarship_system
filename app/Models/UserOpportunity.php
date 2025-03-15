@@ -16,7 +16,7 @@ class UserOpportunity extends Model
     // Relationships
     public function user()
     {
-        return $this->belongsTo(AllUser::class, 'idUser'); // Each user opportunity is linked to a user
+        return $this->belongsTo(User::class, 'idUser', 'id');
     }
 
     public function jobOpportunity()

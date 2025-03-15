@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,14 +12,13 @@ class StudentInfo extends Model
     protected $primaryKey = 'studentInfoID';
     protected $fillable = ['major', 'gpa', 'year', 'number_of_training', 'number_of_volunteering', 'image', 'idUser', 'idUni'];
 
-    // Relationships
     public function user()
     {
-        return $this->belongsTo(AllUser::class, 'idUser'); // Each student info belongs to one user
+        return $this->belongsTo(User::class, 'idUser', 'id');
     }
 
     public function university()
     {
-        return $this->belongsTo(University::class, 'idUni'); // Each student info belongs to one university
+        return $this->belongsTo(University::class, 'idUni', 'universityID');
     }
 }

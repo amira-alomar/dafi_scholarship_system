@@ -15,11 +15,11 @@ class Course extends Model
     // Relationships
     public function user()
     {
-        return $this->belongsTo(AllUser::class, 'idUser'); // Each course belongs to one user
+        return $this->belongsTo(User::class, 'idUser', 'id');
     }
 
     public function university()
     {
-        return $this->belongsTo(University::class, 'idUni'); // Each course belongs to one university
+        return $this->belongsTo(University::class, 'idUni', 'universityID');
     }
 }

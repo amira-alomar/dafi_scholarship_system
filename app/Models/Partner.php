@@ -11,4 +11,9 @@ class Partner extends Model
 
     protected $primaryKey = 'partnerID';
     protected $fillable = ['Partner_name'];
+
+    public function scholarships()
+    {
+        return $this->belongsToMany(Scholarship::class, 'shcolarship_partner', 'idPartner', 'idScholarship');
+    }
 }

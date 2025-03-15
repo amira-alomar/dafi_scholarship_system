@@ -16,12 +16,12 @@ class UserSkills extends Model
     // Relationships
     public function user()
     {
-        return $this->belongsTo(AllUser::class, 'id'); // Each user skill is linked to a user
+        return $this->belongsTo(User::class, 'idUser', 'id');
     }
 
     public function skill()
     {
-        return $this->belongsTo(Skill::class, 'idSkill'); // Each user skill is linked to a skill
+        return $this->belongsTo(Skill::class, 'idSkill', 'skillID');
     }
 }
 

@@ -12,10 +12,8 @@ class JobOpportunity extends Model
     protected $primaryKey = 'jobID';
     protected $fillable = ['title', 'company_name', 'location', 'description', 'application_deadline'];
 
-    // Relationships
     public function skills()
     {
         return $this->belongsToMany(Skill::class, 'job_skills', 'idJob_Opportunity', 'idSkill');
     }
 }
-

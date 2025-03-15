@@ -22,4 +22,9 @@ class Question extends Model
     {
         return $this->belongsTo(Scholarship::class, 'idScholarship'); // Each question is linked to one scholarship
     }
+
+    public function answers()
+    {
+        return $this->hasMany(Answer::class, 'idQuestion', 'questionID');
+    }
 }

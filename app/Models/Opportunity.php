@@ -12,9 +12,8 @@ class Opportunity extends Model
     protected $primaryKey = 'opportunityID';
     protected $fillable = ['title', 'date', 'description', 'location', 'type', 'status', 'idUser'];
 
-    // Relationships
     public function user()
     {
-        return $this->belongsTo(AllUser::class, 'id'); // Each opportunity belongs to a user
+        return $this->belongsTo(User::class, 'idUser', 'id');
     }
 }

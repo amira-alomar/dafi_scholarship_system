@@ -12,15 +12,13 @@ class Skill extends Model
     protected $primaryKey = 'skillID';
     protected $fillable = ['name', 'idUser'];
 
-    // Relationships
     public function user()
     {
-        return $this->belongsTo(AllUser::class, 'id'); // Each skill belongs to one user
+        return $this->belongsTo(User::class, 'idUser', 'id');
     }
 
-    public function jobOpportunities()
+    public function jobSkills()
     {
-        return $this->belongsToMany(JobOpportunity::class, 'job_skills', 'idSkill', 'idJob_Opportunity');
+        return $this->hasMany(JobSkills::class, 'idSkill', 'skillID');
     }
 }
-

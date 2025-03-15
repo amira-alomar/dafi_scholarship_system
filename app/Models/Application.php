@@ -12,25 +12,43 @@ class Application extends Model
     protected $primaryKey = 'applicationID';
     protected $fillable = ['notes', 'status', 'submission_date', 'idUser', 'idScholarship', 'idForm', 'idInterview', 'idExam'];
 
-    // Relationships
     public function user()
     {
-        return $this->belongsTo(AllUser::class, 'idUser'); // Each application belongs to one user
+        return $this->belongsTo(User::class, 'idUser', 'id');
     }
 
     public function scholarship()
     {
-        return $this->belongsTo(Scholarship::class, 'idScholarship'); // Each application is for one scholarship
+        return $this->belongsTo(Scholarship::class, 'idScholarship', 'scholarshipID');
     }
 
-    public function form()
+    public function applicationForm()
     {
-        return $this->belongsTo(ApplicationForm::class, 'idForm'); // Each application is linked to one application form
+        return $this->belongsTo(ApplicationForm::class, 'idForm', 'applicationFormID');
+    }
+
+    public function interview()
+    {
+        return $this->belongsTo(Interview::class, 'idInterview', 'interviewID');
     }
 
     public function exam()
     {
-        return $this->belongsTo(Exam::class, 'idExam'); // Each application may have one exam
+        return $this->belongsTo(Exam::class, 'idExam', 'examID');
+    }
+
+    public function applicationStages()
+    {
+        return $this->belongsToMany(ApplicationStage::class, 'application_stage_progress', 'idApp', 'idAppStage');
+    }
+
+    public function documents()
+    {
+        return $this->hasMany(Document::class, 'idApp', 'applicationID');
+    }
+
+    public function answers()
+    {
+        return $this->hasMany(Answer::class, 'idApp', 'applicationID');
     }
 }
-
