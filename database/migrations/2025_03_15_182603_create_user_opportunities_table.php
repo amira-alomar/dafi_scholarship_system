@@ -15,6 +15,7 @@ return new class extends Migration
             $table->foreignId('idUser')->constrained('all_users', 'id')->onDelete('cascade');
             $table->foreignId('idOpportunity')->constrained('job_opportunities', 'jobID')->onDelete('cascade');
             $table->primary(['idUser', 'idOpportunity']);
+            $table->date('application_date')->nullable();
             $table->timestamps();
         });
     }

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('company_name');
             $table->string('location');
             $table->text('description');
+            $table->date('posting_date')->nullable();
             $table->date('application_deadline');
             $table->timestamps();
         });
