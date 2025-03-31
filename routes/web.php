@@ -37,6 +37,7 @@ Route::middleware(['auth', 'role:Student'])->group(function () {
     Route::get('/student/dashboard', function () {
         return view('student.dashboard');
     })->name('student.dashboard');
+    Route::get('/jobs', [JobOpportunityController::class, 'index']);
     //================================================================================================
 });
 
