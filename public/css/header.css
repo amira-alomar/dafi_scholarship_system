@@ -1,0 +1,78 @@
+    /* Header styles */
+    header {
+        width: 100%;
+        background: #fff;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        position: sticky;
+        top: 0;
+        z-index: 999;
+    }
+    
+    nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 1rem;
+    }
+    
+    .logo {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #000000; /* Black */
+    }
+    .logo span {
+        color: #D32F2F; /* Red */
+    }
+    
+    /* Navigation menu */
+    .menu {
+        display: flex;
+        gap: 1rem;
+    }
+    
+    .menu a {
+        text-decoration: none;
+        color: #333;
+        padding: 0.5rem 1rem;
+        transition: background 0.3s;
+    }
+    
+    .menu a:hover {
+        color: #D32F2F; /* Red */
+        border-radius: 5px;
+    }
+    
+    /* Menu toggle button for mobile */
+    .menu-toggle {
+        display: none;
+        cursor: pointer;
+        font-size: 1.4rem;
+        background: none;
+        border: none;
+    }
+    
+    /* Button styles */
+    .btn {
+        display: inline-block;
+        margin-right: 0.5rem;
+        margin-bottom: 0.5rem;
+        padding: 0.75rem 1.25rem;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background 0.3s;
+    }
+    
+    /* Login button styling - outlined style */
+    .btn.login {
+        background-color: transparent;
+        border: 2px solid #D32F2F;
+        color: #D32F2F;
+    }
+    
+    .btn.login:hover {
+        background-color: #D32F2F;
+        color: #fff;
+    }
+    

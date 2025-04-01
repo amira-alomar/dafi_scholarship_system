@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('application_stage_progress', function (Blueprint $table) {
             $table->foreignId('idApp')->constrained('applications', 'applicationID')->onDelete('cascade');
             $table->foreignId('idAppStage')->constrained('application_stages', 'applicationStageID')->onDelete('cascade');
+            $table->enum('status', ['accepted', 'rejected', 'pending']);
             $table->primary(['idApp', 'idAppStage']);
         });
     }

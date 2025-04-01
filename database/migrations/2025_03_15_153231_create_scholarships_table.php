@@ -16,8 +16,10 @@ return new class extends Migration
             $table->string('name');
             $table->string('funding_organization');
             $table->date('start_date');
+            $table->string('picture')->nullable();
             $table->date('end_date')->nullable();
             $table->text('description')->nullable();
+            $table->enum('target_group', ['Bachelor', 'Master', 'PHD']);
             $table->foreignId('idUni')->constrained('universities', 'universityID')->onDelete('cascade');
             $table->timestamps();
         });

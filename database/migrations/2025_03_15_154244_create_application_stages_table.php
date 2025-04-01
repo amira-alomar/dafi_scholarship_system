@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id('applicationStageID');
             $table->string('name');
             $table->integer('order');
+            $table->date('start_date');
+            $table->date('end_date')->nullable();
             $table->foreignId('idScholarship')->constrained('scholarships', 'scholarshipID')->onDelete('cascade');
             $table->timestamps();
         });
