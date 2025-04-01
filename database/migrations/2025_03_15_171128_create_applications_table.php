@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('applications', function (Blueprint $table) {
             $table->id('applicationID');
             $table->text('notes')->nullable();
-            $table->string('status');
+            $table->enum('status', ['pending', 'approved', 'rejected','canceled']);
             $table->date('submission_date');
             $table->foreignId('idUser')->constrained('all_users', 'id')->onDelete('cascade');
             $table->foreignId('idScholarship')->constrained('scholarships', 'scholarshipID')->onDelete('cascade');
             $table->foreignId('idForm')->constrained('application_forms', 'applicationFormID')->onDelete('cascade');
-            $table->unsignedBigInteger('idInterview')->nullable(); 
+            $table->foreignId('idInterview')->nullable()->constrained('interviews', 'interviewID')->onDelete('set null');
             $table->foreignId('idExam')->nullable()->constrained('exams', 'examID')->onDelete('set null');
             $table->timestamps();
         });

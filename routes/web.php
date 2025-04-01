@@ -1,11 +1,10 @@
 <?php
 
+use App\Http\Controllers\AllUserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-
-Route::get('/', function () {
-    return view('welcome');
-});
+use App\Http\Controllers\CandidiateDashController;
+use App\Http\Controllers\ScholarshipController;
 
 
 Route::get('/login', function () {
@@ -15,6 +14,13 @@ Route::get('/login', function () {
 Route::get('/register', function () {
     return view('auth.register');
 })->name('register');
+
+Route::get('/', [CandidiateDashController::class, "welcome"])
+    ->name('welcome');
+
+
+Route::post('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 //Auth controller
 Route::prefix('auth')->name('auth.')->group(function () {
@@ -28,7 +34,6 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
     Route::get('/admin/dashboard', function () {
         return view('admin.dashboard');
     })->name('admin.dashboard');
-
 });
 
 
@@ -42,7 +47,14 @@ Route::middleware(['auth', 'role:Student'])->group(function () {
 
 //Candidate
 Route::middleware(['auth', 'role:Candidate'])->group(function () {
-    Route::get('/candidate/dashboard', function () {
-        return view('candidate.dashboard');
-    })->name('candidate.dashboard');
+    Route::get('/candidate/dashboard', [CandidiateDashController::class, "index"])
+    ->name('candidate.dashboard');
+    Route::get('/scholarship/{id}', [ScholarshipController::class, 'show'])
+    ->name('scholarship_details');
+    Route::get('/track_your_application', [CandidiateDashController::class, 'Track'])
+    ->name('track_your_application');
+    Route::get('/apply/{scholarship}', [CandidiateDashController::class, 'apply'])
+    ->name('apply');
+
+    
 });

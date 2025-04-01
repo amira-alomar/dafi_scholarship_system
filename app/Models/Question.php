@@ -10,13 +10,9 @@ class Question extends Model
     use HasFactory;
 
     protected $primaryKey = 'questionID';
-    protected $fillable = ['question_text', 'idAppForm', 'idScholarship'];
+    protected $fillable = ['question_text', 'idScholarship'];
 
     // Relationships
-    public function applicationForm()
-    {
-        return $this->belongsTo(ApplicationForm::class, 'idAppForm'); // Each question belongs to one application form
-    }
 
     public function scholarship()
     {

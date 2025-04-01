@@ -10,11 +10,15 @@ class Scholarship extends Model
     use HasFactory;
 
     protected $primaryKey = 'scholarshipID';
-    protected $fillable = ['name', 'funding_organization', 'start_date', 'end_date', 'description', 'idUni'];
+    protected $fillable = ['name', 'funding_organization', 'start_date', 'end_date', 'description','picture', 'idUni', 'target_group'];
 
     public function university()
     {
         return $this->belongsTo(University::class, 'idUni', 'universityID');
+    }
+    public function countries()
+    {
+        return $this->belongsToMany(Country::class, 'scholarship_country');
     }
 
     public function applications()
@@ -34,11 +38,20 @@ class Scholarship extends Model
 
     public function partners()
     {
-        return $this->belongsToMany(Partner::class, 'scholarship_partner', 'idScholarship', 'idPartner');
+        return $this->belongsToMany(Partner::class, 'scholarship_partners', 'idScholarship', 'idPartner');
     }
 
     public function applicationStages()
     {
         return $this->hasMany(ApplicationStage::class, 'idScholarship', 'scholarshipID');
+    }
+
+    public function questions()
+    {
+        return $this->hasMany(Question::class, 'idScholarship');
+    }
+    public function graduates()
+    {
+        return $this->hasMany(Graduates::class, 'scholarship_id'); // Scholarship has many Graduates
     }
 }

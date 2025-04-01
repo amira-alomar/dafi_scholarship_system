@@ -10,12 +10,8 @@ class ApplicationForm extends Model
     use HasFactory;
 
     protected $primaryKey = 'applicationFormID';
-    protected $fillable = ['status', 'start_date', 'end_date'];
+    protected $fillable = ['status'];
 
-    public function questions()
-    {
-        return $this->hasMany(Question::class, 'idAppForm', 'applicationFormID');
-    }
 
     public function applications()
     {

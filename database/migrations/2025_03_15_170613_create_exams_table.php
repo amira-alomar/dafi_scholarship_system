@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('exams', function (Blueprint $table) {
             $table->id('examID');
             $table->decimal('score', 5, 2)->nullable();
-            $table->string('status');
+            $table->enum('status', ['passed', 'failed'])->nullable();
             $table->date('exam_date');
             $table->string('course');
             $table->timestamps();

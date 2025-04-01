@@ -10,7 +10,7 @@ class ApplicationStage extends Model
     use HasFactory;
 
     protected $primaryKey = 'applicationStageID';
-    protected $fillable = ['name', 'order', 'idScholarship'];
+    protected $fillable = ['name', 'order', 'idScholarship','start_date', 'end_date'];
 
     public function scholarship()
     {

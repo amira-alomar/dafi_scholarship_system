@@ -3,11 +3,12 @@
 namespace App\Models;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Graduates;
 
 class AllUser  extends Authenticatable
 {
     protected $fillable = [
-        'lname', 'fname', 'phone_number', 'email', 'address', 'password', 'role_id'
+        'lname', 'fname', 'phone_number','profile_picture', 'email', 'address', 'password', 'role_id','status'
     ];
     protected $table = 'all_users';
     protected $guarded = [];
@@ -20,6 +21,10 @@ class AllUser  extends Authenticatable
     public function role()
     {
         return $this->belongsTo(Role::class);
+    }
+    public function graduates()
+    {
+        return $this->hasMany(Graduates::class, 'user_id'); // User has many Graduates
     }
     public function skills()
     {

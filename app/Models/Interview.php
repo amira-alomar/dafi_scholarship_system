@@ -11,4 +11,9 @@ class Interview extends Model
 
     protected $primaryKey = 'interviewID';
     protected $fillable = ['interview_date', 'status', 'interview_result'];
+
+    public function application()
+    {
+        return $this->hasOne(Application::class, 'idInterview', 'interviewID');
+    }
 }
