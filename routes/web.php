@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CandidiateDashController;
 use App\Http\Controllers\ScholarshipController;
+use App\Http\Controllers\JobOpportunityController;
 
 
 Route::get('/login', function () {
@@ -38,13 +39,14 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
 
 
 // Student
-Route::middleware(['auth', 'role:Student'])->group(function () {
+// Route::middleware(['auth', 'role:Student'])->group(function () {
     Route::get('/student/dashboard', function () {
         return view('student.dashboard');
     })->name('student.dashboard');
     Route::get('/jobs', [JobOpportunityController::class, 'index']);
+
     //================================================================================================
-});
+// });
 
 //Candidate
 Route::middleware(['auth', 'role:Candidate'])->group(function () {
