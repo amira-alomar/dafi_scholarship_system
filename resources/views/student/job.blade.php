@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Job Listings</title>
     <link rel="stylesheet" href="{{ asset('css/job.css') }}">
-    <script defer src="{{ asset('js/Script.js') }}"></script>
+    <script defer src="{{ asset('js/job.js') }}"></script>
 </head>
 <body>
     <div class="sidebar">
@@ -34,12 +34,19 @@
     <div class="job-card">
         <div class="job-card-header">
             <h3>{{ $job->title }}</h3>
-            <p class="job-type">{{ $job->job_type ?? 'Not specified' }}</p>
+            <!-- <p class="job-type">{{ $job->job_type ?? 'Not specified' }}</p> -->
         </div>
         <p class="location">{{ $job->location }}</p>
         <p class="description">{{ $job->description }}</p>
-        <button class="view-details-btn">View Details</button>
-        <button class="save-btn">⭐ Save</button>
+        <button class="view-details-btn" 
+        onclick="openModal(`{{ $job->title }}`, `{{ $job->description}}`, `{{ $job->location }}`,`{{ $job->application_method }}`)">
+              View Details
+        </button>
+        <form method="POST" action="{{ route('jobs.save',  $job->jobID) }}">
+    @csrf
+    <button type="submit" class="save-btn">⭐ Save</button>
+</form>
+
     </div>
 @endforeach
 

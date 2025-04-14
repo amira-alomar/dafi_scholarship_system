@@ -44,6 +44,8 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
         return view('student.dashboard');
     })->name('student.dashboard');
     Route::get('/jobs', [JobOpportunityController::class, 'index']);
+    Route::post('/jobs/{id}/save', [JobOpportunityController::class, 'saveJob'])->name('jobs.save');
+
 
     //================================================================================================
 // });
