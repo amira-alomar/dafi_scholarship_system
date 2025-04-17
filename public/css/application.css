@@ -1,0 +1,78 @@
+:root {
+    --primary-color: #D32F2F;
+    --dark-bg: #222;
+    --accent-bg: #333;
+    --light-bg: #fff;
+    --muted-bg: #f4f4f4;
+    --light-gray: #f9f9f9;
+    --text-color: #333;
+    --transition-speed: 0.3s;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: var(--muted-bg);
+    color: var(--text-color);
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1000px;
+    margin: auto;
+    margin-left: 0px;
+    margin-bottom: 380px;
+    background: var(--light-bg);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    flex: 1;
+}
+
+h2 {
+    text-align: center;
+    color: var(--primary-color);
+}
+
+.application {
+    background: var(--light-gray);
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.application a {
+    text-decoration: none;
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+.buttons button {
+    margin-left: 10px;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background var(--transition-speed);
+}
+
+.approve {
+    background: green;
+    color: white;
+}
+
+.approve:hover {
+    background: darkgreen;
+}
+
+.reject {
+    background: red;
+    color: white;
+}
+
+.reject:hover {
+    background: darkred;
+}

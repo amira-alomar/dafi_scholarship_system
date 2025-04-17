@@ -10,7 +10,7 @@ class Question extends Model
     use HasFactory;
 
     protected $primaryKey = 'questionID';
-    protected $fillable = ['question_text', 'idScholarship'];
+    protected $fillable = ['question_text', 'idScholarship', 'question_type'];
 
     // Relationships
 

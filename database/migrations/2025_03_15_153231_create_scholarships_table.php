@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('funding_organization');
             $table->date('start_date');
+            $table->enum('status', ['open', 'closed']);
             $table->string('picture')->nullable();
             $table->date('end_date')->nullable();
             $table->text('description')->nullable();

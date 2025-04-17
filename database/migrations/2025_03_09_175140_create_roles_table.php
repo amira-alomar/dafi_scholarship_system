@@ -14,12 +14,12 @@ return new class extends Migration
     {
         Schema::create('roles', function (Blueprint $table) {
             $table->id();
-            $table->enum('role_name', ['Admin', 'Student', 'Candidate'])->default('Candidate');
+            $table->enum('role_name', ['Student', 'Candidate'])->default('Candidate');
             $table->timestamps();
         });
 
         // Insert default roles
-        $roles = ['Admin', 'Student', 'Candidate'];
+        $roles = ['Student', 'Candidate'];
 
         foreach ($roles as $role) {
             DB::table('roles')->insertOrIgnore([

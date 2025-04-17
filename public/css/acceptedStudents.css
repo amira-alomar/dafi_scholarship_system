@@ -1,0 +1,63 @@
+:root {
+    --primary-color: #D32F2F;
+    --dark-bg: #222;
+    --accent-bg: #333;
+    --light-bg: #fff;
+    --muted-bg: #f4f4f4;
+    --light-gray: #f9f9f9;
+    --text-color: #333;
+    --transition-speed: 0.3s;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    background: var(--muted-bg);
+    color: var(--text-color);
+    margin: 0;
+    padding: 20px;
+  }
+  
+  .container {
+    max-width: 1000px;
+    margin: auto;
+    margin-bottom: 340px;
+    background: var(--light-bg);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    flex: 1;
+  }
+  
+  h2 {
+    text-align: center;
+    color: var(--primary-color);
+    margin-bottom: 30px;
+    font-size: 2em;
+  }
+  
+  .student-card {
+    background: var(--light-gray);
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .student-info {
+    font-size: 1.1em;
+  }
+  
+  .student-info p {
+    margin: 5px 0;
+  }
+  
+  .badge {
+    background: var(--primary-color);
+    color: var(--light-bg);
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 0.9em;
+  }
