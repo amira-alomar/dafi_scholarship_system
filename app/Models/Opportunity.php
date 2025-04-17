@@ -12,8 +12,8 @@ class Opportunity extends Model
     protected $primaryKey = 'opportunityID';
     protected $fillable = ['title', 'date', 'description', 'location', 'type', 'status', 'idUser'];
 
-    public function user()
+    public function scholarship()
     {
-        return $this->belongsTo(User::class, 'idUser', 'id');
+        return $this->belongsTo(Scholarship::class, 'idScholarship', 'scholarshipID');
     }
 }

@@ -60,4 +60,8 @@ class Scholarship extends Model
     {
         return $this->belongsToMany(Admin::class, 'admin_scholarships', 'scholarship_id', 'admin_id');
     }
+    public function opportunities()
+    {
+        return $this->hasMany(Opportunity::class, 'idScholarship', 'scholarshipID');
+    }
 }

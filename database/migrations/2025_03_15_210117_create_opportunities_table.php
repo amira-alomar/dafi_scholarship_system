@@ -17,8 +17,9 @@ return new class extends Migration
             $table->date('date');
             $table->text('description');
             $table->string('location');
-            $table->enum('type',['internship', 'job','volunteer','training','event']);
+            $table->enum('type',['volunteer','training','event']);
             $table->enum('status',['open', 'closed']);
+            $table->foreignId('idScholarship')->nullable()->constrained('scholarships', 'scholarshipID')->onDelete('cascade');
             $table->timestamps();
         });
     }

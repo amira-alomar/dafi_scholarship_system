@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Application;
 use App\Models\AdminScholarship;
 use Illuminate\Support\Facades\Auth;
+use App\Models\ApplicationForm;
 
 class ApplicationController extends Controller
 {
@@ -36,7 +37,7 @@ class ApplicationController extends Controller
     public function approveApplication($applicationID)
     {
         // Fetch the application form associated with the applicationID
-        $applicationForm = \App\Models\ApplicationForm::where('applicationFormID', $applicationID)->first();
+        $applicationForm = ApplicationForm::where('applicationFormID', $applicationID)->first();
 
         // Ensure the application form exists
         if (!$applicationForm) {
@@ -54,7 +55,7 @@ class ApplicationController extends Controller
     public function rejectApplication($applicationID)
     {
         // Fetch the application form associated with the applicationID
-        $applicationForm = \App\Models\ApplicationForm::where('applicationFormID', $applicationID)->first();
+        $applicationForm = ApplicationForm::where('applicationFormID', $applicationID)->first();
 
         // Ensure the application form exists
         if (!$applicationForm) {
