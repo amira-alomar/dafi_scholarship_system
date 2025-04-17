@@ -1,5 +1,4 @@
 <?php
-
 use App\Http\Controllers\AllUserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -12,6 +11,7 @@ use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\OppController;
 use App\Http\Controllers\UniversityController;
 use App\Http\Middleware\AdminMiddleware;
+
 
 Route::get('/login', function () {
     return view('auth.login');
@@ -91,13 +91,14 @@ Route::middleware([AdminMiddleware::class])->group(function () {
 
 
 // Student
-Route::middleware(['auth', 'role:Student'])->group(function () {
+// Route::middleware(['auth', 'role:Student'])->group(function () {
     Route::get('/student/dashboard', function () {
         return view('student.dashboard');
     })->name('student.dashboard');
     Route::get('/jobs', [JobOpportunityController::class, 'index']);
+
     //================================================================================================
-});
+// });
 
 //Candidate
 Route::middleware(['auth', 'role:Candidate'])->group(function () {
