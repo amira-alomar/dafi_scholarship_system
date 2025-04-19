@@ -8,7 +8,9 @@ use Illuminate\Http\Request;
 use App\Models\Application;
 use App\Models\AllUser;
 use App\Models\Faq;
+use App\Models\Graduates;
 use App\Models\Question;
+use App\Models\ApplicationStage;
 
 class CandidiateDashController extends Controller
 {
@@ -30,8 +32,13 @@ class CandidiateDashController extends Controller
         $scholarshipCount = Scholarship::count();
         $applicationCount = Application::count();
         $FAQs = Faq::All();
+        $lastScholarshipId = ApplicationStage::orderBy('created_at', 'desc')->value('idScholarship');
+        $steps = ApplicationStage::where('idScholarship', $lastScholarshipId)
+            ->orderBy('order')
+            ->get();
+        $graduates = Graduates::with('user')->limit(3)->get();
         $scholarships = Scholarship::with(['criteria', 'benefits', 'partners', 'applicationStages'])->get();
-        return view('welcome', compact('FAQs', 'scholarships', 'students', 'scholarshipCount', 'applicationCount'));
+        return view('welcome', compact('steps', 'graduates', 'FAQs', 'scholarships', 'students', 'scholarshipCount', 'applicationCount'));
     }
     public function track()
     {

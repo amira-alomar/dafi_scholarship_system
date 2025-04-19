@@ -10,7 +10,9 @@ class Scholarship extends Model
     use HasFactory;
 
     protected $primaryKey = 'scholarshipID';
-    protected $fillable = ['name', 'funding_organization', 'start_date', 'end_date', 'description','picture', 'idUni', 'target_group'];
+    public $incrementing = false;
+
+    protected $fillable = ['name', 'status', 'funding_organization', 'start_date', 'end_date', 'description', 'picture', 'idUni', 'target_group'];
 
     public function university()
     {
@@ -53,5 +55,13 @@ class Scholarship extends Model
     public function graduates()
     {
         return $this->hasMany(Graduates::class, 'scholarship_id'); // Scholarship has many Graduates
+    }
+    public function admins()
+    {
+        return $this->belongsToMany(Admin::class, 'admin_scholarships', 'scholarship_id', 'admin_id');
+    }
+    public function opportunities()
+    {
+        return $this->hasMany(Opportunity::class, 'idScholarship', 'scholarshipID');
     }
 }

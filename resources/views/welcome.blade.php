@@ -24,7 +24,7 @@
         'Home' => '#home',
         'How it Works' => '#how-it-works',
         'Scholarships' => '#scholarships',
-        'Testimonials' => '#testimonials',
+        'Gradutes' => '#graduates',
         'FAQ' => '#faq',
         'Login' => route('login') ,
     ]
@@ -77,48 +77,15 @@
     <section class="how-it-works reveal reveal-bottom" id="how-it-works">
       <h2>How it Works</h2>
       <div class="steps">
+        @foreach($steps as $step)
         <div class="step reveal reveal-left">
-          <img
-            src="images/formIcon.jpg"
-            alt="Step 1"
-            loading="lazy"
-          />
-          <h3>Step 1</h3>
-          <p>Register using our simple application process.</p>
+          <h3>step {{ $step->order }}</h3>
+          <p>{{ $step->name }}</p>
+          {{-- <p>{{ $step->description }}</p> --}}
         </div>
-        <div class="step reveal reveal-bottom">
-          <div class="icon">
-            <img
-              src="images/interview.png"
-              alt="Step 2"
-              loading="lazy"
-            />
-          </div>
-          <h3>Step 2</h3>
-          <p>Explore a wide range of scholarship programs.</p>
-        </div>
-        <div class="step reveal reveal-right">
-          <img
-            src="images/exam.png"
-            alt="Step 3"
-            loading="lazy"
-          />
-          <h3>Step 3</h3>
-          <p>Submit your application and required documents.</p>
-        </div>
-        <div class="step reveal reveal-left">
-          <img
-            src="images/result.png"
-            alt="Step 4"
-            loading="lazy"
-          />
-          <h3>Step 4</h3>
-          <p>Receive your scholarship and start your journey.</p>
-        </div>
+        @endforeach
       </div>
     </section>
-
-    <!-- Scholarships Section -->
     <!-- Scholarships Section -->
 <section class="courses-section reveal reveal-bottom" id="scholarships">
   <h2>Available Scholarships</h2>
@@ -173,9 +140,9 @@
         </div>
         <div class="info-item"><strong>Important Dates:</strong>
           <table class="schedule-table">
-            <tr><th>Stage</th><th>Date</th></tr>
+            <tr><th>Stage</th><th>Start Date</th><th>End Date</th></tr>
             @foreach ($scholarship->applicationStages->sortBy('order') as $stage)
-              <tr><td>{{ $stage->name }}</td><td>date</td></tr>
+              <tr><td>{{ $stage->name }}</td><td>{{ $stage->start_date }}</td><td>{{ $stage->end_date }}</td></tr>
             @endforeach
           </table>
         </div>
@@ -187,36 +154,17 @@
     
 
     <!-- Testimonials Section -->
-    <section class="testimonials-section reveal reveal-bottom" id="testimonials">
+    <section class="testimonials-section reveal reveal-bottom" id="graduates">
       <h2>What Our Scholars Say</h2>
       <div class="testimonials-container">
+        @foreach ($graduates as $graduate)
         <div class="testimonial reveal reveal-left">
-          <img
-            src="images/person1.jpg"
-            alt="Scholar 1"
-            loading="lazy"
-          />
-          <p>"The DAFI Scholarship System transformed my career path."</p>
-          <h3>- Ahmed Ali</h3>
+          <img src="images/person1.jpg" alt="Scholar 1" loading="lazy"/>
+          <p>"{{ $graduate->feedback }}"</p>
+          <h3>- {{ $graduate->user->lname . ' ' . $graduate->user->fname }}
+          </h3>
         </div>
-        <div class="testimonial reveal reveal-bottom">
-          <img
-            src="images/person2.jpg"
-            alt="Scholar 2"
-            loading="lazy"
-          />
-          <p>"A seamless application process and excellent support."</p>
-          <h3>- Sara Mohamed</h3>
-        </div>
-        <div class="testimonial reveal reveal-right">
-          <img
-            src="images/person3.jpg"
-            alt="Scholar 3"
-            loading="lazy"
-          />
-          <p>"I received the scholarship and now I'm pursuing my dreams."</p>
-          <h3>- John Doe</h3>
-        </div>
+        @endforeach
       </div>
     </section>
 

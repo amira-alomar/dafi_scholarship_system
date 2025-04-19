@@ -1,0 +1,79 @@
+:root {
+    --primary-color: #D32F2F;
+    --dark-bg: #222;
+    --accent-bg: #333;
+    --light-bg: #fff;
+    --muted-bg: #f4f4f4;
+    --text-color: #333;
+    --transition-speed: 0.3s;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: var(--muted-bg);
+    color: var(--text-color);
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1000px;
+    margin: auto;
+    margin-left: 0px;
+    margin-bottom: 600px;
+    background: var(--light-bg);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    flex: 1;
+}
+
+h2, h3 {
+    color: var(--primary-color);
+}
+
+p {
+    margin: 10px 0;
+}
+
+.documents ul {
+    list-style: none;
+    padding: 0;
+}
+
+.documents li {
+    margin: 5px 0;
+}
+
+.admin-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.approve, .reject {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background var(--transition-speed);
+}
+
+.approve {
+    background: #4CAF50;
+    color: white;
+}
+
+.approve:hover {
+    background: #388E3C;
+}
+
+.reject {
+    background: var(--primary-color);
+    color: white;
+}
+
+.reject:hover {
+    background: #B71C1C;
+}

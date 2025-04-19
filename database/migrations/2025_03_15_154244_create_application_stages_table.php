@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('application_stages', function (Blueprint $table) {
             $table->id('applicationStageID');
             $table->string('name');
+            $table->string('descriotion');
             $table->integer('order');
             $table->date('start_date');
             $table->date('end_date')->nullable();

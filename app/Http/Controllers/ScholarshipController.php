@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Scholarship;
 
@@ -35,11 +35,11 @@ class ScholarshipController extends Controller
      * Display the specified resource.
      */
     public function show($id)
-{
-    $scholarship = Scholarship::with(['criteria', 'benefits', 'partners'])->findOrFail($id);
-    
-    return view('candidate.scholarship_details', compact('scholarship'));
-}
+    {
+        $scholarship = Scholarship::with(['criteria', 'benefits', 'partners'])->findOrFail($id);
+
+        return view('candidate.scholarship_details', compact('scholarship'));
+    }
 
 
     /**
@@ -70,5 +70,11 @@ class ScholarshipController extends Controller
     {
         $count = Scholarship::count() ? Scholarship::count() : 0;
         return view('candidate.dashboard', compact('count'));
+    }
+    public function scholarshipOfEachSupervisor()
+    {
+        $supervisor = Auth::guard('admin')->user();
+        $scholarships = $supervisor->scholarships;
+        return view('supervisor.scholarships', compact('scholarships'));
     }
 }

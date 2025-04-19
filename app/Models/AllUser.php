@@ -46,10 +46,10 @@ class AllUser  extends Authenticatable
         return $this->hasMany(Course::class, 'idUser', 'id');
     }
 
-    public function opportunities()
-    {
-        return $this->hasMany(Opportunity::class, 'idUser', 'id');
-    }
+    // public function opportunities()
+    // {
+    //     return $this->hasMany(Opportunity::class, 'idUser', 'id');
+    // }
 
     public function userSkills()
     {

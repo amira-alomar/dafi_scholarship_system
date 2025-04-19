@@ -10,7 +10,7 @@ class Partner extends Model
     use HasFactory;
 
     protected $primaryKey = 'partnerID';
-    protected $fillable = ['Partner_name'];
+    protected $fillable = ['Partner_name', 'Partner_description', 'picture'];
 
     public function scholarships()
     {
