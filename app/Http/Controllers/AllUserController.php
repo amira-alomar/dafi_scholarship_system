@@ -60,4 +60,5 @@ class AllUserController extends Controller
         return view('admin.user', compact('users'));
     }
 
+
 }

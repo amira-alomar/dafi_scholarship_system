@@ -8,6 +8,9 @@
     <script defer src="{{ asset('js/job.js') }}"></script>
 </head>
 <body>
+   
+
+    <div class="container">
     <div class="sidebar">
         <h2>Dashboard</h2>
         <ul>
@@ -19,8 +22,6 @@
             <li><a href="#">Profile</a></li>
         </ul>
     </div>
-
-    <div class="container">
         <h2>Open Positions</h2>
 
         <div class="search-bar">
@@ -39,7 +40,7 @@
         <p class="location">{{ $job->location }}</p>
         <p class="description">{{ $job->description }}</p>
         <button class="view-details-btn" 
-        onclick="openModal(`{{ $job->title }}`, `{{ $job->description}}`, `{{ $job->location }}`,`{{ $job->application_method }}`)">
+        onclick="openModal(`{{ $job->title }}`, `{{ $job->details}}`, `{{ $job->location }}`,`{{ $job->application_method }}`)">
               View Details
         </button>
         <form method="POST" action="{{ route('jobs.save',  $job->jobID) }}">
@@ -60,6 +61,8 @@
             </div>
         </div>
     </div>
+    <div id="toast" class="toast">job saved successefuly✅</div>
+
 </body>
 </html>
 

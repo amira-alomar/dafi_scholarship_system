@@ -16,47 +16,24 @@ class JobOpportunityController extends Controller
         return view('student.job', compact('jobs')); // تمريرهم للـ Blade
     }
 
-// public function saveJob($id)
-// {
-//     $user = Auth::user();
-    
-
-//     // تأكدي أنه ما تكون محفوظة من قبل
-//     $alreadySaved = SavedJob::where('user_id', $user->id )
-//         ->where('job_opportunity_id', $id)
-//         ->first();
-
-//     if (!$alreadySaved) {
-//         SavedJob::create([
-//             'user_id' => $user->id ,
-//             'job_opportunity_id' => $id,
-//         ]);
-//     }
-
-//     return back()->with('success', 'Job saved successfully!');
-// }
 public function saveJob($id)
 {
-    // مؤقتًا، استخدم user_id ثابت (مثلاً 1)
-    $userId = 1;
+    $user = Auth::user();
+    
 
-    // تأكد إنو ما تكون محفوظة مسبقاً
-    $alreadySaved = SavedJob::where('user_id', $userId)
+    // تأكدي أنه ما تكون محفوظة من قبل
+    $alreadySaved = SavedJob::where('user_id', $user->id )
         ->where('job_opportunity_id', $id)
         ->first();
 
     if (!$alreadySaved) {
         SavedJob::create([
-            'user_id' => $userId,
+            'user_id' => $user->id ,
             'job_opportunity_id' => $id,
         ]);
     }
 
     return back()->with('success', 'Job saved successfully!');
 }
-
-
-    
-   
 
 }

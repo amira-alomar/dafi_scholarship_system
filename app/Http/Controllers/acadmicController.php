@@ -7,8 +7,12 @@ use App\Models\AllUser;
 use App\Models\Opportunity;
 use App\Models\UserOpportunity;
 use Illuminate\Support\Facades\Auth;
-class acadmicController extends Controller{
-
+class AcadmicController extends Controller{
+    public function index()
+    {
+        return view('student.acadmic'); // تأكدي إنو عندك الملف student/acadmic.blade.php
+    }
+    
 public function store(Request $request)
 {
     $request->validate([

@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name'); // اسم التدريب
             $table->string('certificate')->nullable(); // مسار الشهادة
-            $table->foreignId('studentInfoID')->constrained('student_infos')->onDelete('cascade');
+            $table->unsignedBigInteger('studentInfoID');
+            $table->foreign('studentInfoID')->references('studentInfoID')->on('student_infos')->onDelete('cascade');
             $table->timestamps();
         });
     }

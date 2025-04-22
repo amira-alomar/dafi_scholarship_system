@@ -60,4 +60,6 @@ class AllUser  extends Authenticatable
     {
         return $this->hasMany(UserOpportunity::class, 'idUser', 'id');
     }
+  
+   
 }
