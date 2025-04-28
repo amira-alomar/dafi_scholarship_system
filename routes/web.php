@@ -16,6 +16,8 @@ use App\Http\Controllers\DafiOpportunityController;
 use App\Http\Controllers\AcadmicController;
 use App\Http\Controllers\UserOpportunityController;
 use App\Http\Controllers\CoursesController;
+use App\Http\Controllers\VolunteeringController;
+
 
 
 
@@ -98,15 +100,17 @@ Route::middleware([AdminMiddleware::class])->group(function () {
 
 
 // Student
-// Route::middleware(['auth', 'role:Student'])->group(function () {
+Route::middleware(['auth', 'role:Student'])->group(function () {
     Route::get('/student/dashboard', function () {
         return view('student.dashboard');
     })->name('student.dashboard');
     Route::get('/jobs', [JobOpportunityController::class, 'index']);
     Route::post('/jobs/{id}/save', [JobOpportunityController::class, 'saveJob'])->name('jobs.save');
-    Route::post('/upload-training', [TrainingController::class, 'store']);
+    // Route::post('/upload-training', [TrainingController::class, 'store']);
     Route::get('/acadmic', [AcadmicController::class, 'index'])->name('student.acadmic');
     Route::post('/acadmic/store', [AcadmicController::class, 'store'])->name('student.acadmic.store');
+    Route::post('/trainings', [TrainingController::class, 'store'])->name('trainings.store');
+    Route::post('/volunteerings', [VolunteeringController::class, 'store'])->name('volunteerings.store');
     Route::get('/dafi_opp', [DafiOpportunityController::class, 'index']);
     Route::get('/courses', [CoursesController::class, 'index'])->name('courses.index');
     
@@ -119,7 +123,7 @@ Route::middleware([AdminMiddleware::class])->group(function () {
 
 
     //================================================================================================
-// });
+});
 
 //Candidate
 Route::middleware(['auth', 'role:Candidate'])->group(function () {

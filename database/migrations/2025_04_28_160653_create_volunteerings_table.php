@@ -4,13 +4,14 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTrainingsTable extends Migration
+class CreateVolunteeringsTable extends Migration
 {
     public function up()
     {
-        Schema::create('trainings', function (Blueprint $table) {
+        Schema::create('volunteerings', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            // $table->string('total_hours');
             $table->string('certificate')->nullable();
             $table->unsignedBigInteger('studentInfoID');
             $table->timestamps();
@@ -21,6 +22,7 @@ class CreateTrainingsTable extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('trainings');
+        Schema::dropIfExists('volunteerings');
     }
 }
+

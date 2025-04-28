@@ -6,11 +6,29 @@ use Illuminate\Http\Request;
 use App\Models\AllUser;
 use App\Models\Opportunity;
 use App\Models\UserOpportunity;
+use App\Models\Training;
+use App\Models\Volunteering;
+use App\Models\StudentInfo; 
 use Illuminate\Support\Facades\Auth;
+
+
 class AcadmicController extends Controller{
     public function index()
     {
-        return view('student.acadmic'); // تأكدي إنو عندك الملف student/acadmic.blade.php
+        $studentInfo = \App\Models\StudentInfo::where('idUser', auth()->id())->first();
+        $university = $studentInfo?->university?->name; // لو رابطينها بجامعة
+$major = $studentInfo?->major;
+$gpa = $studentInfo?->gpa;
+
+    $trainings = [];
+    $volunteerings = [];
+
+    if ($studentInfo) {
+        $trainings = Training::where('studentInfoID', $studentInfo->studentInfoID)->get();
+        $volunteerings = Volunteering::where('studentInfoID', $studentInfo->studentInfoID)->get();
+    }
+
+    return view('student.acadmic', compact('university', 'major', 'gpa', 'trainings', 'volunteerings'));
     }
     
 public function store(Request $request)
