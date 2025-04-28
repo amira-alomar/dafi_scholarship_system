@@ -15,6 +15,7 @@ use App\Http\Middleware\AdminMiddleware;
 use App\Http\Controllers\DafiOpportunityController;
 use App\Http\Controllers\AcadmicController;
 use App\Http\Controllers\UserOpportunityController;
+use App\Http\Controllers\CoursesController;
 
 
 
@@ -107,12 +108,10 @@ Route::middleware([AdminMiddleware::class])->group(function () {
     Route::get('/acadmic', [AcadmicController::class, 'index'])->name('student.acadmic');
     Route::post('/acadmic/store', [AcadmicController::class, 'store'])->name('student.acadmic.store');
     Route::get('/dafi_opp', [DafiOpportunityController::class, 'index']);
-    Route::get('/courses', function () {
-        return view('courses');
-    });
+    Route::get('/courses', [CoursesController::class, 'index'])->name('courses.index');
     
     Route::get('/profile', function () {
-        return view('profile');
+        return view('student.profile');
     });
     Route::post('/applications', [UserOpportunityController::class, 'store'])->name('applications.store');
 

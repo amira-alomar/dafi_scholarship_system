@@ -14,8 +14,8 @@
      <div class="sidebar">
         <h2>Dashboard</h2>
         <ul>
-    <li><a href="{{ url('/dashboard') }}"> Home</a></li>
-    <li><a href="{{ url('/academic') }}"> Academic Info</a></li>
+    <li><a href="{{ url('/student/dashboard') }}"> Home</a></li>
+    <li><a href="{{ url('/acadmic') }}"> Academic Info</a></li>
     <li><a href="{{ url('/dafi_opp') }}"> DAFI Opportunity</a></li>
     <li><a href="{{ url('/jobs') }}"> Job Opportunity</a></li>
     <li><a href="{{ url('/courses') }}"> Courses</a></li>
