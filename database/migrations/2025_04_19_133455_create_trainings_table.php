@@ -4,29 +4,23 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateTrainingsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    public function up()
     {
         Schema::create('trainings', function (Blueprint $table) {
             $table->id();
-            $table->string('name'); // اسم التدريب
-            $table->string('certificate')->nullable(); // مسار الشهادة
+            $table->string('name');
+            $table->string('certificate')->nullable();
             $table->unsignedBigInteger('studentInfoID');
-            $table->foreign('studentInfoID')->references('studentInfoID')->on('student_infos')->onDelete('cascade');
             $table->timestamps();
+
+            $table->foreign('studentInfoID')->references('studentInfoID')->on('student_infos')->onDelete('cascade');
         });
     }
-    
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('trainings');
     }
-};
+}

@@ -2,17 +2,21 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Training extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'certificate', 'student_info_id'];
+    protected $fillable = [
+        'name',
+        'certificate',
+        'studentInfoID',
+    ];
 
     public function studentInfo()
     {
-        return $this->belongsTo(StudentInfo::class);
+        return $this->belongsTo(StudentInfo::class, 'studentInfoID');
     }
 }
-
