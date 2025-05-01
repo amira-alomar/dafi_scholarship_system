@@ -65,6 +65,9 @@
         <!-- Academic Information (Only for Accepted Students) -->
     <div class="section " id="academic-info-section">
         <div class="edit-button">
+             <!-- <button class="icon-button">
+                <i class="bx bx-edit"></i>
+              </button> -->
             <button onclick="toggleEditMode('academic-info')" id="edit-academic-btn">Edit</button>
             <button onclick="saveChanges('academic-info')" id="save-academic-btn" class="hidden">Save</button>
         </div>

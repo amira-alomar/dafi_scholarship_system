@@ -9,6 +9,12 @@ use App\Models\StudentInfo;
 
 class TrainingController extends Controller
 {
+    public function index()
+    {
+        
+        return view('student.acadmic', compact('trainings'));
+    }
+    
     public function store(Request $request)
     {
         $request->validate([

@@ -29,6 +29,10 @@ public function scholarship()
 {
     return $this->belongsTo(Scholarship::class, 'idScholarship', 'scholarshipID');
 }
+public function academicGoals()
+{
+    return $this->hasMany(AcademicGoal::class, 'studentInfoID');
+}
 
 
 

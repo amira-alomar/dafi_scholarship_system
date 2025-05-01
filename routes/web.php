@@ -17,6 +17,8 @@ use App\Http\Controllers\AcadmicController;
 use App\Http\Controllers\UserOpportunityController;
 use App\Http\Controllers\CoursesController;
 use App\Http\Controllers\VolunteeringController;
+use App\Http\Controllers\AcademicGoalController;
+
 
 
 
@@ -108,6 +110,14 @@ Route::middleware(['auth', 'role:Student'])->group(function () {
     Route::post('/jobs/{id}/save', [JobOpportunityController::class, 'saveJob'])->name('jobs.save');
     // Route::post('/upload-training', [TrainingController::class, 'store']);
     Route::get('/acadmic', [AcadmicController::class, 'index'])->name('student.acadmic');
+    Route::get('/acadmic/goals', [AcademicGoalController::class, 'index'])->name('goals.index');
+
+
+        Route::get('/goals', [AcademicGoalController::class, 'index'])->name('goals.index');
+        Route::post('/goals', [AcademicGoalController::class, 'store'])->name('goals.store');
+        Route::put('/goals/{id}', [AcademicGoalController::class, 'update'])->name('goals.update');
+        Route::delete('/goals/{id}', [AcademicGoalController::class, 'destroy'])->name('goals.destroy');
+    
     Route::post('/acadmic/store', [AcadmicController::class, 'store'])->name('student.acadmic.store');
     Route::post('/trainings', [TrainingController::class, 'store'])->name('trainings.store');
     Route::post('/volunteerings', [VolunteeringController::class, 'store'])->name('volunteerings.store');

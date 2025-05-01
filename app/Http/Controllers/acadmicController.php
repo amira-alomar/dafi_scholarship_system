@@ -6,29 +6,25 @@ use Illuminate\Http\Request;
 use App\Models\AllUser;
 use App\Models\Opportunity;
 use App\Models\UserOpportunity;
+use App\Models\AcademicGoal;
 use App\Models\Training;
-use App\Models\Volunteering;
-use App\Models\StudentInfo; 
 use Illuminate\Support\Facades\Auth;
-
-
 class AcadmicController extends Controller{
     public function index()
     {
-        $studentInfo = \App\Models\StudentInfo::where('idUser', auth()->id())->first();
-        $university = $studentInfo?->university?->name; // لو رابطينها بجامعة
-$major = $studentInfo?->major;
-$gpa = $studentInfo?->gpa;
-
-    $trainings = [];
-    $volunteerings = [];
-
-    if ($studentInfo) {
-        $trainings = Training::where('studentInfoID', $studentInfo->studentInfoID)->get();
-        $volunteerings = Volunteering::where('studentInfoID', $studentInfo->studentInfoID)->get();
-    }
-
-    return view('student.acadmic', compact('university', 'major', 'gpa', 'trainings', 'volunteerings'));
+        $studentInfo = auth()->user()->studentInfo;
+        $studentInfoID = $studentInfo->studentInfoID ?? null;
+    
+        $trainings = $studentInfoID ? Training::where('studentInfoID', $studentInfoID)->get() : collect();
+        $goals = $studentInfo ? $studentInfo->academicGoals : collect();
+    
+        return view('student.acadmic', [
+            'goals' => $goals,
+            'trainings' => $trainings,
+            'major' => optional($studentInfo)->major,
+            'gpa' => optional($studentInfo)->gpa,
+            'university' => optional($studentInfo->university)->name ?? null,
+        ]);
     }
     
 public function store(Request $request)
@@ -47,16 +43,16 @@ public function store(Request $request)
             'gpa' => $request->gpa,
             'major' => $request->major,
             'year' => now()->year,
-            'number_of_training' => 1, // ممكن تعديله حسب عدد المدخلات
+            'number_of_training' => 1,  
             'number_of_volunteering' => 1,
-            'idUni' => 1, // بتجيبه حسب الجامعة
+            'idUni' => 1, 
         ]
     );
 
-    // تخزين الملفات إذا وُجدت
+    
     if ($request->hasFile('training_certificate')) {
         $path = $request->file('training_certificate')->store('uploads/certificates', 'public');
-        // ممكن تحفظ الرابط بالـ DB حسب التصميم
+        
     }
 
     return response()->json(['message' => 'Academic info submitted successfully!']);
