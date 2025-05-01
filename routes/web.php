@@ -112,6 +112,8 @@ Route::middleware(['auth', 'role:Student'])->group(function () {
     Route::post('/trainings', [TrainingController::class, 'store'])->name('trainings.store');
     Route::post('/volunteerings', [VolunteeringController::class, 'store'])->name('volunteerings.store');
     Route::get('/dafi_opp', [DafiOpportunityController::class, 'index']);
+    Route::post('/trainings', [TrainingController::class, 'store'])->name('trainings.store');
+    Route::post('/volunteerings', [VolunteeringController::class, 'store'])->name('volunteerings.store');
     Route::get('/courses', [CoursesController::class, 'index'])->name('courses.index');
     
     Route::get('/profile', function () {

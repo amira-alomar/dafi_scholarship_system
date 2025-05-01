@@ -20,4 +20,3 @@ class Training extends Model
         return $this->belongsTo(StudentInfo::class, 'studentInfoID');
     }
 }
-

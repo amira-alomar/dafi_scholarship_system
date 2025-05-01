@@ -14,12 +14,12 @@
     <div class="sidebar">
         <h2>Dashboard</h2>
         <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Academic Info</a></li>
-            <li><a href="#">DAFI Opportunity</a></li>
-            <li><a href="#">Job Opportunity</a></li>
-            <li><a href="#">Courses</a></li>
-            <li><a href="#">Profile</a></li>
+        <li><a href="{{ url('/student/dashboard') }}"> Home</a></li>
+    <li><a href="{{ url('/acadmic') }}"> Academic Info</a></li>
+    <li><a href="{{ url('/dafi_opp') }}"> DAFI Opportunity</a></li>
+    <li><a href="{{ url('/jobs') }}"> Job Opportunity</a></li>
+    <li><a href="{{ url('/courses') }}"> Courses</a></li>
+    <li><a href="{{ url('/profile') }}"> Profile</a></li>
         </ul>
     </div>
         <h2>Open Positions</h2>
