@@ -9,23 +9,25 @@ use Illuminate\Support\Facades\Auth;
 
 class VolunteeringController extends Controller
 {
+
+    public function index()
+    {
+        
+        return view('student.acadmic', compact('volunteering'));
+    }
     public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'total_hours' => 'required|string|max:255',
+            'total_hours' => 'required|string|max:50',
             'certificate' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
         ]);
 
-        $studentInfo = StudentInfo::where('idUser', Auth::id())->first();
-
-        if (!$studentInfo) {
-            return response()->json(['error' => 'Student information not found. Please complete your academic profile first.'], 400);
-        }
+        $studentInfo = StudentInfo::where('idUser', Auth::id())->first(); 
 
         $path = null;
         if ($request->hasFile('certificate')) {
-            $path = $request->file('certificate')->store('certificates/volunteerings', 'public');
+            $path = $request->file('certificate')->store('certificates', 'public');
         }
 
         Volunteering::create([
@@ -35,6 +37,6 @@ class VolunteeringController extends Controller
             'studentInfoID' => $studentInfo->studentInfoID,
         ]);
 
-        return response()->json(['message' => 'Volunteering uploaded successfully!']);
+        return redirect()->back()->with('success', 'Volunteering uploaded successfully!');
     }
 }

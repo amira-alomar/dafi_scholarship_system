@@ -217,7 +217,7 @@
               </div>
             </form>
             
-       <div id="preview-image"></div>
+       <div id="training-preview-image"></div>
           </div>
         </div>
       </div>
@@ -237,7 +237,7 @@
             
             <div class="certificates-container">
             @foreach($trainings as $index => $training)
-        <div class="certificate-card {{ $index >= 3 ? 'hidden-certificate' : '' }}">
+        <div class="certificate-card training-certificate {{ $index >= 3 ? 'hidden-certificate' : '' }}">
                 <div class="certificate-content">
                   <div class="certificate-icon">
                     <i class="bx bx-award accent-icon"></i>
@@ -253,7 +253,7 @@
               @endforeach
               
               <div class="view-all">
-                <a href="#" id="toggleCertificates"  class="link-button">View All Certificates</a>
+                <a href="#" id="toggleTrainingCertificates"  class="link-button">View All Certificates</a>
               </div>
             </div>
           </div>
@@ -268,12 +268,12 @@
               </h2>
             </div>
             
-            <form class="training-form"  action="{{ route('volunteerings.store') }}" method="POST" enctype="multipart/form-data">
+            <form class="volunteering-form"  action="{{ route('volunteerings.store') }}" method="POST" enctype="multipart/form-data">
             @csrf 
               <div class="form-group">
-                <label for="training-name" class="form-label">Volunteering Name</label>
+                <label for="volunteering-name" class="form-label">Volunteering Name</label>
                 <input 
-                  id="training-name" 
+                  id="volunteering-name" 
                   type="text" 
                   class="form-input" 
                   placeholder="Enter volunteering name"
@@ -281,20 +281,20 @@
                 >
               </div>
               <div class="form-group">
-                <label for="training-name" class="form-label">Volunteering hours </label>
+                <label for="volunteering-name" class="form-label">Volunteering hours </label>
                 <input 
-                  id="training-name" 
+                  id="volunteering-name" 
                   type="text" 
                   class="form-input" 
                   placeholder="Enter volunteering hours"
-                  name="name" 
+                  name="total_hours" 
                 >
               </div>
               
               <div class="form-group">
-                <label for="training-file" class="form-label">Upload Certificate</label>
+                <label for="volunteering-file" class="form-label">Upload Certificate</label>
                 <div class="file-upload-container">
-                  <label for="training-file" class="file-upload-area">
+                  <label for="volunteering-file" class="file-upload-area">
                     <div class="upload-content">
                       <i class="bx bx-upload upload-icon"></i>
                       <p class="upload-text">
@@ -303,7 +303,7 @@
                       <p class="upload-formats">PDF, PNG, JPG or JPEG (MAX. 2MB)</p>
                     </div>
                     <input 
-                      id="training-file" 
+                      id="volunteering-file" 
                       type="file" 
                       class="hidden-input" 
                       accept=".pdf,.png,.jpg,.jpeg"
@@ -321,7 +321,7 @@
               </div>
             </form>
             
-       <div id="preview-image"></div>
+       <div id="volunteering-preview-image"></div>
           </div>
         </div>
       </div>
@@ -343,7 +343,7 @@
             
             <div class="certificates-container">
             @foreach($volunteerings as $index => $volunteering)
-            <div class="certificate-card {{ $index >= 3 ? 'hidden-certificate' : '' }}">
+            <div class="certificate-card volunteering-certificate {{ $index >= 3 ? 'hidden-certificate' : '' }}">
                 <div class="certificate-content">
                   <div class="certificate-icon">
                     <i class="bx bx-award accent-icon"></i>
@@ -353,18 +353,19 @@
                     <p class="certificate-date">Added: {{ $volunteering->created_at->format('M d, Y') }}</p>
                   </div>
                   <a href="{{ asset('storage/'.$volunteering->certificate) }}" target="_blank" class="certificate-link">View Certificate</a>
+
                 </div>
               </div>
               @endforeach
               
               <div class="view-all">
-                <a href="#" id="toggleCertificates" class="link-button">View All Certificates</a>
+                <a href="#" id="toggleVolunteeringCertificatess" class="link-button">View All Certificates</a>
               </div>
             </div>
           </div>
         </div>
         
-        <!-- Upcoming Events Card -->
+        <!-- Upcoming Events Card
         <div class="card scale-hover">
           <div class="card-content">
             <div class="card-header">
@@ -395,7 +396,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
