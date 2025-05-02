@@ -11,7 +11,7 @@ class Volunteering extends Model
 
     protected $fillable = [
         'name',
-        // 'total_hours',
+        'total_hours',
         'certificate',
         'studentInfoID',
     ];

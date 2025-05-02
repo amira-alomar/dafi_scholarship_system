@@ -6,6 +6,7 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>Academic Information</title>
   <link rel="stylesheet" href="{{ asset('css/acadmic.css') }}">
+  <script defer src="{{ asset('js/acadmic.js') }}"></script>
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 </head>
 <body>
@@ -215,17 +216,112 @@
                 </button>
               </div>
             </form>
-            <!-- <ul>
-            @foreach($trainings as $training)
-                <li>
-                    {{ $training->name }} 
-                    <a href="{{ asset('storage/'.$training->certificate) }}" target="_blank">View Certificate</a>
-                  <a href="{{ asset('storage/'.$training->certificate) }}" target="_blank"> View Certificate</a>
-
-
-                </li>
-            @endforeach
-        </ul> -->
+            
+       <div id="preview-image"></div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Right column - Certificates, Progress, Timeline -->
+      <div class="sidebar-column">
+        <!-- Certificates Card -->
+        
+        <div class="card scale-hover">
+          <div class="card-content">
+            <div class="card-header">
+              <h2 class="card-title">
+                <i class="bx bx-award primary-icon"></i>
+                My Training Certificates
+              </h2>
+            </div>
+            
+            <div class="certificates-container">
+            @foreach($trainings as $index => $training)
+        <div class="certificate-card {{ $index >= 3 ? 'hidden-certificate' : '' }}">
+                <div class="certificate-content">
+                  <div class="certificate-icon">
+                    <i class="bx bx-award accent-icon"></i>
+                  </div>
+                  <div class="certificate-details">
+                    <h3 class="certificate-title">{{ $training->name }} </h3>
+                    <p class="certificate-date">Added: {{ $training->created_at->format('M d, Y') }}</p>
+                  </div>
+                  
+                  <a href="{{ asset('storage/'.$training->certificate) }}" target="_blank" class="certificate-link">View Certificate</a>
+                </div>
+              </div>
+              @endforeach
+              
+              <div class="view-all">
+                <a href="#" id="toggleCertificates"  class="link-button">View All Certificates</a>
+              </div>
+            </div>
+          </div>
+        </div>
+           <!-- Volunteering Form Card -->
+           <div class="card scale-hover">
+          <div class="card-content">
+            <div class="card-header">
+              <h2 class="card-title">
+                <i class="bx bx-spreadsheet primary-icon"></i>
+                Volunteering
+              </h2>
+            </div>
+            
+            <form class="training-form"  action="{{ route('volunteerings.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf 
+              <div class="form-group">
+                <label for="training-name" class="form-label">Volunteering Name</label>
+                <input 
+                  id="training-name" 
+                  type="text" 
+                  class="form-input" 
+                  placeholder="Enter volunteering name"
+                  name="name" 
+                >
+              </div>
+              <div class="form-group">
+                <label for="training-name" class="form-label">Volunteering hours </label>
+                <input 
+                  id="training-name" 
+                  type="text" 
+                  class="form-input" 
+                  placeholder="Enter volunteering hours"
+                  name="name" 
+                >
+              </div>
+              
+              <div class="form-group">
+                <label for="training-file" class="form-label">Upload Certificate</label>
+                <div class="file-upload-container">
+                  <label for="training-file" class="file-upload-area">
+                    <div class="upload-content">
+                      <i class="bx bx-upload upload-icon"></i>
+                      <p class="upload-text">
+                        <span class="upload-bold">Click to upload</span> or drag and drop
+                      </p>
+                      <p class="upload-formats">PDF, PNG, JPG or JPEG (MAX. 2MB)</p>
+                    </div>
+                    <input 
+                      id="training-file" 
+                      type="file" 
+                      class="hidden-input" 
+                      accept=".pdf,.png,.jpg,.jpeg"
+                      name="certificate" 
+                    >
+                  </label>
+                </div>
+              </div>
+              
+              <div class="form-actions">
+                <button type="submit" class="primary-button">
+                  <i class="bx bx-plus"></i>
+                  Add Volunteering
+                </button>
+              </div>
+            </form>
+            
+       <div id="preview-image"></div>
           </div>
         </div>
       </div>
@@ -238,7 +334,7 @@
             <div class="card-header">
               <h2 class="card-title">
                 <i class="bx bx-award primary-icon"></i>
-                My Certificates
+                My  Volunteering Certificates
               </h2>
               <button class="icon-button">
                 <i class="bx bx-dots-horizontal-rounded"></i>
@@ -246,47 +342,23 @@
             </div>
             
             <div class="certificates-container">
-              <div class="certificate-card">
+            @foreach($volunteerings as $index => $volunteering)
+            <div class="certificate-card {{ $index >= 3 ? 'hidden-certificate' : '' }}">
                 <div class="certificate-content">
                   <div class="certificate-icon">
                     <i class="bx bx-award accent-icon"></i>
                   </div>
                   <div class="certificate-details">
-                    <h3 class="certificate-title">Web Development Fundamentals</h3>
-                    <p class="certificate-date">Completed: Mar 12, 2023</p>
+                    <h3 class="certificate-title">{{ $volunteering->name }}</h3>
+                    <p class="certificate-date">Added: {{ $volunteering->created_at->format('M d, Y') }}</p>
                   </div>
-                  <a href="#" class="certificate-link">View Certificate</a>
+                  <a href="{{ asset('storage/'.$volunteering->certificate) }}" target="_blank" class="certificate-link">View Certificate</a>
                 </div>
               </div>
-              
-              <div class="certificate-card">
-                <div class="certificate-content">
-                  <div class="certificate-icon">
-                    <i class="bx bx-award accent-icon"></i>
-                  </div>
-                  <div class="certificate-details">
-                    <h3 class="certificate-title">Data Structures & Algorithms</h3>
-                    <p class="certificate-date">Completed: Jan 5, 2023</p>
-                  </div>
-                  <a href="#" class="certificate-link">View Certificate</a>
-                </div>
-              </div>
-              
-              <div class="certificate-card">
-                <div class="certificate-content">
-                  <div class="certificate-icon">
-                    <i class="bx bx-award accent-icon"></i>
-                  </div>
-                  <div class="certificate-details">
-                    <h3 class="certificate-title">Python Programming</h3>
-                    <p class="certificate-date">Completed: Nov 20, 2022</p>
-                  </div>
-                  <a href="#" class="certificate-link">View Certificate</a>
-                </div>
-              </div>
+              @endforeach
               
               <div class="view-all">
-                <a href="#" class="link-button">View All Certificates</a>
+                <a href="#" id="toggleCertificates" class="link-button">View All Certificates</a>
               </div>
             </div>
           </div>
@@ -327,6 +399,20 @@
       </div>
     </div>
   </div>
+  @if(session('success'))
+  <div id="success-toast" class="toast">
+    {{ session('success') }}
+  </div>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const toast = document.getElementById('success-toast');
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 4000); // visible for 4 seconds
+    });
+  </script>
+@endif
 
 </body>
 

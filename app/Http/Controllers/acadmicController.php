@@ -8,6 +8,7 @@ use App\Models\Opportunity;
 use App\Models\UserOpportunity;
 use App\Models\AcademicGoal;
 use App\Models\Training;
+use App\Models\volunteering;
 use Illuminate\Support\Facades\Auth;
 class AcadmicController extends Controller{
     public function index()
@@ -16,11 +17,13 @@ class AcadmicController extends Controller{
         $studentInfoID = $studentInfo->studentInfoID ?? null;
     
         $trainings = $studentInfoID ? Training::where('studentInfoID', $studentInfoID)->get() : collect();
+        $volunteerings = $studentInfoID ? volunteering::where('studentInfoID', $studentInfoID)->get() : collect();
         $goals = $studentInfo ? $studentInfo->academicGoals : collect();
     
         return view('student.acadmic', [
             'goals' => $goals,
             'trainings' => $trainings,
+            'volunteerings' => $volunteerings,
             'major' => optional($studentInfo)->major,
             'gpa' => optional($studentInfo)->gpa,
             'university' => optional($studentInfo->university)->name ?? null,

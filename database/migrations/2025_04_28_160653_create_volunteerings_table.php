@@ -11,7 +11,7 @@ class CreateVolunteeringsTable extends Migration
         Schema::create('volunteerings', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            // $table->string('total_hours');
+            $table->string('total_hours');
             $table->string('certificate')->nullable();
             $table->unsignedBigInteger('studentInfoID');
             $table->timestamps();

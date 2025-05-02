@@ -23,9 +23,7 @@ class TrainingController extends Controller
         ]);
 
         $studentInfo = StudentInfo::where('idUser', Auth::id())->first(); // حسب المستخدم الحالي
-        if (!$studentInfo) {
-            return response()->json(['error' => 'Student info not found. Please complete your academic info first.'], 400);
-        }
+   
         $path = null;
         if ($request->hasFile('certificate')) {
             $path = $request->file('certificate')->store('certificates', 'public');
@@ -37,7 +35,8 @@ class TrainingController extends Controller
             'studentInfoID' => $studentInfo->studentInfoID,
         ]);
 
-        return response()->json(['message' => 'Training uploaded successfully!']);
+        return redirect()->back()->with('success', 'Training uploaded successfully!');
+
     }
 }
 

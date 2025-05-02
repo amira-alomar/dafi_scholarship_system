@@ -25,6 +25,10 @@ class StudentInfo extends Model
 {
     return $this->hasMany(Training::class);
 }
+public function volunteerings()
+{
+    return $this->hasMany(volunteering::class);
+}
 public function scholarship()
 {
     return $this->belongsTo(Scholarship::class, 'idScholarship', 'scholarshipID');

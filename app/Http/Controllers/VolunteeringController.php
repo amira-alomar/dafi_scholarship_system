@@ -13,6 +13,7 @@ class VolunteeringController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'total_hours' => 'required|string|max:255',
             'certificate' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
         ]);
 
@@ -29,6 +30,7 @@ class VolunteeringController extends Controller
 
         Volunteering::create([
             'name' => $request->name,
+            'total_hours' => $request->total_hours,
             'certificate' => $path,
             'studentInfoID' => $studentInfo->studentInfoID,
         ]);
