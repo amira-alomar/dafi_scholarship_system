@@ -6,11 +6,77 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>Academic Information</title>
   <link rel="stylesheet" href="{{ asset('css/acadmic.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/sidebarstudent.css') }}">
   <script defer src="{{ asset('js/acadmic.js') }}"></script>
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 </head>
 <body>
-  <div class="container">
+
+
+  <div style="display: flex; min-height: 100vh;">
+      <!-- Sidebar Navigation -->
+      <div class="sidebar">
+  <div class="sidebar-header">
+    <img src="logo.svg" alt="Logo" class="sidebar-logo">
+    <h1 class="sidebar-title">Student Portal</h1>
+  </div>
+  
+  <div class="sidebar-user">
+    <div class="user-avatar">
+      <img src="https://i.pravatar.cc/150?img=32" alt="User avatar">
+    </div>
+    <div class="user-info">
+      <h3 class="user-name">Yasmine</h3>
+      <p class="user-role">Computer Science Student</p>
+    </div>
+  </div>
+  
+  <nav class="sidebar-nav">
+    <div class="nav-section">
+      <h4 class="nav-section-title">Main</h4>
+      <ul class="nav-list">
+        <li class="nav-item">
+          <a href="{{ url('/student/dashboard') }}" class="nav-link">
+            <i class="bx bx-home-alt"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li class="nav-item active">
+          <a href="{{ url('/acadmic') }}" class="nav-link">
+            <i class="bx bx-book"></i>
+            <span>Academic Information</span>
+          </a>
+        </li>
+        <li class="nav-item active">
+          <a href="{{ url('/dafi_opp') }}" class="nav-link">
+            <i class="bx bx-book"></i>
+            <span>DAFI Opportunity</span>
+          </a>
+        </li>
+        <li class="nav-item active">
+          <a href="{{ url('/jobs') }}" class="nav-link">
+            <i class="bx bx-book"></i>
+            <span>Job Opportunity</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="{{ url('/courses') }}" class="nav-link">
+            <i class="bx bx-book"></i>
+            <span>My Courses</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="{{ url('/profile') }}" class="nav-link">
+            <i class="bx bx-calendar"></i>
+            <span>Profile</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>
+    <div style="flex: 1; padding-left: 15px;">
+      <div class="container">
     <!-- Page title -->
     <h1 class="page-title">Academic Information</h1>
     
@@ -164,6 +230,7 @@
 </div>            
 </div>
 </div>    
+<div class="sidebar-column">
         <!-- Training Form Card -->
         <div class="card scale-hover">
           <div class="card-content">
@@ -221,44 +288,7 @@
           </div>
         </div>
       </div>
-      
-      <!-- Right column - Certificates, Progress, Timeline -->
-      <div class="sidebar-column">
-        <!-- Certificates Card -->
-        
-        <div class="card scale-hover">
-          <div class="card-content">
-            <div class="card-header">
-              <h2 class="card-title">
-                <i class="bx bx-award primary-icon"></i>
-                My Training Certificates
-              </h2>
-            </div>
-            
-            <div class="certificates-container">
-            @foreach($trainings as $index => $training)
-        <div class="certificate-card training-certificate {{ $index >= 3 ? 'hidden-certificate' : '' }}">
-                <div class="certificate-content">
-                  <div class="certificate-icon">
-                    <i class="bx bx-award accent-icon"></i>
-                  </div>
-                  <div class="certificate-details">
-                    <h3 class="certificate-title">{{ $training->name }} </h3>
-                    <p class="certificate-date">Added: {{ $training->created_at->format('M d, Y') }}</p>
-                  </div>
-                  
-                  <a href="{{ asset('storage/'.$training->certificate) }}" target="_blank" class="certificate-link">View Certificate</a>
-                </div>
-              </div>
-              @endforeach
-              
-              <div class="view-all">
-                <a href="#" id="toggleTrainingCertificates"  class="link-button">View All Certificates</a>
-              </div>
-            </div>
-          </div>
-        </div>
-           <!-- Volunteering Form Card -->
+          <!-- Volunteering Form Card -->
            <div class="card scale-hover">
           <div class="card-content">
             <div class="card-header">
@@ -325,10 +355,45 @@
           </div>
         </div>
       </div>
-      
+
       <!-- Right column - Certificates, Progress, Timeline -->
       <div class="sidebar-column">
         <!-- Certificates Card -->
+        <div class="certificate-section">
+        <div class="card scale-hover">
+          <div class="card-content">
+            <div class="card-header">
+              <h2 class="card-title">
+                <i class="bx bx-award primary-icon"></i>
+                My Training Certificates
+              </h2>
+            </div>
+           
+            
+            <div class="certificates-container">
+            @foreach($trainings as $index => $training)
+        <div class="certificate-card training-certificate {{ $index >= 3 ? 'hidden-certificate' : '' }}">
+                <div class="certificate-content">
+                  <div class="certificate-icon">
+                    <i class="bx bx-award accent-icon"></i>
+                  </div>
+                  <div class="certificate-details">
+                    <h3 class="certificate-title">{{ $training->name }} </h3>
+                    <p class="certificate-date">Added: {{ $training->created_at->format('M d, Y') }}</p>
+                  </div>
+                  
+                  <a href="{{ asset('storage/'.$training->certificate) }}" target="_blank" class="certificate-link">View Certificate</a>
+                </div>
+              </div>
+              @endforeach
+              
+              <div class="view-all">
+                <a href="#" id="toggleTrainingCertificates"  class="link-button">View All Certificates</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="certificate-section"><!-- Certificates Card -->
         <div class="card scale-hover">
           <div class="card-content">
             <div class="card-header">
@@ -364,42 +429,13 @@
             </div>
           </div>
         </div>
-        
-        <!-- Upcoming Events Card
-        <div class="card scale-hover">
-          <div class="card-content">
-            <div class="card-header">
-              <h2 class="card-title">
-                <i class="bx bx-calendar primary-icon"></i>
-                Upcoming Events
-              </h2>
-            </div>
-            
-            <div class="events-container">
-              <div class="event-card event-exam">
-                <div class="event-title">Final Exam: Database Systems</div>
-                <div class="event-datetime">May 28, 2023 • 10:00 AM</div>
-              </div>
-              
-              <div class="event-card event-project">
-                <div class="event-title">Project Submission: Web Development</div>
-                <div class="event-datetime">June 5, 2023 • 11:59 PM</div>
-              </div>
-              
-              <div class="event-card event-workshop">
-                <div class="event-title">Career Workshop</div>
-                <div class="event-datetime">June 10, 2023 • 2:00 PM</div>
-              </div>
-              
-              <div class="view-all">
-                <a href="#" class="link-button">View All Events</a>
-              </div>
-            </div>
-          </div>
-        </div> -->
-      </div>
+        </div>
+        </div>
     </div>
   </div>
+  </div> <!-- End of .container -->
+    </div> <!-- End of main content wrapper -->
+  </div> 
   @if(session('success'))
   <div id="success-toast" class="toast">
     {{ session('success') }}
