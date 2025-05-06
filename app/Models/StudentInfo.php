@@ -21,4 +21,23 @@ class StudentInfo extends Model
     {
         return $this->belongsTo(University::class, 'idUni', 'universityID');
     }
+    public function trainings()
+{
+    return $this->hasMany(Training::class);
+}
+public function volunteerings()
+{
+    return $this->hasMany(volunteering::class);
+}
+public function scholarship()
+{
+    return $this->belongsTo(Scholarship::class, 'idScholarship', 'scholarshipID');
+}
+public function academicGoals()
+{
+    return $this->hasMany(AcademicGoal::class, 'studentInfoID');
+}
+
+
+
 }
