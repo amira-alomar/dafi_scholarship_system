@@ -1,0 +1,379 @@
+:root {
+    --primary-color: #d32f2f;
+    --secondary-color: #ffc107;
+    --accent-color: #4caf50;
+    --light-bg: #fff;
+    --muted-bg: #f4f4f4;
+    --card-bg: #f9f9f9;
+    --text-color: #333;
+    --transition-speed: 0.3s;
+    --border-radius: 8px;
+}
+
+/* Global Styles */
+body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background: var(--muted-bg);
+    color: var(--text-color);
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding-left: 20px;
+    padding-bottom: 20px;
+    flex: 1;
+}
+
+h2 {
+    text-align: center;
+    color: var(--primary-color);
+    margin-bottom: 40px;
+    font-size: 2em;
+}
+
+/* Scholarship Card */
+.scholarship-card {
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 30px;
+    transition: transform var(--transition-speed);
+}
+
+.scholarship-card:hover {
+    transform: translateY(-5px);
+}
+
+.scholarship-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+.scholarship-header h3 {
+    margin: 0;
+    font-size: 1.5em;
+    color: var(--primary-color);
+}
+
+.button-group {
+    margin-top: 10px;
+}
+
+.button-group button {
+    padding: 8px 16px;
+    margin-left: 10px;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background var(--transition-speed);
+}
+
+.edit-btn {
+    background: var(--secondary-color);
+    color: var(--light-bg);
+}
+
+.edit-btn:hover {
+    background: #e6ac00;
+}
+
+.delete-btn {
+    background: var(--primary-color);
+    color: var(--light-bg);
+}
+
+.delete-btn:hover {
+    background: #b71c1c;
+}
+
+.scholarship-details p {
+    margin: 6px 0;
+    line-height: 1.5;
+}
+
+/* Relationships Section */
+.relationship-section {
+    background: var(--muted-bg);
+    padding: 15px;
+    border-radius: var(--border-radius);
+    margin-top: 20px;
+}
+
+.relationship-section h4 {
+    margin: 0 0 10px;
+    color: var(--accent-color);
+    font-size: 1.2em;
+}
+
+.relationship-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.relationship-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.relationship-list li:last-child {
+    border-bottom: none;
+}
+
+.relationship-list span {
+    display: flex;
+}
+
+.relationship-list button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8em;
+    margin-left: 5px;
+    transition: background var(--transition-speed);
+}
+
+.rel-edit-btn {
+    background: var(--secondary-color);
+    color: var(--light-bg);
+}
+
+.rel-edit-btn:hover {
+    background: #e6ac00;
+}
+
+.rel-delete-btn {
+    background: var(--primary-color);
+    color: var(--light-bg);
+}
+
+.rel-delete-btn:hover {
+    background: #b71c1c;
+}
+
+.add-relationship {
+    display: flex;
+    margin-top: 15px;
+}
+
+.add-relationship input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: var(--border-radius);
+    font-size: 0.9em;
+}
+
+.add-relationship button {
+    padding: 10px 16px;
+    margin-left: 10px;
+    border: none;
+    border-radius: var(--border-radius);
+    background: var(--accent-color);
+    color: var(--light-bg);
+    cursor: pointer;
+    transition: background var(--transition-speed);
+}
+
+.add-relationship button:hover {
+    background: #3e8e41;
+}
+
+/* Add Scholarship Form */
+.add-scholarship {
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    margin-top: 40px;
+}
+
+.add-scholarship h3 {
+    margin-top: 0;
+    text-align: center;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+.add-scholarship form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+.form-group input,
+.form-group textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: var(--border-radius);
+    font-size: 0.9em;
+}
+
+.form-group textarea {
+    resize: vertical;
+}
+
+.submit-btn {
+    grid-column: 1 / -1;
+    padding: 12px;
+    background: var(--primary-color);
+    color: var(--light-bg);
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 1em;
+    cursor: pointer;
+    transition: background var(--transition-speed);
+}
+
+.submit-btn:hover {
+    background: #b71c1c;
+}
+#add-scholarship-form {
+    display: none;
+    margin-bottom: 30px;
+}
+#add-scholarship-form {
+    display: none;
+    margin-bottom: 30px;
+}
+.details-sections {
+    display: none;
+}
+.toggle-details-btn {
+    padding: 8px 16px;
+    margin: 10px 0;
+    background: var(--accent-color);
+    color: var(--light-bg);
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background var(--transition-speed);
+}
+.toggle-details-btn:hover {
+    background: #e6ac00;
+}
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .add-scholarship form {
+        grid-template-columns: 1fr;
+    }
+    .button-group {
+        margin-top: 10px;
+    }
+}
+.button-group .edit-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    background: var(--secondary-color);
+    color: var(--light-bg);
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    font-size: 0.9em;
+    transition: background var(--transition-speed);
+}
+.button-group .edit-btn:hover {
+    background: #e6ac00;
+}
+/* Modal backdrop */
+.modal-backdrop {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+/* Modal box */
+.modal-box {
+  background: var(--card-bg);
+  padding: 20px;
+  border-radius: var(--border-radius);
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+.modal-box h3 {
+  margin-top: 0;
+  color: var(--primary-color);
+}
+.modal-box .form-group {
+  margin-bottom: 10px;
+}
+.modal-box label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 4px;
+}
+.modal-box input,
+.modal-box textarea,
+.modal-box select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: var(--border-radius);
+}
+.modal-close {
+  float: right;
+  background: transparent;
+  border: none;
+  font-size: 1.2em;
+  cursor: pointer;
+}
+ /* Container for alerts */
+ .alert {
+  padding: 15px;
+  margin: 15px 0;
+  border-radius: 5px;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+}
+
+/* Success message style */
+.alert-success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+/* Error message style */
+.alert-danger {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* List style for errors */
+.alert-danger ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.alert-danger li {
+  margin-bottom: 5px;
+}

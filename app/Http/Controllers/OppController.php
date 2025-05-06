@@ -12,8 +12,8 @@ class OppController extends Controller
      */
     public function index()
     {
-        $opps=Opportunity::all();
-        return view('admin.opp',compact('opps'));
+        $opps = Opportunity::all();
+        return view('admin.opp', compact('opps'));
     }
 
     /**
@@ -28,20 +28,20 @@ class OppController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-{
-    $request->validate([
-        'title' => 'required|string|max:255',
-        'type' => 'required|string',
-        'status' => 'required|string',
-        'date' => 'required|date',
-        'description' => 'required|string',
-        'location' => 'required|string',
-    ]);
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'type' => 'required|string',
+            'status' => 'required|string',
+            'date' => 'required|date',
+            'description' => 'required|string',
+            'location' => 'required|string',
+        ]);
 
-    Opportunity::create($request->all());
+        Opportunity::create($request->all());
 
-    return redirect()->route('admin.opp')->with('success', 'Opportunity added successfully!');
-}
+        return redirect()->route('admin.opp')->with('success', 'Opportunity added successfully!');
+    }
 
 
     /**
@@ -64,22 +64,21 @@ class OppController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, $id)
-{
-    $opp = Opportunity::findOrFail($id);
+    {
+        $opp = Opportunity::findOrFail($id);
 
-    $opp->update($request->only('title', 'type', 'status', 'date', 'location', 'description'));
+        $opp->update($request->only('title', 'type', 'status', 'date', 'location', 'description'));
 
-    return redirect()->back()->with('success', 'Opportunity updated!');
-}
+        return redirect()->back()->with('success', 'Opportunity updated!');
+    }
 
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy($id)
-{
-    Opportunity::findOrFail($id)->delete();
-    return redirect()->back();
-}
-
+    {
+        Opportunity::findOrFail($id)->delete();
+        return redirect()->back();
+    }
 }

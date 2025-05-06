@@ -32,7 +32,7 @@
                 <label for="status">Status</label>
                 <select id="status" name="status">
                     <option value="Open">Open</option>
-                    <option value="Close">Close</option>
+                    <option value="Closed">Closed</option>
                 </select>
             </div>
             <div class="form-group">
@@ -72,9 +72,17 @@
         <label for="editStatus">Status</label>
         <select name="status" id="editStatus">
             <option value="Open">Open</option>
-            <option value="Close">Close</option>
+            <option value="Closed">Closed</option>
         </select>
-
+        {{-- <div class="form-group">
+            <label for="scholarships">Scholarships</label>
+            <select name="scholarships[]" id="scholarships" multiple required>
+                @foreach ($scholarships as $scholarship)
+                    <option value="{{ $scholarship->id }}">{{ $scholarship->name }}</option>
+                @endforeach
+            </select>
+        </div> --}}
+        
         <label for="editDate">Date</label>
         <input type="date" name="date" id="editDate" required>
 
@@ -112,6 +120,11 @@
     <td>{{ $opp->status }}</td>
     <td>{{ $opp->date }}</td>
     <td>{{ $opp->location }}</td>
+    {{-- <td>
+        @foreach ($opp->scholarships as $sch)
+            <span>{{ $sch->name }}</span>@if(!$loop->last), @endif
+        @endforeach
+    </td> --}}
     <td>
         <button type="button" class="btn"
             onclick="openEditForm(

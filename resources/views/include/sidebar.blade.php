@@ -12,7 +12,7 @@
             <a href="{{ route('supervisor.scholarship') }}">Manage Questions</a>
             <a href="{{ route('supervisor.application') }}">Manage Applications</a>
             <a href="{{ route('supervisor.acceptedStudents') }}">Accepted Students</a>
-            <a href="exam.html">Exam</a>
+            <a href="{{ route('supervisor.exam') }}">Exam</a>
             <a href="interview.html">Interview</a>
         </div>
     </div>

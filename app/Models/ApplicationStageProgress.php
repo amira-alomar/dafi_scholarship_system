@@ -11,17 +11,16 @@ class ApplicationStageProgress extends Model
 
     protected $primaryKey = null;
     public $incrementing = false;
-    protected $fillable = ['idApp', 'idAppStage'];
+    protected $fillable = ['idApp', 'idAppStage', 'status'];
+    public $timestamps = false;
 
     // Relationships
     public function application()
     {
         return $this->belongsTo(Application::class, 'idApp'); // Each progress entry belongs to one application
     }
-
     public function stage()
     {
         return $this->belongsTo(ApplicationStage::class, 'idAppStage'); // Each progress entry belongs to one stage
     }
 }
-

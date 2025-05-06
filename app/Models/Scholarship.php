@@ -19,9 +19,10 @@ class Scholarship extends Model
         return $this->belongsTo(University::class, 'idUni', 'universityID');
     }
     public function countries()
-    {
-        return $this->belongsToMany(Country::class, 'scholarship_country');
-    }
+{
+    return $this->belongsToMany(Country::class, 'scholarship_countries', 'scholarship_id', 'country_id');
+}
+
 
     public function applications()
     {
@@ -63,5 +64,10 @@ class Scholarship extends Model
     public function opportunities()
     {
         return $this->hasMany(Opportunity::class, 'idScholarship', 'scholarshipID');
+    }
+    
+    public function requiredDocuments()
+    {
+        return $this->hasMany(RequiredDocument::class, 'idScholarship');
     }
 }

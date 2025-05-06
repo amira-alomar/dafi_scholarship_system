@@ -14,10 +14,9 @@
   <header>
     <div class="logo"><span>DAFI</span> Scholarship</div>
     <nav>
-      <a href="{{ url('/') }}">Home</a>
-      <a href="{{ url('/scholarships') }}">Scholarships</a>
-      <a href="{{ url('/contact') }}">Contact</a>
-      <a href="{{ url('/apply') }}">Apply</a>
+      <a href="{{ route('candidate.dashboard') }}">Home</a>
+      <a href="{{ route('profile.show') }}">Profile</a>
+      <a href="{{ route('logout') }}">Logout</a>
     </nav>
   </header>
 
@@ -44,26 +43,59 @@
       ? $applications->where('applicationID', request('selected_application'))->first()
       : $applications->first();
 @endphp
-
+{{--  --}}
 @if($selectedApplication)
   <div class="status-card">
     <h2>Track Your Application Status</h2>
     <ul class="status-list">
       @foreach($selectedApplication->applicationStages as $stage)
+        @php
+          $pivot = $stage->pivot;
+          $name = strtolower($stage->name); // just in case names come capitalized
+        @endphp
+
         <li>
-          <strong>{{ $stage->name }}:</strong> 
-          {{ $stage->status ?? 'Pending' }}
+          <strong>{{ ucfirst($name) }}:</strong>
+
+          @if($name === 'exam')
+            @if($selectedApplication->exam && $selectedApplication->exam->status)
+              {{ $selectedApplication->exam->status }} - Score: {{ $selectedApplication->exam->score }}
+            @else
+              Pending
+            @endif
+
+          @elseif($name === 'form')
+            @if($selectedApplication->applicationForm && $selectedApplication->applicationForm->status)
+              {{ $selectedApplication->applicationForm->status }}
+            @else
+              Pending
+            @endif
+
+          @elseif($name === 'interview') {{-- intentionally misspelled to match your data --}}
+            @if($selectedApplication->interview && $selectedApplication->interview->status)
+              {{ $selectedApplication->interview->status }}
+            @else
+              Pending
+            @endif
+
+          @else
+            {{ $pivot->main_status ?? 'Pending' }}
+          @endif
+
+          <br>
+          <span style="margin-left: 20px;"><em>Result:</em> {{ $pivot->status ?? 'Pending' }}</span>
         </li>
       @endforeach
     </ul>
   </div>
+
   <div class="final-result">
     Final Result: <span id="final-status">{{ $selectedApplication->status ?? 'Pending' }}</span>
-    <br />
   </div>
 @else
   <p>No application found.</p>
 @endif
+
 
 
 

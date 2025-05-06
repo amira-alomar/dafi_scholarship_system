@@ -27,25 +27,51 @@
             <!-- Uploaded Documents -->
             <div class="documents">
                 <h3>Uploaded Documents</h3>
-                <ul>
-                    @foreach($application->documents as $document)
-                        <li><a href="{{-- {{ asset('storage/'.$document->file_path) }} --}}" download>{{ $document->file_name }}</a></li>
-                    @endforeach
-                </ul>
+            
+                @forelse ($requiredDocuments as $requiredDoc)
+                    <div style="margin-bottom: 10px;">
+                        <strong>{{ $requiredDoc->name }} ({{ $requiredDoc->type }})</strong>
+                        <ul>
+                            @forelse ($requiredDoc->documents as $doc)
+                            <li>
+                                <a href="{{ route('download.document.view', ['path' => basename($doc->document_path)]) }}" target="_blank">
+                                    {{ $doc->document_name }}
+                                </a>
+                                <a href="{{ route('download.document', ['path' => basename($doc->document_path)]) }}" download style="margin-left: 10px; color: blue; text-decoration: underline;">
+                                    [Download]
+                                </a>
+                            </li>
+                            
+                            @empty
+                                <li><em>No document uploaded</em></li>
+                            @endforelse
+                        </ul>
+                    </div>
+                @empty
+                    <p>No required documents found for this application.</p>
+                @endforelse
             </div>
+            
+
         
-            <!-- Admin Actions (Approve / Reject) -->
-            <div class="admin-actions">
-                <form action="{{ route('application.approve', ['applicationID' => $application->applicationID]) }}" method="POST" style="display:inline-block">
-                    @csrf
-                    <button type="submit" class="approve">Approve</button>
-                </form>
-                <form action="{{ route('application.reject', ['applicationID' => $application->applicationID]) }}" method="POST" style="display:inline-block">
-                    @csrf
-                    <button type="submit" class="reject">Reject</button>
-                </form>
-            </div>
-        </div>
+           <!-- Admin Actions (Approve / Reject) -->
+<div class="admin-actions">
+    @if ($application->applicationForm->status === 'submitted')
+        <form action="{{ route('application.approve', ['applicationID' => $application->applicationID]) }}" method="POST" style="display:inline-block">
+            @csrf
+            <button type="submit" class="approve">Approve</button>
+        </form>
+        <form action="{{ route('application.reject', ['applicationID' => $application->applicationID]) }}" method="POST" style="display:inline-block">
+            @csrf
+            <button type="submit" class="reject">Reject</button>
+        </form>
+    @elseif ($application->applicationForm->status === 'approved')
+        <button class="approve" disabled>Accepted</button>
+    @elseif ($application->applicationForm->status === 'rejected')
+        <button class="reject" disabled>Rejected</button>
+    @endif
+</div>
+
         
 </div>
 </body>

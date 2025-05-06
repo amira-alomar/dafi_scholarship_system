@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('questions', function (Blueprint $table) {
-            $table->id('questionID');
-            $table->text('question_text');
-            $table->enum('question_type', ['text', 'textarea']);
+        Schema::create('required_documents', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->enum('type',['pdf','image']); // pdf, image, etc 
             $table->foreignId('idScholarship')->constrained('scholarships', 'scholarshipID')->onDelete('cascade');
             $table->timestamps();
         });
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('questions');
+        Schema::dropIfExists('required_documents');
     }
 };

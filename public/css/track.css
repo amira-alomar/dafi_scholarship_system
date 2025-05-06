@@ -4,112 +4,187 @@
     padding: 0;
     box-sizing: border-box;
 }
+
 body {
     font-family: "Poppins", sans-serif;
-    background: #fff;
+    background: #f4f6f8;
     color: #333;
     line-height: 1.6;
+    padding: 0 10px;
 }
+
 header {
     background: #fff;
     padding: 1rem 2rem;
-    border-bottom: 1px solid #eee;
+    border-bottom: 2px solid #d32f2f;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
+
 header .logo {
     font-size: 1.8rem;
     font-weight: 700;
     color: #000;
 }
+
 header .logo span {
     color: #d32f2f;
 }
+
 header nav a {
-    margin-left: 1rem;
+    margin-left: 1.5rem;
     text-decoration: none;
     color: #333;
+    font-weight: 600;
     transition: color 0.3s;
 }
+
 header nav a:hover {
     color: #d32f2f;
 }
+
 .container {
-    max-width: 800px;
+    max-width: 1000px;
     margin: 2rem auto;
     padding: 0 1rem;
 }
+
+.application-selector {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.application-selector select {
+    padding: 0.75rem;
+    font-size: 1.1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background: #fff;
+    width: 100%;
+    max-width: 400px;
+    transition: border-color 0.3s;
+}
+
+.application-selector select:hover {
+    border-color: #d32f2f;
+}
+
 .status-card {
-    background: #fafafa;
+    background: #fff;
     padding: 2rem;
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
 }
+
 .status-card h2 {
     color: #d32f2f;
     font-size: 2rem;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     text-align: center;
+    text-transform: uppercase;
+    font-weight: 700;
 }
+
 .status-list {
     list-style: none;
     padding: 0;
 }
+
 .status-list li {
     background: #fff;
-    border-left: 4px solid #d32f2f;
-    padding: 1rem;
-    margin-bottom: 1rem;
-    border-radius: 5px;
+    border-left: 6px solid #d32f2f;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-radius: 8px;
     position: relative;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, transform 0.3s;
 }
+
+.status-list li:hover {
+    background-color: #f9f9f9;
+    transform: translateX(5px);
+}
+
 .status-list li::before {
     content: attr(data-step);
     position: absolute;
-    left: -1.5rem;
+    left: -2rem;
     top: 50%;
     transform: translateY(-50%);
     background: #d32f2f;
     color: #fff;
-    width: 30px;
-    height: 30px;
+    width: 35px;
+    height: 35px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 600;
+    font-weight: 700;
 }
+
 .final-result {
     margin-top: 2rem;
-    padding: 1rem;
+    padding: 1.5rem;
     background: #e0e0e0;
-    border-left: 4px solid #d32f2f;
-    border-radius: 5px;
+    border-left: 6px solid #d32f2f;
+    border-radius: 8px;
     text-align: center;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     font-weight: 600;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
+
 footer {
     background: #212121;
     color: #ccc;
     text-align: center;
-    padding: 1rem;
-    font-size: 0.9rem;
-    margin-top: 2rem;
+    padding: 1.5rem;
+    font-size: 1rem;
+    margin-top: 3rem;
+    border-top: 2px solid #d32f2f;
 }
+
 footer a {
     color: #d32f2f;
     text-decoration: none;
+    font-weight: 600;
     margin: 0 0.5rem;
 }
-.application-selector {
-    text-align: center;
-    margin-bottom: 1.5rem;
+
+footer a:hover {
+    color: #fff;
+    text-decoration: underline;
 }
-.application-selector select {
-    padding: 0.5rem;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .application-selector select {
+        max-width: 100%;
+    }
+
+    .status-card {
+        padding: 1.5rem;
+    }
+
+    .status-card h2 {
+        font-size: 1.8rem;
+    }
+
+    .status-list li {
+        padding: 1rem;
+    }
+
+    .final-result {
+        padding: 1rem;
+        font-size: 1.1rem;
+    }
 }

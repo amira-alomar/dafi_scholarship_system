@@ -53,7 +53,7 @@
                     <select name="question_type" required>
                         <option value="" disabled selected>Select type of question</option>
                         <option value="text">Text</option>
-                        <option value="input">Input</option>n>
+                        <option value="textarea">Textarea</option>n>
                     </select>
                     <button class="add-btn" type="submit">Add</button>
                 </form>
@@ -77,8 +77,7 @@
                     <label for="editType">Question Type</label>
                     <select id="editType" name="question_type" required>
                         <option value="text">Text</option>
-                        <option value="input">Input</option>
-                        <option value="select">Select</option>
+                        <option value="textarea">Textarea</option>
                     </select>
                 </div>
                 <div class="form-actions">

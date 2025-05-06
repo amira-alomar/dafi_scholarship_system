@@ -44,11 +44,7 @@
         <a href="#how-it-works" class="btn learn-more">Learn More</a>
       </div>
       <div class="hero-image reveal reveal-right">
-        <img
-          src="images/photo_2025-02-21_16-43-10.jpg"
-          alt="Scholarship Illustration"
-          loading="lazy"
-        />
+        <img src="{{ asset('images/welcome.jpg') }}" alt="Scholarship Illustration" loading="lazy"/>
       </div>
     </section>
 
@@ -62,7 +58,7 @@
             <p>Students Awarded</p>
           </div>
           <div class="stat-item">
-            <span class="number">+50</span>
+            <span class="number">+{{ $graduatesCount }}</span>
             <p>Successful Graduates</p>
           </div>
           <div class="stat-item">
@@ -81,18 +77,18 @@
         <div class="step reveal reveal-left">
           <h3>step {{ $step->order }}</h3>
           <p>{{ $step->name }}</p>
-          {{-- <p>{{ $step->description }}</p> --}}
+          <p>{{ $step->description }}</p>
         </div>
         @endforeach
       </div>
     </section>
     <!-- Scholarships Section -->
-<section class="courses-section reveal reveal-bottom" id="scholarships">
+  <section class="courses-section reveal reveal-bottom" id="scholarships">
   <h2>Available Scholarships</h2>
   <div class="courses-grid">
     @foreach ($scholarships as $scholarship)
       <div class="course reveal reveal-left" onclick="toggleScholarship({{ $scholarship->scholarshipID }})">
-        <img src="images/photo_2025-02-21_16-43-21.jpg" alt="{{ $scholarship->name }}" loading="lazy" />
+        <img src="images/scholarship.jpg" alt="{{ $scholarship->name }}" loading="lazy" />
         <div class="course-content">
           <h3>{{ $scholarship->name }}</h3>
           <p>{{ $scholarship->description }}</p>
@@ -115,8 +111,13 @@
       <br>
       <div class="scholarship-info">
         <div class="info-item"><strong>Funding Organization:</strong> {{ $scholarship->funding_organization }}</div>
-        <div class="info-item"><strong>Country:</strong> Lebanon</div>
-        <div class="info-item"><strong>Target Group:</strong> Undergraduate</div>
+        <div class="info-item"><strong>Country:</strong> 
+          @foreach ($scholarship->countries as $country)
+              {{ $country->country_name }}{{ !$loop->last ? ', ' : '' }}
+          @endforeach
+      </div>      
+        <div class="info-item"><strong>University:</strong> {{ $scholarship->university->name ?? 'N/A' }}</div>
+        <div class="info-item"><strong>Target Group:</strong> {{ $scholarship->target_group }}</div>
         <div class="info-item"><strong>Eligibility Criteria:</strong>
           <ul class="custom-list">
             @foreach ($scholarship->criteria as $criterion)
@@ -161,7 +162,7 @@
         <div class="testimonial reveal reveal-left">
           <img src="images/person1.jpg" alt="Scholar 1" loading="lazy"/>
           <p>"{{ $graduate->feedback }}"</p>
-          <h3>- {{ $graduate->user->lname . ' ' . $graduate->user->fname }}
+          <h3>- {{ $graduate->user->fname . ' ' . $graduate->user->lname }}
           </h3>
         </div>
         @endforeach
@@ -188,7 +189,7 @@
   </div>
 </section>
 
-    <!-- Partners Section -->
+    {{-- <!-- Partners Section -->
     <div class="partners reveal reveal-bottom">
       <img
         src="images/photo_2025-02-09_12-12-03.jpg"
@@ -197,7 +198,7 @@
       />
       <img src="images/download (1).jpg" alt="Partner 2" loading="lazy" />
       <img src="images/download.png" alt="Partner 3" loading="lazy" />
-    </div>
+    </div> --}}
 
     <!-- Newsletter Section -->
     <section class="newsletter-section reveal reveal-bottom" id="subscribe">

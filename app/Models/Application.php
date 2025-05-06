@@ -39,7 +39,7 @@ class Application extends Model
 
     public function applicationStages()
     {
-        return $this->belongsToMany(ApplicationStage::class, 'application_stage_progress', 'idApp', 'idAppStage');
+        return $this->belongsToMany(ApplicationStage::class, 'application_stage_progress', 'idApp', 'idAppStage') ->withPivot('status');;
     }
 
     public function documents()

@@ -20,10 +20,10 @@
         <header>
         <div class="logo"><span>DAFI</span> Scholarship</div>
         <nav>
-            <a href="index.html">Home</a>
+            <a href="{{ route('candidate.dashboard') }}">Home</a>
             <a href="{{ route('track_your_application') }}">Track Your Application</a>
-            <a href="profile.html">Profile</a>
-            <a href="logout.html">Logout</a>
+            <a href="{{ route('profile.show') }}">Profile</a>
+            <a href="{{ route('logout') }}">Logout</a>
         </nav>
         </header>
     
@@ -32,7 +32,7 @@
         <div class="container">
         <!-- Welcome Banner with username in red -->
         <div class="welcome-banner">
-            <h1>Welcome, <span>{{ $user->lname }}</span>!</h1>
+            <h1>Welcome, <span>{{ $user->fname }}</span>!</h1>
             <p>Explore your opportunities and manage your applications in one place.</p>
         </div>
 

@@ -22,7 +22,7 @@
             <a href="contact.html">Contact</a>
         </nav>
         </header>
-
+    
         <!-- Main Content -->
         <div class="container">
         <div class="details-card">
@@ -53,16 +53,39 @@
                         <li>{{ $partner->Partner_name }}</li>
                     @endforeach
                 </ul>
-                </div>
-                <a href="{{ route('apply', ['scholarship' => $scholarship->scholarshipID]) }}" class="apply-btn">Apply Now</a>
+            </div>
+
+            @if ($hasApplied)
+    <button id="apply-now-btn" class="apply-btn" disabled>You have already applied</button>
+@else
+    <a href="{{ route('apply', ['scholarship' => $scholarship->scholarshipID]) }}"
+       id="apply-now-btn"
+       class="apply-btn">Apply Now</a>
+@endif
+
         </div>
         </div>
+
         <!-- Footer -->
         <footer>
         &copy; 2025 DAFI Scholarship. All rights reserved. | 
         <a href="mailto:info@dafischolarship.org">info@dafischolarship.org</a>
         </footer>
-    </div>
+
+        <!-- JavaScript -->
+        {{-- <script>
+            // Select the "Apply Now" button
+            const applyButton = document.getElementById('apply-now-btn');
+
+            // Check if the "Apply Now" button exists on the page
+            if (applyButton) {
+                applyButton.addEventListener('click', function(event) {
+                    // If the user is about to apply, show the alert
+                    if (!{{ $hasApplied ? 'true' : 'false' }}) {
+                        alert("You have already applied for this scholarship.");
+                    }
+                });
+            }
+        </script> --}}
     </body>
-    </html>
-        
+</html>

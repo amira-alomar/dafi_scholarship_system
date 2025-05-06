@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('documents', function (Blueprint $table) {
             $table->id('documentID');
+            $table->unsignedBigInteger('required_document_id')->nullable();
             $table->string('document_path');
-            $table->string('document_type');
             $table->string('document_name');
             $table->foreignId('idApp')->constrained('applications', 'applicationID')->onDelete('cascade');
             $table->timestamps();

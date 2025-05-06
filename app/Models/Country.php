@@ -6,14 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Country extends Model
 {
+    protected $primaryKey = 'countryID';
 
-    protected $fillable = [
-        'user_id',
-        'graduation_year',
-        'profile_picture',
-        'feedback',
-        'scholarship_id'
-    ];
+    // protected $fillable = [
+    //     'user_id',
+    //     'graduation_year',
+    //     'profile_picture',
+    //     'feedback',
+    //     'scholarship_id'
+    // ];
 
     public function scholarships()
 {
