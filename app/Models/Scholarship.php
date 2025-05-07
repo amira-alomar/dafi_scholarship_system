@@ -63,9 +63,8 @@ class Scholarship extends Model
     }
     public function opportunities()
     {
-        return $this->hasMany(Opportunity::class, 'idScholarship', 'scholarshipID');
-    }
-    
+        return $this->belongsToMany(Opportunity::class, 'opportunity_scholarship', 'scholarshipID', 'opportunityID');
+    }    
     public function requiredDocuments()
     {
         return $this->hasMany(RequiredDocument::class, 'idScholarship');

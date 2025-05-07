@@ -88,7 +88,11 @@ Route::middleware([AdminMiddleware::class])->group(function () {
     // Partner
     Route::post('/partners/{scholarship}/add', [ManageScholarshipController::class, 'addPartner'])->name('partner.add');
     Route::delete('/partners/{scholarship}/{partner}', [ManageScholarshipController::class, 'deletePartner'])->name('partner.delete');
-    Route::get('/admin/jobsOpp', [JobOpportunityController::class, 'display'])->name('admin.jobs');
+
+    Route::get('/admin/jobsOpp', [JobOpportunityController::class, 'display'])->name('admin.jobOpp');
+    Route::put('/admin/jobs/{jobID}', [JobOpportunityController::class, 'update'])->name('admin.jobs.update');
+    Route::delete('/admin/jobs/{jobID}', [JobOpportunityController::class, 'destroy'])->name('admin.jobs.destroy');
+    Route::post('/admin/jobs/store', [JobOpportunityController::class, 'store'])->name('admin.jobs.store');
 
 
     //supervisor
@@ -150,13 +154,13 @@ Route::middleware(['auth', 'role:Student'])->group(function () {
     Route::post('/trainings', [TrainingController::class, 'store'])->name('trainings.store');
     Route::post('/volunteerings', [VolunteeringController::class, 'store'])->name('volunteerings.store');
     Route::get('/courses', [CoursesController::class, 'index'])->name('courses.index');
-    
+
     Route::get('/profile', function () {
         return view('student.profile');
     });
     Route::post('/applications', [UserOpportunityController::class, 'store'])->name('applications.store');
 
-    
+
 
 
     //================================================================================================
