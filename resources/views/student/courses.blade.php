@@ -144,7 +144,7 @@
       <a href="{{ url('/acadmic') }}">Academic Info</a>
       <a href="{{ url('/dafi_opp') }}">DAFI Opportunity</a>
       <a href="{{ url('/jobs') }}">Job Opportunity</a>
-      <a href="{{ url('/profile') }}">Profile</a>
+      <a href="{{ route('student.profile') }}">Profile</a>
     </nav>
   </header>
   

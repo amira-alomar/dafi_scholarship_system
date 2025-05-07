@@ -19,7 +19,7 @@
     <li><a href="{{ url('/dafi_opp') }}"> DAFI Opportunity</a></li>
     <li><a href="{{ url('/jobs') }}"> Job Opportunity</a></li>
     <li><a href="{{ url('/courses') }}"> Courses</a></li>
-    <li><a href="{{ url('/profile') }}"> Profile</a></li>
+    <li><a href="{{ route('student.profile') }}"> Profile</a></li>
 </ul>
 
     </div>

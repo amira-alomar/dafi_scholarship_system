@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,7 +19,7 @@
       <div class="sidebar">
   <div class="sidebar-header">
     <img src="logo.svg" alt="Logo" class="sidebar-logo">
-    <h1 class="sidebar-title">Student Portal</h1>
+    <h1 class="sidebar-title">DAFI Scholarship</h1>
   </div>
   
   <div class="sidebar-user">
@@ -26,8 +27,8 @@
       <img src="https://i.pravatar.cc/150?img=32" alt="User avatar">
     </div>
     <div class="user-info">
-      <h3 class="user-name">Yasmine</h3>
-      <p class="user-role">Computer Science Student</p>
+      <h3 class="user-name">{{ optional(auth()->user())->fname ?? 'Guest' }}</h3>
+      <p class="user-role"><span>{{ $major ?? 'Not Set' }}</span> Student</p>
     </div>
   </div>
   
@@ -41,21 +42,21 @@
             <span>Dashboard</span>
           </a>
         </li>
-        <li class="nav-item active">
+        <li class="nav-item ">
           <a href="{{ url('/acadmic') }}" class="nav-link">
-            <i class="bx bx-book"></i>
+            <i class="bx bx-book-open"></i>
             <span>Academic Information</span>
           </a>
         </li>
-        <li class="nav-item active">
+        <li class="nav-item ">
           <a href="{{ url('/dafi_opp') }}" class="nav-link">
-            <i class="bx bx-book"></i>
+            <i class="bx bx-notepad"></i>
             <span>DAFI Opportunity</span>
           </a>
         </li>
-        <li class="nav-item active">
+        <li class="nav-item ">
           <a href="{{ url('/jobs') }}" class="nav-link">
-            <i class="bx bx-book"></i>
+           <i class="bx bx-task"></i>
             <span>Job Opportunity</span>
           </a>
         </li>
@@ -66,7 +67,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="{{ url('/profile') }}" class="nav-link">
+          <a href="{{ route('student.profile') }}" class="nav-link">
             <i class="bx bx-calendar"></i>
             <span>Profile</span>
           </a>
@@ -367,9 +368,7 @@
                 <i class="bx bx-award primary-icon"></i>
                 My Training Certificates
               </h2>
-            </div>
-           
-            
+            </div>         
             <div class="certificates-container">
             @foreach($trainings as $index => $training)
         <div class="certificate-card training-certificate {{ $index >= 3 ? 'hidden-certificate' : '' }}">
@@ -401,9 +400,7 @@
                 <i class="bx bx-award primary-icon"></i>
                 My  Volunteering Certificates
               </h2>
-              <button class="icon-button">
-                <i class="bx bx-dots-horizontal-rounded"></i>
-              </button>
+              
             </div>
             
             <div class="certificates-container">
