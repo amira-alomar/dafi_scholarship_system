@@ -35,5 +35,7 @@ public function saveJob($id)
 
     return back()->with('success', 'Job saved successfully!');
 }
-
+ public function display(){
+    return view('admin.jobOpp');
+ }
 }

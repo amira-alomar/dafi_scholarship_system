@@ -23,7 +23,7 @@ use App\Http\Controllers\VolunteeringController;
 use App\Http\Controllers\AcademicGoalController;
 
 use App\Http\Middleware\AdminMiddleware;
-
+use App\Models\JobOpportunity;
 
 Route::get('/login', function () {
     return view('auth.login');
@@ -88,7 +88,7 @@ Route::middleware([AdminMiddleware::class])->group(function () {
     // Partner
     Route::post('/partners/{scholarship}/add', [ManageScholarshipController::class, 'addPartner'])->name('partner.add');
     Route::delete('/partners/{scholarship}/{partner}', [ManageScholarshipController::class, 'deletePartner'])->name('partner.delete');
-
+    Route::get('/admin/jobsOpp', [JobOpportunityController::class, 'display'])->name('admin.jobs');
 
 
     //supervisor
@@ -132,10 +132,7 @@ Route::middleware([AdminMiddleware::class])->group(function () {
     Route::post('/application/reject/{applicationID}', [ApplicationController::class, 'rejectApplication'])
         ->name('application.reject');
 });
-
-
 // Student
-
 Route::middleware(['auth', 'role:Student'])->group(function () {
     Route::get('/student/dashboard', function () {
         return view('student.dashboard');
