@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('opportunities', function (Blueprint $table) {
             $table->id('opportunityID');
             $table->string('title');
+            $table->string('photo');
             $table->date('date');
             $table->text('description');
             $table->string('location');
             $table->enum('type',['volunteer','training','event']);
             $table->enum('status',['open', 'closed']);
-            $table->foreignId('idScholarship')->nullable()->constrained('scholarships', 'scholarshipID')->onDelete('cascade');
             $table->timestamps();
         });
     }

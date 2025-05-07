@@ -10,10 +10,11 @@ class Opportunity extends Model
     use HasFactory;
 
     protected $primaryKey = 'opportunityID';
-    protected $fillable = ['title', 'date', 'description', 'location', 'type', 'status', 'idUser'];
+    protected $fillable = ['title', 'date', 'description', 'location', 'type', 'status', 'idUser', 'photo'];
 
-    public function scholarship()
+    public function scholarships()
     {
-        return $this->belongsTo(Scholarship::class, 'idScholarship', 'scholarshipID');
+        return $this->belongsToMany(Scholarship::class, 'opportunity_scholarship', 'opportunityID', 'scholarshipID');
     }
+    
 }

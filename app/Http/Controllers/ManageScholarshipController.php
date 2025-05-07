@@ -6,6 +6,7 @@ use App\Models\Scholarship;
 use App\Models\Partner;
 use App\Models\Criteria;
 use App\Models\Benefit;
+use App\Models\ApplicationStage;
 
 class ManageScholarshipController extends Controller
 {
@@ -110,5 +111,36 @@ class ManageScholarshipController extends Controller
         $scholarship = Scholarship::findOrFail($scholarshipID);
         $scholarship->partners()->detach($partnerID);
         return back();
+    }
+
+    // ------------------- STAGES -------------------
+    public function AddStage(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string',
+            'order' => 'required|integer',
+            'start_date' => 'required|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+        ]);
+
+        $stage = new ApplicationStage();
+        $stage->idScholarship = $id;
+        $stage->name = $request->name;
+        $stage->description = $request->description;
+        $stage->order = $request->order;
+        $stage->start_date = $request->start_date;
+        $stage->end_date = $request->end_date;
+        $stage->save();
+
+        return back()->with('success', 'Stage added successfully!');
+    }
+
+    public function DeleteStage($id)
+    {
+        $stage = ApplicationStage::findOrFail($id);
+        $stage->delete();
+
+        return back()->with('success', 'Stage deleted successfully!');
     }
 }
