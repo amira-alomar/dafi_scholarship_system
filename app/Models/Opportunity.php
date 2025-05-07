@@ -10,7 +10,7 @@ class Opportunity extends Model
     use HasFactory;
 
     protected $primaryKey = 'opportunityID';
-    protected $fillable = ['title', 'date', 'description', 'location', 'type', 'status', 'idUser'];
+    protected $fillable = ['title', 'date', 'description', 'location', 'type', 'status', 'idUser', 'photo'];
 
     public function scholarships()
     {

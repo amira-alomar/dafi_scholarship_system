@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Support\Facades\File;
 use App\Http\Controllers\AllUserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CandidiateDashController;
@@ -21,7 +21,7 @@ use App\Http\Controllers\UserOpportunityController;
 use App\Http\Controllers\CoursesController;
 use App\Http\Controllers\VolunteeringController;
 use App\Http\Controllers\AcademicGoalController;
-
+use App\Http\Controllers\PartnerController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Models\JobOpportunity;
 
@@ -93,6 +93,19 @@ Route::middleware([AdminMiddleware::class])->group(function () {
     Route::put('/admin/jobs/{jobID}', [JobOpportunityController::class, 'update'])->name('admin.jobs.update');
     Route::delete('/admin/jobs/{jobID}', [JobOpportunityController::class, 'destroy'])->name('admin.jobs.destroy');
     Route::post('/admin/jobs/store', [JobOpportunityController::class, 'store'])->name('admin.jobs.store');
+
+    Route::get('/admin/partners', [PartnerController::class, 'index'])->name('admin.partners');
+    Route::get('/admin/partners/create', [PartnerController::class, 'create'])->name('partners.create');
+    Route::post('/admin/partners', [PartnerController::class, 'store'])->name('partners.store');
+    Route::get('/admin/partners/{id}/edit', [PartnerController::class, 'edit'])->name('partners.edit');
+    Route::put('/admin/partners/{id}', [PartnerController::class, 'update'])->name('partners.update');
+    Route::delete('/admin/partners/{id}', [PartnerController::class, 'destroy'])->name('partners.destroy');
+
+    // Add application stage
+    Route::post('/scholarship/{id}/stages', [ManageScholarshipController::class, 'AddStage'])->name('stage.add');
+
+    // Delete application stage
+    Route::delete('/stages/{id}', [ManageScholarshipController::class, 'DeleteStage'])->name('stage.delete');
 
 
     //supervisor
@@ -230,3 +243,30 @@ Route::get('/profile-picture/{filename}', function ($filename) {
 })->name('profile.picture');
 
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
+
+Route::get('/partner-image/{filename}', function ($filename) {
+    $path = storage_path('app/partners/' . $filename);
+    if (!File::exists($path)) abort(404);
+    return response()->file($path);
+})->name('partner.image');
+
+
+Route::get('/partner-picture/{filename}', function ($filename) {
+    $path = 'partners/' . $filename;        // storage/app/partners/xxx.png
+    if (!Storage::exists($path)) abort(404);
+    $file = Storage::get($path);
+    $type = Storage::mimeType($path);
+    return response($file)->header('Content-Type', $type);
+})->name('partner.picture');
+
+
+Route::get('/opportunity-photo/{filename}', function ($filename) {
+    $path = 'opportunities/' . $filename;
+    if (! Storage::exists($path)) {
+        abort(404);
+    }
+    $file = Storage::get($path);
+    $type = Storage::mimeType($path);
+    return response($file)->header('Content-Type', $type);
+})->name('opportunity.photo');

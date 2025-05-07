@@ -20,7 +20,7 @@
                     <button id="toggleAddForm" class="btn">Add</button>
                 </div>
                 <div class="card-body">
-                    <form id="opportunityForm" method="POST" action="{{ route('opportunities.store') }}">
+                    <form id="opportunityForm" method="POST" action="{{ route('opportunities.store') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
                             <label for="title">Title</label>
@@ -60,6 +60,10 @@
                         <div class="form-group">
                             <label for="location">Location</label>
                             <input type="text" name="location" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="photo">Photo</label>
+                            <input type="file" id="photo" name="photo" accept="image/*">
                         </div>
                         <button type="submit" class="btn">Submit</button>
                     </form>

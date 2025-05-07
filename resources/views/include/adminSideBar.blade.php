@@ -11,6 +11,7 @@
             <a href="{{ route('scholarships.index') }}">Manage Scholarships</a>
             <a href="{{ route('admin.uni') }}">Manage Universities</a>
             <a href="{{ route('admin.jobOpp') }}">Manage Job Opp</a>
+            <a href="{{ route('admin.partners') }}">Manage Partners</a>
         </div>
     </div>
 </body>
