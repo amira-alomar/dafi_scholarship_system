@@ -29,7 +29,8 @@ class StudentProfileController extends Controller
     }
     public function show() {
         $user = auth()->user();
-        return view('student.profile', compact('user'));
+        $major = $user->major ?? null;
+        return view('student.profile', compact('major'));
     }
     
     public function update(Request $request) {
