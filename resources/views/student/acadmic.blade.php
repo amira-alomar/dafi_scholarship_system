@@ -24,7 +24,7 @@
   
   <div class="sidebar-user">
     <div class="user-avatar">
-      <img src="https://i.pravatar.cc/150?img=32" alt="User avatar">
+    <img src="{{ $image ? asset('storage/profile_images/' . $image) : 'https://i.pravatar.cc/150?img=32' }}" alt="User avatar">
     </div>
     <div class="user-info">
       <h3 class="user-name">{{ optional(auth()->user())->fname ?? 'Guest' }}</h3>

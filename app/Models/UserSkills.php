@@ -9,14 +9,14 @@ class UserSkills extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = null;
+   
     public $incrementing = false;
     protected $fillable = ['idUser', 'idSkill', 'level'];
-
+    protected $table = 'user_skills';
     // Relationships
     public function user()
     {
-        return $this->belongsTo(User::class, 'idUser', 'id');
+        return $this->belongsTo(AllUser::class, 'idUser', 'id');
     }
 
     public function skill()

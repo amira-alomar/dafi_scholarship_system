@@ -26,6 +26,7 @@ class AcadmicController extends Controller{
             'volunteerings' => $volunteerings,
             'major' => optional($studentInfo)->major,
             'gpa' => optional($studentInfo)->gpa,
+            'image' => optional($studentInfo)->image,
             'university' => optional($studentInfo->university)->name ?? null,
         ]);
     }

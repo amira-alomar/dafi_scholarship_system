@@ -10,7 +10,7 @@ class StudentInfo extends Model
     use HasFactory;
 
     protected $primaryKey = 'studentInfoID';
-    protected $fillable = ['major', 'gpa', 'year', 'number_of_training', 'number_of_volunteering', 'image', 'idUser', 'idUni'];
+    protected $fillable = ['major','expected_graduation', 'gpa', 'year', 'number_of_training', 'number_of_volunteering', 'image', 'idUser', 'idUni'];
 
     public function user()
     {
@@ -23,11 +23,11 @@ class StudentInfo extends Model
     }
     public function trainings()
 {
-    return $this->hasMany(Training::class);
+    return $this->hasMany(Training::class, 'studentInfoID');
 }
 public function volunteerings()
 {
-    return $this->hasMany(volunteering::class);
+    return $this->hasMany(volunteering::class, 'studentInfoID');
 }
 public function scholarship()
 {
