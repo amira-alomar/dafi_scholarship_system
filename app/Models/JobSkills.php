@@ -9,7 +9,8 @@ class JobSkills extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = null;
+    
+    protected $table = 'job_skills';
     public $incrementing = false;
     protected $fillable = ['idSkill', 'idJob_Opportunity'];
 

@@ -14,7 +14,7 @@ use App\Models\ApplicationStage;
 
 class CandidiateDashController extends Controller
 {
-    public function index()
+    public function index() 
     {
         $user = Auth::user();
         $scholarshipCount = Scholarship::count();
