@@ -18,12 +18,12 @@
 
     <div class="student-card">
     <div class="student-info">
-        <p><strong>Name:</strong> {{ $application->user->lname }}</p>
-        <p><strong>Major:</strong> {{ $application->user->studentInfo->major }}</p>
-        <p><strong>Year:</strong> {{ $application->user->studentInfo->year }}</p>
-        <p><strong>GPA:</strong> {{ $application->user->studentInfo->gpa }}</p>
-        <p><strong>number of training:</strong> {{ $application->user->studentInfo->number_of_training }}</p>
-        <p><strong>Volunteering:</strong> {{ $application->user->studentInfo->number_of_volunteering }} hours</p>
+        <p><strong>Name:</strong> {{ $application->user->fname." ".$application->user->fname ?? 'N/A'}}</p>
+        <p><strong>Major:</strong> {{ $application->user->studentInfo->major ?? 'N/A'}}</p>
+        <p><strong>Year:</strong> {{ $application->user->studentInfo->year ?? 'N/A'}}</p>
+        <p><strong>GPA:</strong> {{ $application->user->studentInfo->gpa ?? 'N/A'}}</p>
+        <p><strong>number of training:</strong> {{ $application->user->studentInfo->number_of_training ?? 'N/A'}}</p>
+        <p><strong>Volunteering:</strong> {{ $application->user->studentInfo->number_of_volunteering ?? 'N/A'}} hours</p>
     </div>
     <div class="badge">{{ $application->scholarship->name }}</div>
     </div>

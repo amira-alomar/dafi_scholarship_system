@@ -16,6 +16,10 @@ class Application extends Model
     {
         return $this->belongsTo(AllUser::class, 'idUser', 'id');
     }
+    public function stageProgress()
+    {
+        return $this->hasMany(ApplicationStageProgress::class, 'idApp', 'applicationID');
+    }
 
     public function scholarship()
     {
@@ -39,7 +43,7 @@ class Application extends Model
 
     public function applicationStages()
     {
-        return $this->belongsToMany(ApplicationStage::class, 'application_stage_progress', 'idApp', 'idAppStage') ->withPivot('status');;
+        return $this->belongsToMany(ApplicationStage::class, 'application_stage_progress', 'idApp', 'idAppStage')->withPivot('status');;
     }
 
     public function documents()
