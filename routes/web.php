@@ -24,6 +24,8 @@ use App\Http\Controllers\AcademicGoalController;
 use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\ExamController;
 use App\Http\Controllers\InterviewController;
+use App\Http\Controllers\StudentProfileController;
+
 use App\Http\Middleware\AdminMiddleware;
 use App\Models\JobOpportunity;
 use App\Http\Controllers\AdminController;
@@ -239,10 +241,9 @@ Route::middleware(['auth', 'role:Student'])->group(function () {
     Route::post('/trainings', [TrainingController::class, 'store'])->name('trainings.store');
     Route::post('/volunteerings', [VolunteeringController::class, 'store'])->name('volunteerings.store');
     Route::get('/courses', [CoursesController::class, 'index'])->name('courses.index');
-
-    Route::get('/profile', function () {
-        return view('student.profile');
-    });
+    Route::get('/student/profile', [StudentProfileController::class, 'index'])->name('student.profile');
+    Route::put('/student/profile', [StudentProfileController::class, 'update'])->name('student.profile.update');
+    Route::post('/profile/skills/add', [StudentProfileController::class, 'addSkill'])->name('profile.skills.add');
     Route::post('/applications', [UserOpportunityController::class, 'store'])->name('applications.store');
 
 

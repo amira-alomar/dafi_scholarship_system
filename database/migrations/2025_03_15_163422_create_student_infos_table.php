@@ -18,6 +18,8 @@ return new class extends Migration
             $table->integer('year');
             $table->integer('number_of_training')->default(0);
             $table->integer('number_of_volunteering')->default(0);
+            $table->string('universityID');
+            $table->date('expected_graduation');
             $table->string('image')->nullable();
             $table->foreignId('idUser')->constrained('all_users', 'id')->onDelete('cascade');
             $table->foreignId('idUni')->constrained('universities', 'universityID')->onDelete('cascade');

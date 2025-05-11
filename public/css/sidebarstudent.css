@@ -24,29 +24,29 @@
   }
   
   @media (max-width: 1024px) {
-    .sidebar {
+    /* .sidebar {
       transform: translateX(-100%);
     }
     
     .sidebar.open {
       transform: translateX(0);
-    }
+    } */
     
-    body.sidebar-open {
+    /* body.sidebar-open {
       overflow: hidden;
     }
     
     
     body.sidebar-open .sidebar-overlay {
       display: block;
-    }
+    } */
     
-    main {
+    /* main {
       margin-left: 0 !important;
-    }
+    } */
   }
   
-  @media (min-width: 1025px) {
+  /* @media (min-width: 1025px) {
     main {
       margin-left: var(--sidebar-width);
     }
@@ -54,7 +54,7 @@
     .mobile-toggle {
       display: none;
     }
-  }
+  } */
   
   .sidebar-header {
     padding: 1.5rem;

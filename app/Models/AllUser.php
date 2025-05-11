@@ -8,7 +8,7 @@ use App\Models\Graduates;
 class AllUser  extends Authenticatable
 {
     protected $fillable = [
-        'lname', 'fname', 'phone_number','profile_picture', 'email', 'address', 'password', 'role_id','status'
+        'lname', 'fname',  'birthdate','phone_number','profile_picture','email', 'address', 'password', 'role_id','status'
     ];
     protected $table = 'all_users';
     protected $guarded = [];
@@ -53,8 +53,9 @@ class AllUser  extends Authenticatable
 
     public function userSkills()
     {
-        return $this->hasMany(Skill::class, 'idUser', 'id');
+        return $this->hasMany(UserSkills::class, 'idUser', 'id');
     }
+    
 
     public function userOpportunities()
     {
