@@ -10,7 +10,7 @@ class JobOpportunity extends Model
     use HasFactory;
 
     protected $primaryKey = 'jobID';
-    protected $fillable = ['title', 'company_name', 'location', 'details', 'application_method', 'application_deadline'];
+    protected $fillable = ['title', 'company_name', 'location', 'details','description', 'application_method', 'application_deadline','posting_date'];
 
     public function skills()
     {

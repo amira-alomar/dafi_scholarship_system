@@ -26,10 +26,11 @@ class AllUser  extends Authenticatable
     {
         return $this->hasMany(Graduates::class, 'user_id'); // User has many Graduates
     }
-    public function skills()
-    {
-        return $this->hasMany(Skill::class, 'idUser', 'id');
-    }
+   public function skills()
+{
+    return $this->belongsToMany(Skill::class, 'user_skills', 'idUser', 'idSkill');
+}
+
 
     public function applications()
     {
@@ -55,7 +56,6 @@ class AllUser  extends Authenticatable
     {
         return $this->hasMany(UserSkills::class, 'idUser', 'id');
     }
-    
 
     public function userOpportunities()
     {

@@ -6,14 +6,38 @@ use Illuminate\Http\Request;
 use App\Models\JobOpportunity;
 use App\Models\SavedJob;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+use App\Models\StudentInfo;
 
 class JobOpportunityController extends Controller
 {
     // 
     public function index()
     {
-        $jobs = \App\Models\JobOpportunity::all(); // جلب كل فرص العمل من قاعدة البيانات
-        return view('student.job', compact('jobs')); // تمريرهم للـ Blade
+         $user = Auth::user();
+        $studentInfo = auth()->user()->studentInfo;
+        $studentInfoID = $studentInfo->studentInfoID ?? null;
+        $major = $studentInfo->major ?? null;
+        $image = $studentInfo->image ?? null;
+        $userSkills = $user->skills->pluck('skillID')->toArray();
+        $jobs = JobOpportunity::with('skills')->get()->map(function ($job) use ($userSkills) {
+        $jobSkillIds = $job->skills->pluck('skillID')->toArray();
+        $matchingSkills = array_intersect($userSkills, $jobSkillIds);
+
+        $job->match_count = count($matchingSkills);
+        $job->total_skills = count($jobSkillIds);
+        $job->match_percent = $job->total_skills > 0
+            ? round((count($matchingSkills) / $job->total_skills) * 100)
+            : 0;
+
+        return $job;
+    });
+
+    return view('student.job', compact('jobs', 'major','image'));
+
+  
+  
+
     }
 
     public function saveJob($id)
