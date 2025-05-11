@@ -21,11 +21,14 @@ use App\Http\Controllers\UserOpportunityController;
 use App\Http\Controllers\CoursesController;
 use App\Http\Controllers\VolunteeringController;
 use App\Http\Controllers\AcademicGoalController;
+use App\Http\Controllers\PartnerController;
+use App\Http\Controllers\ExamController;
+use App\Http\Controllers\InterviewController;
 use App\Http\Controllers\StudentProfileController;
-
 
 use App\Http\Middleware\AdminMiddleware;
 use App\Models\JobOpportunity;
+use App\Http\Controllers\AdminController;
 
 Route::get('/login', function () {
     return view('auth.login');
@@ -103,38 +106,99 @@ Route::middleware([AdminMiddleware::class])->group(function () {
     Route::put('/admin/partners/{id}', [PartnerController::class, 'update'])->name('partners.update');
     Route::delete('/admin/partners/{id}', [PartnerController::class, 'destroy'])->name('partners.destroy');
 
+    // Admins management
+    Route::get('/admins/manage', [AdminController::class, 'manage'])
+        ->name('admins.manage');
+    Route::post('/admins/store', [AdminController::class, 'store'])
+        ->name('admins.store');
+    Route::post('/admins/assign', [AdminController::class, 'assign'])
+        ->name('admins.assign');
+
+
     // Add application stage
     Route::post('/scholarship/{id}/stages', [ManageScholarshipController::class, 'AddStage'])->name('stage.add');
 
     // Delete application stage
     Route::delete('/stages/{id}', [ManageScholarshipController::class, 'DeleteStage'])->name('stage.delete');
-
+    //=====================================================================================
 
     //supervisor
-    Route::get('/supervisor/manage_user', [AllUserController::class, "index"])
-        ->name('supervisor.user');
-    Route::get('/supervisor/dashboard', function () {
-        return view('supervisor.dashboard');
-    })->name('supervisor.dashboard');
+    Route::get('/supervisor/scholarship/{scholarshipID}/users', [AllUserController::class, 'manageUsers'])
+        ->name('supervisor.manageUsers');
+
+    // Route::get('/supervisor/scholarships', function () {
+    //     return view('supervisor.manageScholarship');
+    // })->name('supervisor.dashboard');
+
+    Route::get('/supervisor/scholarship/{scholarshipID}', [ScholarshipController::class, 'manageScholarship'])
+        ->name('supervisor.manageScholarship');
+
     Route::put('/supervisor/users/update-status/{id}', [AllUserController::class, 'updateUserStatus'])
         ->name('updateUserStatus');
+
     Route::get('/supervisor/scholarship', [ScholarshipController::class, 'scholarshipOfEachSupervisor'])
-        ->name('supervisor.scholarship');
-    Route::get('/questions/{scholarshipId}', [QuestionController::class, 'index'])
-        ->name('supervisor.questions');
-    Route::get('/supervisor/studentInfo', [AllUserController::class, 'getStudentInfo'])
-        ->name('supervisor.studentInfo');
-    Route::get('/supervisor/courses', [CourseController::class, 'index'])
+        ->name('supervisor.dashboard');
+
+    Route::get('/supervisor/acceptedStudents/{scholarshipID}', [ApplicationController::class, 'acceptedStudents'])
+        ->name('supervisor.acceptedStudents');
+
+    //     Route::get('/supervisor/courses', [CourseController::class, 'index'])
+    //     ->name('supervisor.course');
+    // Route::delete('/courses/{id}', [CourseController::class, 'destroy'])
+    //     ->name('courses.destroy');
+    Route::get('/supervisor/courses/{scholarshipID}', [CourseController::class, 'index'])
         ->name('supervisor.course');
+
     Route::delete('/courses/{id}', [CourseController::class, 'destroy'])
         ->name('courses.destroy');
-    Route::get('/supervisor/applications', [ApplicationController::class, 'index'])
+
+    Route::get('/questions/{scholarshipId}', [QuestionController::class, 'index'])
+        ->name('supervisor.questions');
+    //=====================================
+    Route::prefix('supervisor')->name('supervisor.')->group(function () {
+        // عرض صفحة النتائج النهائية
+        Route::get('final-application/{scholarshipID}', [ApplicationController::class, 'finalApplication'])
+            ->name('finalApplication');
+
+        // حفظ قبول/رفض التقديم
+        Route::post('final-application/{scholarshipID}', [ApplicationController::class, 'storeFinalApplication'])
+            ->name('finalApplication.store');
+    });
+
+
+
+    // Applications list per scholarship
+    Route::get('/supervisor/{scholarshipId}/applications', [ApplicationController::class, 'index'])
         ->name('supervisor.application');
-    Route::get('/application/{applicationID}', [ApplicationController::class, 'showApplicationDetails'])
+
+    // Application details (ما ضروري تضيف scholarshipId هون إذا كان applicationID كافي، بس للاتساق ممكن تحطيه)
+    Route::get('/supervisor/{scholarshipId}/application/{applicationID}', [ApplicationController::class, 'showApplicationDetails'])
         ->name('supervisor.applicationDetails');
-    Route::get('/supervisor/acceptedStudents', [ApplicationController::class, 'acceptedStudents'])
-        ->name('supervisor.acceptedStudents');
-    Route::get('/supervisor/exam', [ScholarshipController::class, 'showEligibleForExam'])
+
+    //add notes
+
+    Route::post('/supervisor/final-application/{scholarshipID}/add-note', [ApplicationController::class, 'addNote'])->name('supervisor.addNote');
+    //interview
+    Route::prefix('supervisor')->group(function () {
+
+        Route::get('/{scholarshipID}/interview', [InterviewController::class, 'showEligibleForInterview'])
+            ->name('supervisor.interview');
+   
+
+    Route::get('/interview-details/{studentID}', [InterviewController::class, 'showInterviewDetails'])
+        ->name('interview.details');
+
+    Route::post('/interview/{studentID}/schedule', [InterviewController::class, 'scheduleInterview'])
+        ->name('interview.schedule');
+
+    Route::post('/interview/{studentID}/complete', [InterviewController::class, 'completeInterview'])
+        ->name('interview.complete');
+
+    Route::post('/interview/{studentID}/cancel', [InterviewController::class, 'cancelInterview'])
+        ->name('interview.cancel');
+
+ });
+    Route::get('/supervisor/{scholarshipID}/exam', [ScholarshipController::class, 'showEligibleForExam'])
         ->name('supervisor.exam');
     Route::get('/exam-details/{studentID}', [ScholarshipController::class, 'showExamDetails'])
         ->name('exam.details');
@@ -145,11 +209,19 @@ Route::middleware([AdminMiddleware::class])->group(function () {
     Route::post('/exam/send-invitation/{applicationID}', [ScholarshipController::class, 'sendInvitation'])
         ->name('exam.sendInvitation');
 
-    //application
-    Route::post('/application/approve/{applicationID}', [ApplicationController::class, 'approveApplication'])
+    // Approve and reject routes with scholarshipId
+    Route::post('/supervisor/{scholarshipId}/application/approve/{applicationID}', [ApplicationController::class, 'approveApplication'])
         ->name('application.approve');
-    Route::post('/application/reject/{applicationID}', [ApplicationController::class, 'rejectApplication'])
+
+    Route::post('/supervisor/{scholarshipId}/application/reject/{applicationID}', [ApplicationController::class, 'rejectApplication'])
         ->name('application.reject');
+    //exam result
+    Route::get('exam-results/create/{scholarshipID}', [ExamController::class, 'create'])
+        ->name('examResult.create');
+
+    // Handle form submission
+    Route::post('exam-results/store/{scholarshipID}', [ExamController::class, 'store'])
+        ->name('examResult.store');
 });
 // Student
 Route::middleware(['auth', 'role:Student'])->group(function () {

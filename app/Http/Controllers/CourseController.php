@@ -13,23 +13,27 @@ class CourseController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($scholarshipID)
     {
-        // Get the logged-in admin ID
         $adminId = Auth::guard('admin')->id();
-
-        // Get all scholarship IDs for this admin
-        $scholarshipIds = AdminScholarship::where('admin_id', $adminId)
-            ->pluck('idScholarship');
-
-        // Get all applications related to the scholarships of the admin
-        $applications = Application::whereIn('idScholarship', $scholarshipIds)
+    
+        // Verify ownership
+        $ownsScholarship = AdminScholarship::where('admin_id', $adminId)
+            ->where('idScholarship', $scholarshipID)
+            ->exists();
+    
+        if (!$ownsScholarship) {
+            abort(403, 'Access denied to this scholarship.');
+        }
+    
+        // Get all applications for this scholarship
+        $applications = Application::where('idScholarship', $scholarshipID)
             ->with(['user', 'scholarship', 'user.courses'])
             ->get();
-
-        // Return data to the view
-        return view('supervisor.course', compact('applications'));
+    
+        return view('supervisor.course', compact('applications', 'scholarshipID'));
     }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -78,7 +82,9 @@ class CourseController extends Controller
     {
         $course = Course::findOrFail($id);
         $course->delete();
-
+    
         return redirect()->back()->with('success', 'Course dropped successfully!');
     }
+    
+    
 }

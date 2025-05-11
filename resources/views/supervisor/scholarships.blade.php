@@ -1,9 +1,9 @@
 <!-- Available Scholarships Listing -->
-<head>
+{{-- <head>
     <link rel="stylesheet" href="{{ asset('css/scholarship.css') }}"/>
     <link rel="stylesheet" href="{{ asset('css/sidebar.css') }}"/>
     {{-- @include('include.sidebar') --}}
-</head>
+{{-- </head>
 <body>
    
 
@@ -31,4 +31,4 @@
 @endif
 </div>
 </div>
-</body>
+</body> --}} 

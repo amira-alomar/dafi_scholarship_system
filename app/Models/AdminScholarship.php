@@ -11,7 +11,7 @@ class AdminScholarship extends Model
 
     protected $table = 'admin_scholarships';
 
-    protected $fillable = ['admin_id', 'scholarship_id'];
+    protected $fillable = ['admin_id', 'idScholarship'];
 
 
     public function admin()
@@ -21,6 +21,6 @@ class AdminScholarship extends Model
 
     public function scholarship()
     {
-        return $this->belongsTo(Scholarship::class, 'scholarship_id');
+        return $this->belongsTo(Scholarship::class, 'idScholarship');
     }
 }

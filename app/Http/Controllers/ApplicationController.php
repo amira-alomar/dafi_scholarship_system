@@ -14,85 +14,86 @@ use App\Models\Scholarship;
 
 class ApplicationController extends Controller
 {
-    public function index()
+    public function index($scholarshipId)
     {
-        $adminId = Auth::guard('admin')->id();
-        // Get all scholarships this admin is responsible for
-        $scholarshipIds = AdminScholarship::where('admin_id', $adminId)
-            ->pluck('idScholarship');
-        // Get all applications for these scholarships
-        $applications = Application::whereIn('idScholarship', $scholarshipIds)
+        $applications = Application::where('idScholarship', $scholarshipId)
             ->with(['user', 'scholarship'])
             ->get();
-        return view('supervisor.application', compact('applications'));
+
+        return view('supervisor.application', compact('applications', 'scholarshipId'));
     }
-    public function showApplicationDetails($applicationID)
-{
-    $application = Application::with(['applicationForm', 'answers.question', 'documents'])
-        ->where('applicationID', $applicationID)
-        ->first();
-
-    if (!$application) {
-        return redirect()->back()->with('error', 'Application not found');
-    }
-
-    // Fetch all required documents + filter user's uploaded docs per document
-    $requiredDocuments = \App\Models\RequiredDocument::with(['documents' => function($query) use ($application) {
-        $query->where('idApp', $application->applicationID);
-    }])->get();
-    
-    
-    return view('supervisor.applicationDetails', compact('application', 'requiredDocuments'));
-}
-
-    public function approveApplication($applicationID)
+    public function showApplicationDetails($scholarshipId, $applicationID)
     {
-        // Fetch the application form associated with the applicationID
-        $applicationForm = ApplicationForm::where('applicationFormID', $applicationID)->first();
+        $application = Application::with(['applicationForm', 'answers.question', 'documents'])
+            ->where('applicationID', $applicationID)
+            ->first();
 
-        // Ensure the application form exists
-        if (!$applicationForm) {
-            return redirect()->back()->with('error', 'Application form not found');
+        if (!$application) {
+            return redirect()->back()->with('error', 'Application not found');
         }
 
-        // Update the status to "Accepted"
-        $applicationForm->status = 'approved';
-        $applicationForm->save();
+        $requiredDocuments = \App\Models\RequiredDocument::with(['documents' => function ($query) use ($application) {
+            $query->where('idApp', $application->applicationID);
+        }])->get();
 
-        // Redirect with a success message
-        return redirect()->route('supervisor.application')->with('success', 'Application has been accepted');
+        return view('supervisor.applicationDetails', compact('application', 'requiredDocuments', 'scholarshipId'));
     }
 
-    public function rejectApplication($applicationID)
-    {
-        // Fetch the application form associated with the applicationID
-        $applicationForm = ApplicationForm::where('applicationFormID', $applicationID)->first();
 
-        // Ensure the application form exists
-        if (!$applicationForm) {
-            return redirect()->back()->with('error', 'Application form not found');
+    public function approveApplication($scholarshipId, $applicationID)
+    {
+        // 1. جلب مرحلة الـ "Form" الخاصة بالمنحة
+        $formStage = ApplicationStage::where('idScholarship', $scholarshipId)
+            ->where('name', 'Form')
+            ->firstOrFail();
+
+        // 2. تحديث الصف الواحد في جدول application_stage_progress
+        $affected = ApplicationStageProgress::where('idApp', $applicationID)
+            ->where('idAppStage', $formStage->applicationStageID)
+            ->update(['status' => 'accepted']);
+
+        // 3. إذا ما وجد أي صف للتحديث
+        if ($affected === 0) {
+            return redirect()->back()->with('error', 'No matching ApplicationStageProgress found for approval.');
         }
 
-        // Update the status to "Rejected"
-        $applicationForm->status = 'rejected';
-        $applicationForm->save();
+        // 4. إعادة التوجيه مع رسالة نجاح
+        return redirect()
+            ->route('supervisor.application', ['scholarshipId' => $scholarshipId])
+            ->with('success', 'Application has been approved in the Form stage.');
+    }
 
-        // Redirect with a success message
-        return redirect()->route('supervisor.application')->with('success', 'Application has been rejected');
-    }
-    public function acceptedStudents()
+    public function rejectApplication($scholarshipId, $applicationID)
     {
-        $adminId = Auth::guard('admin')->id();
-        // Get all scholarships this admin is responsible for
-        $scholarshipIds = AdminScholarship::where('admin_id', $adminId)
-            ->pluck('idScholarship');
-        // Get all applications for these scholarships
-        $applications = Application::whereIn('idScholarship', $scholarshipIds)
-            ->where('status', 'approved')
-            ->with(['user', 'scholarship', 'user.studentInfo'])
-            ->get();
-        return view('supervisor.acceptedStudents', compact('applications'));
+        // Get the Form stage for this scholarship
+        $formStage = ApplicationStage::where('idScholarship', $scholarshipId)
+            ->where('name', 'Form')
+            ->first();
+
+        if (!$formStage) {
+            dd("Form stage not found for scholarship ID: $scholarshipId");
+        }
+
+
+        // Update the exact record
+        $progress = ApplicationStageProgress::where('idApp', $applicationID)
+            ->where('idAppStage', $formStage->applicationStageID)
+            ->first();
+
+        if (!$progress) {
+            dd("No matching ApplicationStageProgress found for app ID: $applicationID and stage ID: {$formStage->applicationStageID}");
+        }
+
+        // Update status to rejected
+        $progress->status = 'rejected';
+        ApplicationStageProgress::where('idApp', $applicationID)
+            ->where('idAppStage', $formStage->applicationStageID)
+            ->update(['status' => 'rejected']);
+
+        return redirect()->route('supervisor.application', ['scholarshipId' => $scholarshipId])
+            ->with('success', 'Application has been rejected in the Form stage.');
     }
+
 
     public function apply(Request $request, $scholarshipId)
     {
@@ -142,17 +143,17 @@ class ApplicationController extends Controller
                 ]);
             }
         }
-        
+
         //Step 4: Register application to each stage of the scholarship
         $stages = ApplicationStage::where('idScholarship', $scholarship->scholarshipID)
-        ->where('order', 1)
-        ->get();
+            ->where('order', 1)
+            ->get();
         // dd($stages);
         foreach ($stages as $index => $stage) {
             ApplicationStageProgress::create([
                 'idApp' => $application->applicationID,
                 'idAppStage' => $stage->applicationStageID,
-                'status' => 'pending', 
+                'status' => 'pending',
             ]);
         }
         return redirect()->route('candidate.submitted');
@@ -160,5 +161,61 @@ class ApplicationController extends Controller
     public function submitted()
     {
         return view('candidate.submitted');
+    }
+
+
+
+    public function finalApplication($scholarshipID)
+    {
+        $scholarship = Scholarship::findOrFail($scholarshipID);
+
+        // كل الأبليكشنز مع بيانات المستخدم ومراحل التقديم
+        $applications = Application::with([
+            'user:id,fname',
+            'stageProgress' => fn($q) => $q->with('stage')->orderBy('idAppStage')
+        ])
+            ->where('idScholarship', $scholarshipID)
+            ->get();
+
+        return view('supervisor.final_application', compact('applications', 'scholarshipID'));
+    }
+
+    // 2. حفظ الحالة النهائية (approve/reject)
+    public function storeFinalApplication(Request $request, $scholarshipID)
+    {
+        $data = $request->validate([
+            'application_id' => 'required|exists:applications,applicationID',
+            'final_status'   => 'required|in:approved,rejected',
+        ]);
+
+        $app = Application::where('applicationID', $data['application_id'])
+            ->where('idScholarship', $scholarshipID)
+            ->firstOrFail();
+
+        $app->status = $data['final_status'];
+        $app->save();
+
+        return redirect()
+            ->route('supervisor.finalApplication', $scholarshipID)
+            ->with('success', "The application status for {$app->user->fname} {$app->user->lname} has been changed to “{$data['final_status']}”.");
+    }
+
+    public function addNote(Request $request)
+    {
+        // Validate input
+        $validated = $request->validate([
+            'notes' => 'required|string|max:5000',
+        ]);
+
+        // Find the application and update the notes
+        $application = Application::findOrFail($request->application_id);
+
+        if ($request->has('notes') && $request->notes) {
+            $application->notes = $request->notes;
+            $application->save();
+        }
+
+        // Redirect to the final application page with the scholarship ID
+        return redirect()->route('supervisor.finalApplication', ['scholarshipID' => $request->scholarshipID]);
     }
 }

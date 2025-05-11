@@ -15,7 +15,7 @@
         
         @foreach($applications as $app)
     <div class="student">
-        <h3>Student: {{ $app->user->name }}</h3>
+        <h3>Student: {{ $app->user->fname.' '.$app->user->lname }}</h3>
 
         @if($app->user->courses->isEmpty())
             <p>Not registered in any course yet.</p>
@@ -31,11 +31,12 @@
                             Instructor: {{ $course->instructor ?? 'N/A' }} |
                             Credits: {{ $course->credits ?? 'N/A' }}
                         </span>
-                        <form action="{{ route('courses.destroy', $course->courseID) }}" method="POST" onsubmit="return confirm('Are you sure you want to drop this course?');" style="display:inline;">
+                        <form action="{{ route('courses.destroy', $course->courseID) }}" method="POST">
                             @csrf
                             @method('DELETE')
-                            <button class="drop-btn" type="submit">Drop</button>
+                            <button type="submit">Drop</button>
                         </form>
+                        
                         
                     </li>
                 @endforeach
