@@ -239,7 +239,7 @@
             <div id="courses-tab" class="tab-content">
                 <div class="profile-card">
                     <div class="profile-section-title">
-                        <span>Current Courses</span>
+                        <span>Saved Jobs</span>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="w-full">
