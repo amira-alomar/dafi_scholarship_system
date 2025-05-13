@@ -4,155 +4,92 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Course Enrollment - DAFI Scholarship</title>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
-    rel="stylesheet"
-  />
-  <style>
-    /* Basic Reset */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: #F5F5F5;
-      color: #212121;
-      line-height: 1.6;
-    }
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
-    /* Navbar (same as Scholarships Dashboard) */
-    header {
-      background: #fff;
-      padding: 1rem 2rem;
-      border-bottom: 1px solid #eee;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    header .logo {
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: #000;
-    }
-    header .logo span {
-      color: #D32F2F;
-    }
-    header nav a {
-      margin-left: 1rem;
-      color: #333;
-      transition: color 0.3s;
-    }
-    header nav a:hover {
-      color: #D32F2F;
-    }
-    .container {
-      max-width: 1000px;
-      margin: 30px auto;
-      padding: 0 20px;
-    }
-    .form-card {
-      background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      margin-bottom: 30px;
-    }
-    .form-card h2 {
-      font-size: 1.5rem;
-      color: #D32F2F;
-      margin-bottom: 20px;
-    }
-    .form-group {
-      margin-bottom: 15px;
-    }
-    .form-group label {
-      display: block;
-      font-weight: 600;
-      margin-bottom: 5px;
-    }
-    .form-group input,
-    .form-group select {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #E0E0E0;
-      border-radius: 5px;
-      font-size: 1rem;
-    }
-    .form-group input[type="file"] {
-      padding: 5px;
-    }
-    .btn {
-      display: inline-block;
-      padding: 12px 20px;
-      background: #D32F2F;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    .btn:hover {
-      background: #B71C1C;
-    }
-    /* Table Styles */
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background: #fff;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      border-radius: 8px;
-      overflow: hidden;
-    }
-    th, td {
-      padding: 12px 15px;
-      border: 1px solid #E0E0E0;
-      text-align: center;
-      font-size: 1rem;
-    }
-    th {
-      background: #37474F;
-      color: white;
-      font-weight: 600;
-    }
-    .edit-btn {
-      background: #D32F2F;
-      padding: 5px 12px;
-      border-radius: 5px;
-      color: white;
-      text-decoration: none;
-      font-weight: 600;
-      transition: background 0.3s;
-    }
-    .edit-btn:hover {
-      background: #B71C1C;
-    }
-  </style>
-</head>
-<body>
-  <!-- Navbar -->
-  <header>
-    <div class="logo"><span>DAFI</span> Scholarship</div>
-    <nav>
-      <a href="{{ url('/student/dashboard') }}">Home</a>
-      <a href="{{ url('/acadmic') }}">Academic Info</a>
-      <a href="{{ url('/dafi_opp') }}">DAFI Opportunity</a>
-      <a href="{{ url('/jobs') }}">Job Opportunity</a>
-      <a href="{{ route('student.profile') }}">Profile</a>
-    </nav>
-  </header>
+   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+      <link rel="stylesheet" href="{{ asset('css/sidebarstudent.css') }}">
+      <link rel="stylesheet" href="{{ asset('css/studentCourses.css') }}">
   
-  <!-- Course Enrollment Content -->
-  <div class="container">
+</head>
+<body >
+ <!-- Sidebar goes here -->
+    <div class="flex">
+        <div class="hidden md:block w-64 bg-gray-100 min-h-screen">
+             <!-- Sidebar Navigation -->
+      <div class="sidebar">
+  <div class="sidebar-header">
+    <img src="logo.svg" alt="Logo" class="sidebar-logo">
+    <h1 class="sidebar-title">DAFI Scholarship</h1>
+  </div>
+  
+  <div class="sidebar-user">
+     <div class="user-avatar">
+    </div>
+    <div class="user-info">
+      <h3 class="user-name">{{ optional(auth()->user())->fname ?? 'Guest' }}</h3>
+      <p class="user-role"><span>Computer Science </span> Student</p>
+     
+    </div>
+  </div>
+  
+  <nav class="sidebar-nav">
+    <div class="nav-section">
+      <h4 class="nav-section-title">Main</h4>
+      <ul class="nav-list">
+        <li class="nav-item">
+          <a href="{{ url('/student/dashboard') }}" class="nav-link">
+            <i class="bx bx-home-alt"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li class="nav-item ">
+          <a href="{{ url('/acadmic') }}" class="nav-link">
+            <i class="bx bx-book-open"></i>
+            <span>Academic Information</span>
+          </a>
+        </li>
+        <li class="nav-item ">
+          <a href="{{ url('/dafi_opp') }}" class="nav-link">
+            <i class="bx bx-notepad"></i>
+            <span>DAFI Opportunity</span>
+          </a>
+        </li>
+        <li class="nav-item ">
+          <a href="{{ url('/jobs') }}" class="nav-link">
+           <i class="bx bx-task"></i>
+            <span>Job Opportunity</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="{{ url('/courses') }}" class="nav-link">
+            <i class="bx bx-book"></i>
+            <span>My Courses</span>
+          </a>
+        </li>
+         <li class="nav-item">
+          <a href="{{ route('student.clubs') }}" class="nav-link">
+            <i class="bx bx-wink-smile"></i>
+            <span>Clubs</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="{{ route('student.profile') }}" class="nav-link">
+            <i class="bx bx-calendar"></i>
+            <span>Profile</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+    </div>
+        </div>
+
+
+  <!-- Main Content -->
+    <div class="flex-1 p-6">
+  <div class="main-content">
     <!-- Form for adding/editing a course -->
     <div class="form-card">
-      <h2>Add  a Course</h2>
+      <h2><i class="fas fa-plus-circle"></i>Add a Course</h2>
       <form id="courseForm">
         <div class="form-group">
           <label for="semester">Semester</label>
@@ -167,16 +104,19 @@
           <input type="text" id="grade" name="grade" placeholder="Enter your grade" required>
         </div>
         <div class="form-group">
-            <label for="registrationImage">Upload Registration Image</label>
-            <input type="file" id="registrationImage" name="registrationImage" accept="image/*">
-          </div>
-          <button type="submit" class="btn">Save Course</button>
-        </form>
-      </div>
-  
-      <!-- Table displaying the added courses -->
-      <div class="form-card">
-        <h2>Registered Courses</h2>
+          <label for="registrationImage">Upload Registration Image</label>
+          <input type="file" id="registrationImage" name="registrationImage" accept="image/*">
+        </div>
+        <button type="submit" class="btn">
+          <i class="fas fa-save"></i> Save Course
+        </button>
+      </form>
+    </div>
+
+    <!-- Table displaying the added courses -->
+    <div class="form-card">
+      <h2><i class="fas fa-list-alt"></i>Registered Courses</h2>
+      <div class="table-container">
         <table>
           <thead>
             <tr>
@@ -184,7 +124,7 @@
               <th>Course Name</th>
               <th>Grade</th>
               <th>Registration Image</th>
-              <th>Edit</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody id="coursesTableBody">
@@ -193,33 +133,73 @@
               <td>1</td>
               <td>Mathematics</td>
               <td>95</td>
-              <td><a href="#">View Image</a></td>
-              <td><a href="#" class="edit-btn">Edit</a></td>
+              <td><a href="#" class="view-link">View Image</a></td>
+              <td><a href="#" class="action-btn edit-btn"><i class="fas fa-edit"></i> Edit</a></td>
+            </tr>
+            <!-- Additional example rows -->
+            <tr>
+              <td>1</td>
+              <td>Physics</td>
+              <td>88</td>
+              <td><a href="#" class="view-link">View Image</a></td>
+              <td><a href="#" class="action-btn edit-btn"><i class="fas fa-edit"></i> Edit</a></td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Chemistry</td>
+              <td>92</td>
+              <td><a href="#" class="view-link">View Image</a></td>
+              <td><a href="#" class="action-btn edit-btn"><i class="fas fa-edit"></i> Edit</a></td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
+  </div>
+</div>
+  <script>
+    // Form submission handler
+    document.getElementById('courseForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const semester = document.getElementById('semester').value;
+      const courseName = document.getElementById('courseName').value;
+      const grade = document.getElementById('grade').value;
+      const tableBody = document.getElementById('coursesTableBody');
+      
+      const newRow = document.createElement('tr');
+      newRow.innerHTML = `
+        <td>${semester}</td>
+        <td>${courseName}</td>
+        <td>${grade}</td>
+        <td><a href="#" class="view-link">View Image</a></td>
+        <td><a href="#" class="action-btn edit-btn"><i class="fas fa-edit"></i> Edit</a></td>
+      `;
+      tableBody.appendChild(newRow);
+      e.target.reset();
+      
+      // Show success message
+      alert('Course added successfully!');
+    });
+
+    // Mobile menu toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const sidebar = document.querySelector('.sidebar');
     
-    <script>
-      document.getElementById('courseForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const semester = document.getElementById('semester').value;
-        const courseName = document.getElementById('courseName').value;
-        const grade = document.getElementById('grade').value;
-        const tableBody = document.getElementById('coursesTableBody');
-        
-        const newRow = document.createElement('tr');
-        newRow.innerHTML = `
-          <td>${semester}</td>
-          <td>${courseName}</td>
-          <td>${grade}</td>
-          <td><a href="#">View Image</a></td>
-          <td><a href="#" class="edit-btn">Edit</a></td>
-        `;
-        tableBody.appendChild(newRow);
-        e.target.reset();
-      });
-    </script>
-  </body>
-  </html>
+    function checkScreenSize() {
+      if (window.innerWidth <= 576) {
+        mobileMenuBtn.style.display = 'flex';
+      } else {
+        mobileMenuBtn.style.display = 'none';
+        sidebar.classList.remove('active');
+      }
+    }
+    
+    mobileMenuBtn.addEventListener('click', function() {
+      sidebar.classList.toggle('active');
+    });
+    
+    window.addEventListener('resize', checkScreenSize);
+    checkScreenSize(); // Initial check
+  </script>
+</body>
+</html>

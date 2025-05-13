@@ -66,6 +66,12 @@
             <span>My Courses</span>
           </a>
         </li>
+           <li class="nav-item">
+          <a href="{{ route('student.clubs') }}" class="nav-link">
+            <i class="bx bx-wink-smile"></i>
+            <span>Clubs</span>
+          </a>
+        </li>
         <li class="nav-item">
           <a href="{{ route('student.profile') }}" class="nav-link">
             <i class="bx bx-calendar"></i>
