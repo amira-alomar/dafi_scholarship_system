@@ -17,17 +17,17 @@
              <!-- Sidebar Navigation -->
       <div class="sidebar">
   <div class="sidebar-header">
-    <img src="logo.svg" alt="Logo" class="sidebar-logo">
-    <h1 class="sidebar-title">DAFI Scholarship</h1>
+    <img src="https://static.thenounproject.com/png/3314643-200.png" alt="Logo" class="sidebar-logo">
+    <h1 class="sidebar-title">ScholarPath</h1>
   </div>
   
   <div class="sidebar-user">
     <div class="user-avatar">
-        <img src="/images/default-avatar.png" alt="User Avatar">
+         <img src="https://avatar.iran.liara.run/public/97">
     </div>
     <div class="user-info">
       <h3 class="user-name">{{ optional(auth()->user())->fname ?? 'Guest' }}</h3>
-      <p class="user-role"><span>{{ $major ?? 'Not Set' }}</span> Student</p>
+      <p class="user-role"><span>Computer Science </span> Student</p>
      
     </div>
   </div>
@@ -51,7 +51,7 @@
         <li class="nav-item ">
           <a href="{{ url('/dafi_opp') }}" class="nav-link">
             <i class="bx bx-notepad"></i>
-            <span>DAFI Opportunity</span>
+            <span> Opportunity</span>
           </a>
         </li>
         <li class="nav-item ">
@@ -88,7 +88,7 @@
             <!-- Hero Section -->
             <section class="hero">
                 <div class="px-4 md:px-8 max-w-4xl">
-                    <h1 class="text-4xl md:text-5xl font-bold mb-4">DAFI Opportunities</h1>
+                    <h1 class="text-4xl md:text-5xl font-bold mb-4">ScholarPath Opportunities</h1>
                     <p class="text-xl md:text-2xl mb-8">Empowering youth through training, volunteering, and events</p>
                     <button class="btn-primary px-6 py-3 rounded-full font-semibold text-lg">Explore Opportunities</button>
                 </div>
@@ -137,6 +137,139 @@
                        
                     </div>
                      @endforeach
+                  
+                    <div class="card opportunity training">
+    <img src="https://miro.medium.com/v2/resize:fit:1400/0*2WskF-iTBOvp_cQp" alt="Web Development Bootcamp" class="card-image">
+    <div class="card-content">
+        <div class="flex justify-between items-start mb-4">
+            <h3 class="text-xl font-bold">Web Development Bootcamp</h3>
+            <span class="badge badge-training">training</span>
+        </div>
+        <p class="text-gray-600 mb-4">An intensive bootcamp to learn web development from scratch.</p>
+        <div class="flex items-center text-gray-500 mb-4">
+            <i class="fas fa-calendar-alt mr-2"></i>
+            <span>2025-06-01</span>
+        </div>
+        <div class="flex items-center text-gray-500 mb-6">
+            <i class="fas fa-map-marker-alt mr-2"></i>
+            <span>Online</span>
+        </div>
+    </div>
+    <div class="card-button">
+        @csrf
+        <button onclick="openApplicationModal('Web Development Bootcamp', 'training')" class="btn-primary w-full py-2 rounded-lg font-medium"> Apply Now</button>
+    </div>
+</div>
+<div class="card opportunity volunteer">
+    <img src="https://images.stockcake.com/public/8/6/7/867b3680-9df1-4e28-af90-0e3cc22d1d42_large/community-tree-planting-stockcake.jpg" alt="Community Tree Planting Day" class="card-image">
+    <div class="card-content">
+        <div class="flex justify-between items-start mb-4">
+            <h3 class="text-xl font-bold">Community Tree Planting Day</h3>
+            <span class="badge badge-volunteer">volunteer</span>
+        </div>
+        <p class="text-gray-600 mb-4">Join us for a day of planting trees in our local community.</p>
+        <div class="flex items-center text-gray-500 mb-4">
+            <i class="fas fa-calendar-alt mr-2"></i>
+            <span>2025-05-25</span>
+        </div>
+        <div class="flex items-center text-gray-500 mb-6">
+            <i class="fas fa-map-marker-alt mr-2"></i>
+            <span>Green Valley Park</span>
+        </div>
+    </div>
+    <div class="card-button">
+        @csrf
+        <button onclick="openApplicationModal('Community Tree Planting Day', 'volunteer')" class="btn-primary w-full py-2 rounded-lg font-medium"> Apply Now</button>
+    </div>
+</div>
+<div class="card opportunity event">
+    <img src="https://images.unsplash.com/photo-1551033406-611cf9a28f67?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Data Analysis Seminar" class="card-image">
+    <div class="card-content">
+        <div class="flex justify-between items-start mb-4">
+            <h3 class="text-xl font-bold">Data Analysis Seminar</h3>
+            <span class="badge badge-event">event</span>
+        </div>
+        <p class="text-gray-600 mb-4">A seminar covering the fundamentals of data analysis with Python.</p>
+        <div class="flex items-center text-gray-500 mb-4">
+            <i class="fas fa-calendar-alt mr-2"></i>
+            <span>2025-06-15</span>
+        </div>
+        <div class="flex items-center text-gray-500 mb-6">
+            <i class="fas fa-map-marker-alt mr-2"></i>
+            <span>City Hall Auditorium</span>
+        </div>
+    </div>
+    <div class="card-button">
+        @csrf
+        <button onclick="openApplicationModal('Data Analysis Seminar', 'event')" class="btn-primary w-full py-2 rounded-lg font-medium"> Register Now</button>
+    </div>
+</div>
+<div class="card opportunity mentorship">
+    <img src="https://www.mentoringcomplete.com/wp-content/uploads/2023/04/Untitled-design-27-1-1.png" alt="Mentorship Program - Career Guidance" class="card-image">
+    <div class="card-content">
+        <div class="flex justify-between items-start mb-4">
+            <h3 class="text-xl font-bold">Mentorship Program - Career Guidance</h3>
+            <span class="badge badge-mentorship">mentorship</span>
+        </div>
+        <p class="text-gray-600 mb-4">Get guidance from experienced professionals in your field of interest.</p>
+        <div class="flex items-center text-gray-500 mb-4">
+            <i class="fas fa-calendar-alt mr-2"></i>
+            <span>2025-07-01</span>
+        </div>
+        <div class="flex items-center text-gray-500 mb-6">
+            <i class="fas fa-map-marker-alt mr-2"></i>
+            <span>Online</span>
+        </div>
+    </div>
+    <div class="card-button">
+        @csrf
+        <button onclick="openApplicationModal('Mentorship Program - Career Guidance', 'mentorship')" class="btn-primary w-full py-2 rounded-lg font-medium"> Apply Now</button>
+    </div>
+</div>
+<div class="card opportunity training">
+    <img src="https://miro.medium.com/v2/resize:fit:600/1*nH3ccLcuwuxpLZHRJskMqg.png" alt="Introduction to Python Programming" class="card-image">
+    <div class="card-content">
+        <div class="flex justify-between items-start mb-4">
+            <h3 class="text-xl font-bold">Introduction to Python Programming</h3>
+            <span class="badge badge-training">training</span>
+        </div>
+        <p class="text-gray-600 mb-4">A beginner-friendly course to learn the basics of Python programming.</p>
+        <div class="flex items-center text-gray-500 mb-4">
+            <i class="fas fa-calendar-alt mr-2"></i>
+            <span>2025-08-15</span>
+        </div>
+        <div class="flex items-center text-gray-500 mb-6">
+            <i class="fas fa-map-marker-alt mr-2"></i>
+            <span>Beirut Digital Hub</span>
+        </div>
+    </div>
+    <div class="card-button">
+        @csrf
+        <button onclick="openApplicationModal('Introduction to Python Programming', 'training')" class="btn-primary w-full py-2 rounded-lg font-medium"> Apply Now</button>
+    </div>
+</div>
+<div class="card opportunity event">
+    <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80" alt="Startup Weekend Beirut" class="card-image">
+    <div class="card-content">
+        <div class="flex justify-between items-start mb-4">
+            <h3 class="text-xl font-bold">Startup Weekend Beirut</h3>
+            <span class="badge badge-event">event</span>
+        </div>
+        <p class="text-gray-600 mb-4">Join a weekend-long event to build a startup from scratch.</p>
+        <div class="flex items-center text-gray-500 mb-4">
+            <i class="fas fa-calendar-alt mr-2"></i>
+            <span>2025-09-20</span>
+        </div>
+        <div class="flex items-center text-gray-500 mb-6">
+            <i class="fas fa-map-marker-alt mr-2"></i>
+            <span>BIEL, Beirut</span>
+        </div>
+    </div>
+    <div class="card-button">
+        @csrf
+        <button onclick="openApplicationModal('Startup Weekend Beirut', 'event')" class="btn-primary w-full py-2 rounded-lg font-medium"> Register Now</button>
+    </div>
+</div>
                 </div>
             </main>
 

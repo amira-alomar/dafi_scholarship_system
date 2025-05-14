@@ -19,13 +19,13 @@
              <!-- Sidebar Navigation -->
       <div class="sidebar">
   <div class="sidebar-header">
-    <img src="logo.svg" alt="Logo" class="sidebar-logo">
-    <h1 class="sidebar-title">DAFI Scholarship</h1>
+    <img src="https://static.thenounproject.com/png/3314643-200.png" alt="Logo" class="sidebar-logo">
+    <h1 class="sidebar-title">ScholarPath</h1>
   </div>
   
   <div class="sidebar-user">
     <div class="user-avatar">
-      
+       <img src=" https://avatar.iran.liara.run/public/97">
     </div>
     <div class="user-info">
       <h3 class="user-name">{{ optional(auth()->user())->fname ?? 'Guest' }}</h3>
@@ -53,7 +53,7 @@
         <li class="nav-item ">
           <a href="{{ url('/dafi_opp') }}" class="nav-link">
             <i class="bx bx-notepad"></i>
-            <span>DAFI Opportunity</span>
+            <span> Opportunity</span>
           </a>
         </li>
         <li class="nav-item ">
@@ -112,7 +112,7 @@
                 <!-- Club Card 1 -->
                 <div class="club-card bg-[var(--card)] rounded-lg overflow-hidden border border-[var(--border)]">
                     <div class="p-4 flex justify-center">
-                        <img src="https://via.placeholder.com/150/16a3b8/ffffff?text=Debate" alt="Debate Club Logo" class="club-logo rounded-lg w-full">
+                        <img src="https://lh3.googleusercontent.com/proxy/j35bVRSs4zGoF6EkUqQODb7k6v7cqTLNq9bfcpo6uYo19C16j4tDXunQzNF8tuVOQUQ8RM9HPlIJKEc0Zhcv6Wjg-3m0rS6MUCwPOtKD9mIgMvnD_-uKbFvfDcq7k7jS7CALgkqCSkSlJEdY72fNuYeECImKKK8wdOFpNhs" alt="Debate Club Logo" class="club-logo rounded-lg w-full">
                     </div>
                     <div class="p-4 pt-0">
                         <div class="flex justify-between items-start mb-2">
@@ -152,7 +152,7 @@
                 <!-- Club Card 3 -->
                 <div class="club-card bg-[var(--card)] rounded-lg overflow-hidden border border-[var(--border)]">
                     <div class="p-4 flex justify-center">
-                        <img src="https://via.placeholder.com/150/313e53/ffffff?text=Photography" alt="Photography Club Logo" class="club-logo rounded-lg w-full">
+                        <img src="https://i0.wp.com/trusu.ca/wp-content/uploads/2023/08/Photography-Club-.jpg?w=1200&ssl=1" alt="Photography Club Logo" class="club-logo rounded-lg w-full">
                     </div>
                     <div class="p-4 pt-0">
                         <div class="flex justify-between items-start mb-2">
@@ -172,7 +172,7 @@
                 <!-- Club Card 4 -->
                 <div class="club-card bg-[var(--card)] rounded-lg overflow-hidden border border-[var(--border)]">
                     <div class="p-4 flex justify-center">
-                        <img src="https://via.placeholder.com/150/16a3b8/ffffff?text=Chess" alt="Chess Club Logo" class="club-logo rounded-lg w-full">
+                        <img src="https://litchfieldmagazine.com/wp-content/uploads/2024/12/Chess_Club_THUMBNAIL.webp" alt="Chess Club Logo" class="club-logo rounded-lg w-full">
                     </div>
                     <div class="p-4 pt-0">
                         <div class="flex justify-between items-start mb-2">
@@ -192,7 +192,7 @@
                 <!-- Club Card 5 -->
                 <div class="club-card bg-[var(--card)] rounded-lg overflow-hidden border border-[var(--border)]">
                     <div class="p-4 flex justify-center">
-                        <img src="https://via.placeholder.com/150/e05252/ffffff?text=Volunteer" alt="Volunteer Club Logo" class="club-logo rounded-lg w-full">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFYjFQ1Bp7mPd_r5y5vTBdXVTAyFR_aLbPtQ&s" alt="Volunteer Club Logo" class="club-logo rounded-lg w-full">
                     </div>
                     <div class="p-4 pt-0">
                         <div class="flex justify-between items-start mb-2">
@@ -212,7 +212,7 @@
                 <!-- Club Card 6 -->
                 <div class="club-card bg-[var(--card)] rounded-lg overflow-hidden border border-[var(--border)]">
                     <div class="p-4 flex justify-center">
-                        <img src="https://via.placeholder.com/150/313e53/ffffff?text=Dance" alt="Dance Club Logo" class="club-logo rounded-lg w-full">
+                        <img src="https://wp.dailybruin.com/images/2024/05/web.ae_.lotussteps24.courtesy.C.jpg" alt="Dance Club Logo" class="club-logo rounded-lg w-full">
                     </div>
                     <div class="p-4 pt-0">
                         <div class="flex justify-between items-start mb-2">
@@ -228,6 +228,42 @@
                         </button>
                     </div>
                 </div>
+                <div class="club-card bg-[var(--card)] rounded-lg overflow-hidden border border-[var(--border)]">
+    <div class="p-4 flex justify-center">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAwXmqYaHBJlctLhAGGFDZw3ZIgrNRTrmJhw&s" alt="Photography Club Logo" class="club-logo rounded-lg w-full">
+    </div>
+    <div class="p-4 pt-0">
+        <div class="flex justify-between items-start mb-2">
+            <h3 class="text-xl font-semibold">Pixel Perfect</h3>
+            <span class="category-tag text-xs px-2 py-1 rounded-full">Arts</span>
+        </div>
+        <div class="flex items-center text-sm text-gray-500 mb-3">
+            <i class="fas fa-camera-retro mr-1"></i>
+            <span>51 members</span>
+        </div>
+        <button class="view-details-btn w-full py-2 rounded-lg font-medium" onclick="openModal('Pixel Perfect', 'Arts', '51', 'https://via.placeholder.com/150/6c757d/ffffff?text=Photo', 'Capture the beauty around us, learn photography techniques, and share your visual stories with fellow enthusiasts.', 'Mondays', 'Studio A')">
+            View Details
+        </button>
+    </div>
+</div>
+<div class="club-card bg-[var(--card)] rounded-lg overflow-hidden border border-[var(--border)]">
+    <div class="p-4 flex justify-center">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyB-O7tBlRwb6y1kz7GB0mT2zwXftSUKkY6g&s" alt="Environmental Club Logo" class="club-logo rounded-lg w-full">
+    </div>
+    <div class="p-4 pt-0">
+        <div class="flex justify-between items-start mb-2">
+            <h3 class="text-xl font-semibold">Eco Action</h3>
+            <span class="category-tag text-xs px-2 py-1 rounded-full">Sustainability</span>
+        </div>
+        <div class="flex items-center text-sm text-gray-500 mb-3">
+            <i class="fas fa-leaf mr-1"></i>
+            <span>78 members</span>
+        </div>
+        <button class="view-details-btn w-full py-2 rounded-lg font-medium" onclick="openModal('Eco Action', 'Sustainability', '78', 'https://via.placeholder.com/150/28a745/ffffff?text=Eco', 'Work together to promote environmental awareness, organize clean-up drives, and advocate for sustainable practices on campus and beyond.', 'Fridays', 'Science Building Lobby')">
+            View Details
+        </button>
+    </div>
+</div>
             </div>
 
             <div class="mt-8 flex justify-center">

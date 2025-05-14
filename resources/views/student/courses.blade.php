@@ -17,12 +17,13 @@
              <!-- Sidebar Navigation -->
       <div class="sidebar">
   <div class="sidebar-header">
-    <img src="logo.svg" alt="Logo" class="sidebar-logo">
-    <h1 class="sidebar-title">DAFI Scholarship</h1>
+     <img src="https://static.thenounproject.com/png/3314643-200.png" alt="Logo" class="sidebar-logo">
+    <h1 class="sidebar-title">ScholarPath</h1>
   </div>
   
   <div class="sidebar-user">
      <div class="user-avatar">
+       <img src=" https://avatar.iran.liara.run/public/97">
     </div>
     <div class="user-info">
       <h3 class="user-name">{{ optional(auth()->user())->fname ?? 'Guest' }}</h3>
@@ -50,7 +51,7 @@
         <li class="nav-item ">
           <a href="{{ url('/dafi_opp') }}" class="nav-link">
             <i class="bx bx-notepad"></i>
-            <span>DAFI Opportunity</span>
+            <span> Opportunity</span>
           </a>
         </li>
         <li class="nav-item ">
