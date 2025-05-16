@@ -285,6 +285,9 @@ Route::middleware(['auth', 'role:Student'])->group(function () {
     Route::put('/student/profile', [StudentProfileController::class, 'update'])->name('student.profile.update');
     Route::post('/profile/skills/add', [StudentProfileController::class, 'addSkill'])->name('profile.skills.add');
     Route::post('/applications', [UserOpportunityController::class, 'store'])->name('applications.store');
+     Route::get('/student/clubs', function () {
+        return view('student.clubs');
+    })->name('student.clubs');
 
 
 

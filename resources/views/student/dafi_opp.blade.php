@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{{ asset('css/dafi_opp.css') }}">
      <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
      <link rel="stylesheet" href="{{ asset('css/sidebarstudent.css') }}">
+      <script defer src="{{ asset('js/dafi.js') }}"></script>
 </head>
 <body>
     <!-- Sidebar goes here -->
@@ -17,17 +18,17 @@
              <!-- Sidebar Navigation -->
       <div class="sidebar">
   <div class="sidebar-header">
-    <img src="logo.svg" alt="Logo" class="sidebar-logo">
-    <h1 class="sidebar-title">DAFI Scholarship</h1>
+    <img src="https://static.thenounproject.com/png/3314643-200.png" alt="Logo" class="sidebar-logo">
+    <h1 class="sidebar-title">ScholarPath</h1>
   </div>
   
   <div class="sidebar-user">
     <div class="user-avatar">
-      
+         <img src="https://avatar.iran.liara.run/public/97">
     </div>
     <div class="user-info">
       <h3 class="user-name">{{ optional(auth()->user())->fname ?? 'Guest' }}</h3>
-      <p class="user-role"><span>{{ $major ?? 'Not Set' }}</span> Student</p>
+      <p class="user-role"><span>Computer Science </span> Student</p>
      
     </div>
   </div>
@@ -51,7 +52,7 @@
         <li class="nav-item ">
           <a href="{{ url('/dafi_opp') }}" class="nav-link">
             <i class="bx bx-notepad"></i>
-            <span>DAFI Opportunity</span>
+            <span> Opportunity</span>
           </a>
         </li>
         <li class="nav-item ">
@@ -64,6 +65,12 @@
           <a href="{{ url('/courses') }}" class="nav-link">
             <i class="bx bx-book"></i>
             <span>My Courses</span>
+          </a>
+        </li>
+           <li class="nav-item">
+          <a href="{{ route('student.clubs') }}" class="nav-link">
+            <i class="bx bx-wink-smile"></i>
+            <span>Clubs</span>
           </a>
         </li>
         <li class="nav-item">
@@ -82,11 +89,25 @@
             <!-- Hero Section -->
             <section class="hero">
                 <div class="px-4 md:px-8 max-w-4xl">
-                    <h1 class="text-4xl md:text-5xl font-bold mb-4">DAFI Opportunities</h1>
+                    <h1 class="text-4xl md:text-5xl font-bold mb-4">ScholarPath Opportunities</h1>
                     <p class="text-xl md:text-2xl mb-8">Empowering youth through training, volunteering, and events</p>
-                    <button class="btn-primary px-6 py-3 rounded-full font-semibold text-lg">Explore Opportunities</button>
+                    <a href="#opportunityCards" class="btn-primary px-6 py-3 rounded-full font-semibold text-lg inline-block">
+    Explore Opportunities
+</a>
+
                 </div>
             </section>
+@if (session('success'))
+    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6 mx-4">
+        {{ session('success') }}
+    </div>
+@endif
+
+@if (session('error'))
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6 mx-4">
+        {{ session('error') }}
+    </div>
+@endif
 
             <!-- Main Content -->
             <main class="container mx-auto px-4 py-12">
@@ -104,11 +125,15 @@
                 </div>
 
                 <!-- Opportunity Cards Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="opportunityCards">
                     <!-- Card 1 - Training -->
                       @foreach($opportunities as $opportunity)
                     <div class="card opportunity {{ strtolower($opportunity->type) }}">
-                        <img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Digital Marketing Workshop" class="card-image">
+                    @if($opportunity->photo)
+                <img src="{{ route('opportunity.photo', basename($opportunity->photo)) }}" alt="Digital Marketing Workshop" class="card-image">
+                @else
+                —  
+                 @endif
                         <div class="card-content">
                             <div class="flex justify-between items-start mb-4">
                                 <h3 class="text-xl font-bold">{{ $opportunity->title }}</h3>
@@ -131,6 +156,8 @@
                        
                     </div>
                      @endforeach
+                  
+                   
                 </div>
             </main>
 
@@ -139,24 +166,25 @@
                 <div class="modal-content">
                     <span class="close-btn" onclick="closeModal()">&times;</span>
                     <h2 class="text-2xl font-bold mb-6" id="modalTitle">Apply for Opportunity</h2>
-                    <form id="applicationForm">
+                    <form id="applicationForm" method="POST" action="{{ route('applications.store') }}">
+                            @csrf
                         <input type="hidden" id="opportunityType">
                         <div class="mb-4">
                             <label for="opportunityName" class="block text-gray-700 font-medium mb-2">Opportunity</label>
-                            <input type="text" id="opportunityName" class="w-full px-4 py-2 border rounded-lg bg-gray-100" readonly>
+                            <input type="text" id="opportunityName" class="w-full px-4 py-2 border rounded-lg bg-gray-100"name="opportunity_title"  readonly>
                         </div>
-                        <div class="mb-4">
+                               
+                              <div class="mb-4">
                             <label for="fullName" class="block text-gray-700 font-medium mb-2">Full Name</label>
-                            <input type="text" id="fullName" class="w-full px-4 py-2 border rounded-lg" required>
+                            <input type="text" id="fullName" value="{{ auth()->user()->fname }} {{ auth()->user()->lname }}" 
+                                class="w-full px-4 py-2 border rounded-lg bg-gray-100" name="name" readonly >
                         </div>
                         <div class="mb-4">
                             <label for="email" class="block text-gray-700 font-medium mb-2">Email</label>
-                            <input type="email" id="email" class="w-full px-4 py-2 border rounded-lg" required>
+                            <input type="email" id="email" value="{{ auth()->user()->email }}" 
+                                class="w-full px-4 py-2 border rounded-lg bg-gray-100" name="email" readonly>
                         </div>
-                        <div class="mb-6">
-                            <label for="motivation" class="block text-gray-700 font-medium mb-2">Why are you interested in this opportunity?</label>
-                            <textarea id="motivation" rows="4" class="w-full px-4 py-2 border rounded-lg" required></textarea>
-                        </div>
+
                         <div class="flex justify-end space-x-4">
                             <button type="button" onclick="closeModal()" class="btn-secondary px-6 py-2 rounded-lg font-medium">Cancel</button>
                             <button type="submit" class="btn-primary px-6 py-2 rounded-lg font-medium">Submit Application</button>
@@ -166,77 +194,6 @@
             </div>
         </div>
     </div>
-
-    <script>
-        // Filter opportunities by type
-        function filterOpportunities(type) {
-            // Update active tab
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.classList.remove('tab-active');
-                tab.classList.add('text-gray-600', 'hover:text-gray-900');
-            });
-            event.target.classList.add('tab-active');
-            event.target.classList.remove('text-gray-600', 'hover:text-gray-900');
-
-            // Show/hide opportunities
-            const opportunities = document.querySelectorAll('.opportunity');
-            opportunities.forEach(opp => {
-                if (type === 'all' || opp.classList.contains(type)) {
-                    opp.style.display = 'block';
-                } else {
-                    opp.style.display = 'none';
-                }
-            });
-        }
-
-        // Open application modal
-        function openApplicationModal(title, type) {
-            const modal = document.getElementById('applicationModal');
-            document.getElementById('modalTitle').textContent = type === 'volunteering' ? 'Apply for Opportunity' : 'Register for Opportunity';
-            document.getElementById('opportunityName').value = title;
-            document.getElementById('opportunityType').value = type;
-            modal.style.display = 'block';
-        }
-
-        // Close modal
-        function closeModal() {
-            document.getElementById('applicationModal').style.display = 'none';
-            document.getElementById('applicationForm').reset();
-        }
-
-        // Handle form submission
-        document.getElementById('applicationForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const opportunityName = document.getElementById('opportunityName').value;
-            const fullName = document.getElementById('fullName').value;
-            const email = document.getElementById('email').value;
-            const motivation = document.getElementById('motivation').value;
-            const type = document.getElementById('opportunityType').value;
-            
-            // Here you would typically send the data to a server
-            console.log({
-                opportunityName,
-                fullName,
-                email,
-                motivation,
-                type
-            });
-            
-            // Show success message
-            alert(`Thank you for your application to "${opportunityName}"! We'll be in touch soon.`);
-            
-            // Close modal
-            closeModal();
-        });
-
-        // Close modal when clicking outside of it
-        window.onclick = function(event) {
-            const modal = document.getElementById('applicationModal');
-            if (event.target === modal) {
-                closeModal();
-            }
-        }
-    </script>
+    
 </body>
 </html>

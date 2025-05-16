@@ -1,0 +1,157 @@
+
+        :root {
+            --background: #f5f5f5;
+            --foreground: #0f172a;
+            
+            --card: #ffffff;
+            --card-foreground: #0f172a;
+            
+            --primary: #e05252;
+            --primary-foreground: #f8fafc;
+            
+            --secondary: #313e53;
+            --secondary-foreground: #f8fafc;
+            
+            --muted: #f1f5f9;
+            --muted-foreground: #64748b;
+            
+            --accent: #16a3b8;
+            --accent-foreground: #f8fafc;
+            
+            --destructive: #ef4444;
+            --destructive-foreground: #f8fafc;
+            
+            --border: #e2e8f0;
+            --input: #e2e8f0;
+            
+            --radius: 0.5rem;
+            
+            --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--background);
+            color: var(--foreground);
+        }
+
+        .club-card {
+            transition: all 0.3s ease;
+            transform: translateY(0);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .club-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .club-logo {
+            height: 120px;
+            object-fit: contain;
+            background-color: var(--muted);
+        }
+
+        .view-details-btn {
+            background-color: var(--primary);
+            color: var(--primary-foreground);
+            transition: all 0.2s ease;
+        }
+
+        .view-details-btn:hover {
+            background-color: #c94545;
+            transform: scale(1.02);
+        }
+
+        .join-btn {
+            background-color: var(--accent);
+            color: var(--accent-foreground);
+            transition: all 0.2s ease;
+        }
+
+        .join-btn:hover {
+            background-color: #0d8a9c;
+            transform: scale(1.02);
+        }
+
+        .category-tag {
+            background-color: var(--accent);
+            color: var(--accent-foreground);
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            border-radius: var(--radius);
+            overflow-y: auto;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            animation: modalFadeIn 0.3s ease-out;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+        .close-btn {
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--muted-foreground);
+            transition: color 0.2s;
+        }
+
+        .close-btn:hover {
+            color: var(--foreground);
+        }
+
+        @media (max-width: 640px) {
+            .club-logo {
+                height: 100px;
+            }
+            
+            .modal-content {
+                width: 95%;
+            }
+        }

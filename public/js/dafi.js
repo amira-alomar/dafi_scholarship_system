@@ -1,33 +1,48 @@
-// Function to filter opportunities
-function filterOpportunities(category) {
-    let cards = document.querySelectorAll(".opportunity-card");
-    let tabs = document.querySelectorAll(".tab");
 
-    // Update active tab
-    tabs.forEach(tab => tab.classList.remove("active"));
-    document.querySelector(`[onclick="filterOpportunities('${category}')"]`).classList.add("active");
+        // Filter opportunities by type
+        function filterOpportunities(type) {
+            // Update active tab
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('tab-active');
+                tab.classList.add('text-gray-600', 'hover:text-gray-900');
+            });
+            event.target.classList.add('tab-active');
+            event.target.classList.remove('text-gray-600', 'hover:text-gray-900');
 
-    // Show/hide cards based on category
-    cards.forEach(card => {
-        let cardCategory = card.getAttribute("data-category");
-
-        if (category === "all" || cardCategory === category) {
-            card.style.display = "block";
-        } else {
-            card.style.display = "none";
+            // Show/hide opportunities
+            const opportunities = document.querySelectorAll('.opportunity');
+            opportunities.forEach(opp => {
+                if (type === 'all' || opp.classList.contains(type)) {
+                    opp.style.display = 'block';
+                } else {
+                    opp.style.display = 'none';
+                }
+            });
         }
-    });
-}
-// Open the Apply Form and Pre-fill Data
-function openApplyForm(title) {
-    document.getElementById("applyFormOverlay").style.display = "flex";
-    document.getElementById("opportunity").value = title;
-}
 
-// Close the Apply Form
-function closeApplyForm() {
-    document.getElementById("applyFormOverlay").style.display = "none";
-}
+        // Open application modal
+        function openApplicationModal(title, type) {
+            const modal = document.getElementById('applicationModal');
+            document.getElementById('modalTitle').textContent = type === 'volunteering' ? 'Apply for Opportunity' : 'Register for Opportunity';
+            document.getElementById('opportunityName').value = title;
+            document.getElementById('opportunityType').value = type;
+            modal.style.display = 'block';
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('applicationModal').style.display = 'none';
+            document.getElementById('applicationForm').reset();
+        }
+
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            const modal = document.getElementById('applicationModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
 setTimeout(function () {
     var message = document.getElementById('flash-message');
     if (message) {
