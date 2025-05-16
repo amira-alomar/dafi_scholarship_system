@@ -165,67 +165,67 @@ class ScholarshipController extends Controller
         return view('supervisor.exam_details', compact('student', 'exam', 'stageProgress'));
     }
 
-public function approveStudent($studentID)
-{
-    // 1. تأكد من وجود المستخدم
-    $student = AllUser::findOrFail($studentID);
+    public function approveStudent($studentID)
+    {
+        // 1. تأكد من وجود المستخدم
+        $student = AllUser::findOrFail($studentID);
 
-    // 2. جلب أبليكشن (نفترض الأول) لهذا المستخدم
-    $application = Application::where('idUser', $studentID)->firstOrFail();
+        // 2. جلب أبليكشن (نفترض الأول) لهذا المستخدم
+        $application = Application::where('idUser', $studentID)->firstOrFail();
 
-    // 3. جلب مرحلة الامتحان (Exam) الخاصة بالمنحة
-    $examStage = ApplicationStage::where('idScholarship', $application->idScholarship)
-        ->where('name', 'Exam')
-        ->firstOrFail();
+        // 3. جلب مرحلة الامتحان (Exam) الخاصة بالمنحة
+        $examStage = ApplicationStage::where('idScholarship', $application->idScholarship)
+            ->where('name', 'Exam')
+            ->firstOrFail();
 
-    // 4. حاول تحديث الـ progress الموجود
-    $affected = ApplicationStageProgress::where('idApp', $application->applicationID)
-        ->where('idAppStage', $examStage->applicationStageID)
-        ->update(['status' => 'accepted']);
+        // 4. حاول تحديث الـ progress الموجود
+        $affected = ApplicationStageProgress::where('idApp', $application->applicationID)
+            ->where('idAppStage', $examStage->applicationStageID)
+            ->update(['status' => 'accepted']);
 
-    // 5. إذا لم يحدث أي صف، قم بإنشاء سجل جديد
-    if ($affected === 0) {
-        ApplicationStageProgress::create([
-            'idApp'      => $application->applicationID,
-            'idAppStage' => $examStage->applicationStageID,
-            'status'     => 'accepted',
-        ]);
+        // 5. إذا لم يحدث أي صف، قم بإنشاء سجل جديد
+        if ($affected === 0) {
+            ApplicationStageProgress::create([
+                'idApp'      => $application->applicationID,
+                'idAppStage' => $examStage->applicationStageID,
+                'status'     => 'accepted',
+            ]);
+        }
+
+        return back()->with('success', 'Student approved successfully in the Exam stage.');
     }
 
-    return back()->with('success', 'Student approved successfully in the Exam stage.');
-}
 
 
+    public function rejectStudent($studentID)
+    {
+        // تأكد من وجود المستخدم
+        $student = AllUser::findOrFail($studentID);
 
-public function rejectStudent($studentID)
-{
-    // تأكد من وجود المستخدم
-    $student = AllUser::findOrFail($studentID);
+        // جلب الأبليكشن المرتبط بالمستخدم (أول أبليكشن)
+        $application = Application::where('idUser', $studentID)->firstOrFail();
 
-    // جلب الأبليكشن المرتبط بالمستخدم (أول أبليكشن)
-    $application = Application::where('idUser', $studentID)->firstOrFail();
+        // جلب مرحلة الامتحان الخاصة بالمنحة
+        $examStage = ApplicationStage::where('idScholarship', $application->idScholarship)
+            ->where('name', 'Exam')
+            ->firstOrFail();
 
-    // جلب مرحلة الامتحان الخاصة بالمنحة
-    $examStage = ApplicationStage::where('idScholarship', $application->idScholarship)
-        ->where('name', 'Exam')
-        ->firstOrFail();
+        // حاول تحديث الـ progress الموجود
+        $affected = ApplicationStageProgress::where('idApp', $application->applicationID)
+            ->where('idAppStage', $examStage->applicationStageID)
+            ->update(['status' => 'rejected']);
 
-    // حاول تحديث الـ progress الموجود
-    $affected = ApplicationStageProgress::where('idApp', $application->applicationID)
-        ->where('idAppStage', $examStage->applicationStageID)
-        ->update(['status' => 'rejected']);
+        // إذا لم يحدث أي صف، قم بإنشاء سجل جديد
+        if ($affected === 0) {
+            ApplicationStageProgress::create([
+                'idApp'      => $application->applicationID,
+                'idAppStage' => $examStage->applicationStageID,
+                'status'     => 'rejected',
+            ]);
+        }
 
-    // إذا لم يحدث أي صف، قم بإنشاء سجل جديد
-    if ($affected === 0) {
-        ApplicationStageProgress::create([
-            'idApp'      => $application->applicationID,
-            'idAppStage' => $examStage->applicationStageID,
-            'status'     => 'rejected',
-        ]);
+        return back()->with('success', 'Student rejected successfully in the Exam stage.');
     }
-
-    return back()->with('success', 'Student rejected successfully in the Exam stage.');
-}
 
 
 
@@ -260,9 +260,13 @@ public function rejectStudent($studentID)
         return back()->with('success', 'Invitation sent successfully.');
     }
 
-    function manageScholarship($scholarshipID)
+    public function manageScholarship($scholarshipID)
     {
-        return view('supervisor.manageScholarship', compact('scholarshipID'));
+        $scholarship = Scholarship::findOrFail($scholarshipID);
+        $applications = Application::where('idScholarship', $scholarshipID)
+            ->orderBy('created_at', 'desc')
+            ->take(5)
+            ->get();
+        return view('supervisor.manageScholarship', compact('scholarshipID', 'scholarship', 'applications'));
     }
-
 }

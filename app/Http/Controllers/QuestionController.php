@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Question;
 use App\Models\Scholarship;
+use App\Models\RequiredDocument;
 
 class QuestionController extends Controller
 {
@@ -15,7 +16,8 @@ class QuestionController extends Controller
     {
         $scholarship = Scholarship::findOrFail($scholarshipId);
         $questions = Question::where('idScholarship', $scholarshipId)->get();
-        return view('supervisor.questions', compact('questions', 'scholarship'));
+        $documents = RequiredDocument::where('idScholarship', $scholarshipId)->get();
+        return view('supervisor.questions', compact('questions', 'documents', 'scholarship'));
     }
 
     /**
@@ -72,7 +74,6 @@ class QuestionController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'Question updated successfully!');
-    
     }
 
     /**
@@ -84,6 +85,5 @@ class QuestionController extends Controller
         $question->delete();
 
         return redirect()->back()->with('success', 'Question deleted successfully!');
-
     }
 }

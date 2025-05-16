@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -101,25 +102,59 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .animate-card {
             animation: fadeIn 0.5s ease forwards;
         }
 
-        .animate-card:nth-child(1) { animation-delay: 0.1s; }
-        .animate-card:nth-child(2) { animation-delay: 0.2s; }
-        .animate-card:nth-child(3) { animation-delay: 0.3s; }
-        .animate-card:nth-child(4) { animation-delay: 0.4s; }
-        .animate-card:nth-child(5) { animation-delay: 0.5s; }
-        .animate-card:nth-child(6) { animation-delay: 0.6s; }
-        .animate-card:nth-child(7) { animation-delay: 0.7s; }
-        .animate-card:nth-child(8) { animation-delay: 0.8s; }
-        .animate-card:nth-child(9) { animation-delay: 0.9s; }
+        .animate-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .animate-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .animate-card:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .animate-card:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .animate-card:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+
+        .animate-card:nth-child(6) {
+            animation-delay: 0.6s;
+        }
+
+        .animate-card:nth-child(7) {
+            animation-delay: 0.7s;
+        }
+
+        .animate-card:nth-child(8) {
+            animation-delay: 0.8s;
+        }
+
+        .animate-card:nth-child(9) {
+            animation-delay: 0.9s;
+        }
     </style>
 </head>
+
 <body class="min-h-screen">
     <div class="flex">
         <!-- Sidebar -->
@@ -128,7 +163,7 @@
                 <i class="fas fa-graduation-cap text-2xl text-indigo-400"></i>
                 <h1 class="text-xl font-bold">DAFI Scholarship</h1>
             </div>
-            
+
             <nav>
                 <ul class="space-y-3">
                     <li>
@@ -138,50 +173,57 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
+                        <a href="#"
+                            class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
                             <i class="fas fa-users"></i>
                             <span>Students</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
+                        <a href="#"
+                            class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
                             <i class="fas fa-book"></i>
                             <span>Courses</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
+                        <a href="#"
+                            class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
                             <i class="fas fa-file-alt"></i>
                             <span>Applications</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
+                        <a href="#"
+                            class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
                             <i class="fas fa-question-circle"></i>
                             <span>Questions</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
+                        <a href="#"
+                            class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
                             <i class="fas fa-clipboard-check"></i>
                             <span>Exams</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
+                        <a href="#"
+                            class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
                             <i class="fas fa-comments"></i>
                             <span>Interviews</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
+                        <a href="#"
+                            class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
                             <i class="fas fa-cog"></i>
                             <span>Settings</span>
                         </a>
                     </li>
                 </ul>
             </nav>
-            
+
             <div class="mt-auto pt-10">
                 <div class="flex items-center space-x-3 p-3 rounded-lg bg-gray-800">
                     <div class="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center">
@@ -194,12 +236,12 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Mobile sidebar toggle -->
         <button id="sidebarToggle" class="md:hidden fixed top-4 left-4 z-50 bg-gray-900 text-white p-2 rounded-lg">
             <i class="fas fa-bars"></i>
         </button>
-        
+
         <!-- Main Content -->
         <div class="flex-1 p-6 md:p-8">
             <!-- Header -->
@@ -218,86 +260,107 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Statistics Cards -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
                 <div class="stat-card animate-card bg-white rounded-lg shadow p-6">
-                    <a href="{{ route('supervisor.manageUsers', ['scholarshipID' => $scholarshipID]) }}" class="text-gray-600 hover:text-indigo-600 transition flex items-center justify-between">
+                    <a href="{{ route('supervisor.manageUsers', ['scholarshipID' => $scholarshipID]) }}"
+                        class="text-gray-600 hover:text-indigo-600 transition flex items-center justify-between">
                         <span>Manage Users</span>
                         <i class="fas fa-arrow-right text-sm"></i>
                     </a>
                     <p class="text-2xl font-bold mt-2">1,250</p>
                 </div>
-                
+
                 <div class="stat-card animate-card bg-white rounded-lg shadow p-6">
-                    <a href="{{ route('supervisor.acceptedStudents', ['scholarshipID' => $scholarshipID]) }}" class="text-gray-600 hover:text-indigo-600 transition flex items-center justify-between">
+                    <a href="{{ route('supervisor.acceptedStudents', ['scholarshipID' => $scholarshipID]) }}"
+                        class="text-gray-600 hover:text-indigo-600 transition flex items-center justify-between">
                         <span>Accepted Students</span>
                         <i class="fas fa-arrow-right text-sm"></i>
                     </a>
                     <p class="text-2xl font-bold mt-2">5,678</p>
                 </div>
-                
+
                 <div class="stat-card animate-card bg-white rounded-lg shadow p-6">
-                    <a href="{{ route('supervisor.course', ['scholarshipID' => $scholarshipID]) }}" class="text-gray-600 hover:text-indigo-600 transition flex items-center justify-between">
+                    <a href="{{ route('supervisor.course', ['scholarshipID' => $scholarshipID]) }}"
+                        class="text-gray-600 hover:text-indigo-600 transition flex items-center justify-between">
                         <span>View Courses</span>
                         <i class="fas fa-arrow-right text-sm"></i>
                     </a>
                     <p class="text-2xl font-bold mt-2">2,430</p>
                 </div>
-                
+
                 <div class="stat-card animate-card bg-white rounded-lg shadow p-6">
-                    <a href="{{ route('supervisor.application', ['scholarshipId' => $scholarshipID]) }}" class="text-gray-600 hover:text-indigo-600 transition flex items-center justify-between">
+                    <a href="{{ route('supervisor.application', ['scholarshipId' => $scholarshipID]) }}"
+                        class="text-gray-600 hover:text-indigo-600 transition flex items-center justify-between">
                         <span>View Forms</span>
                         <i class="fas fa-arrow-right text-sm"></i>
                     </a>
                     <p class="text-2xl font-bold mt-2">2,430</p>
                 </div>
-                
+
                 <div class="stat-card animate-card bg-white rounded-lg shadow p-6">
-                    <a href="{{ route('supervisor.questions', ['scholarshipId' => $scholarshipID]) }}" class="text-gray-600 hover:text-indigo-600 transition flex items-center justify-between">
+                    <a href="{{ route('supervisor.questions', ['scholarshipId' => $scholarshipID]) }}"
+                        class="text-gray-600 hover:text-indigo-600 transition flex items-center justify-between">
                         <span>View Questions</span>
                         <i class="fas fa-arrow-right text-sm"></i>
                     </a>
                     <p class="text-2xl font-bold mt-2">2,430</p>
                 </div>
-                
+
                 <div class="stat-card animate-card bg-white rounded-lg shadow p-6">
-                    <a href="{{ route('supervisor.exam', ['scholarshipID' => $scholarshipID]) }}" class="text-gray-600 hover:text-indigo-600 transition flex items-center justify-between">
+                    <a href="{{ route('supervisor.exam', ['scholarshipID' => $scholarshipID]) }}"
+                        class="text-gray-600 hover:text-indigo-600 transition flex items-center justify-between">
                         <span>Manage Exam</span>
                         <i class="fas fa-arrow-right text-sm"></i>
                     </a>
                     <p class="text-2xl font-bold mt-2">2,430</p>
                 </div>
-                
+
                 <div class="stat-card animate-card bg-white rounded-lg shadow p-6">
-                    <a href="{{ route('supervisor.interview', ['scholarshipID' => $scholarshipID]) }}" class="text-gray-600 hover:text-indigo-600 transition flex items-center justify-between">
+                    <a href="{{ route('supervisor.interview', ['scholarshipID' => $scholarshipID]) }}"
+                        class="text-gray-600 hover:text-indigo-600 transition flex items-center justify-between">
                         <span>Manage Interview</span>
                         <i class="fas fa-arrow-right text-sm"></i>
                     </a>
                     <p class="text-2xl font-bold mt-2">2,430</p>
                 </div>
-                
+
                 <div class="stat-card animate-card bg-white rounded-lg shadow p-6">
-                    <a href="{{ route('examResult.create', ['scholarshipID' => $scholarshipID]) }}" class="text-gray-600 hover:text-indigo-600 transition flex items-center justify-between">
+                    <a href="{{ route('examResult.create', ['scholarshipID' => $scholarshipID]) }}"
+                        class="text-gray-600 hover:text-indigo-600 transition flex items-center justify-between">
                         <span>Result Exam</span>
                         <i class="fas fa-arrow-right text-sm"></i>
                     </a>
                     <p class="text-2xl font-bold mt-2">2,430</p>
                 </div>
-                
+
                 <div class="stat-card animate-card bg-white rounded-lg shadow p-6">
-                    <a href="{{ route('supervisor.finalApplication', ['scholarshipID' => $scholarshipID]) }}" class="text-gray-600 hover:text-indigo-600 transition flex items-center justify-between">
+                    <a href="{{ route('interviewResult.create', ['scholarshipID' => $scholarshipID]) }}"
+                        class="text-gray-600 hover:text-indigo-600 transition flex items-center justify-between">
+                        <span>Interview Exam</span>
+                        <i class="fas fa-arrow-right text-sm"></i>
+                    </a>
+                    <p class="text-2xl font-bold mt-2">2,430</p>
+                </div>
+
+                <div class="stat-card animate-card bg-white rounded-lg shadow p-6">
+                    <a href="{{ route('supervisor.finalApplication', ['scholarshipID' => $scholarshipID]) }}"
+                        class="text-gray-600 hover:text-indigo-600 transition flex items-center justify-between">
                         <span>Result Application</span>
                         <i class="fas fa-arrow-right text-sm"></i>
                     </a>
                     <p class="text-2xl font-bold mt-2">2,430</p>
                 </div>
             </div>
-            
+
+            <!-- Recent Applications Section -->
             <!-- Recent Applications Section -->
             <div class="bg-white rounded-lg shadow mb-8 overflow-hidden">
                 <div class="p-6 border-b border-gray-200">
-                    <h3 class="text-lg font-semibold">Recent Applications</h3>
+                    <h3 class="text-lg font-semibold">
+                        Recent Applications for “{{ $scholarship->name }}”
+                    </h3>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full">
@@ -305,53 +368,60 @@
                             <tr class="text-left text-gray-500 text-sm">
                                 <th class="px-6 py-3">ID</th>
                                 <th class="px-6 py-3">Student Name</th>
-                                <th class="px-6 py-3">Program</th>
+                                <th class="px-6 py-3">Scholarship</th>
                                 <th class="px-6 py-3">Date Applied</th>
                                 <th class="px-6 py-3">Status</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200">
-                            <tr>
-                                <td class="px-6 py-4">001</td>
-                                <td class="px-6 py-4 font-medium">John Doe</td>
-                                <td class="px-6 py-4">STEM</td>
-                                <td class="px-6 py-4">2025-01-15</td>
-                                <td class="px-6 py-4">
-                                    <span class="status-approved px-3 py-1 rounded-full text-xs font-medium">Approved</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4">002</td>
-                                <td class="px-6 py-4 font-medium">Jane Smith</td>
-                                <td class="px-6 py-4">Arts</td>
-                                <td class="px-6 py-4">2025-01-14</td>
-                                <td class="px-6 py-4">
-                                    <span class="status-pending px-3 py-1 rounded-full text-xs font-medium">Under Review</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4">003</td>
-                                <td class="px-6 py-4 font-medium">Ahmed Ali</td>
-                                <td class="px-6 py-4">Business</td>
-                                <td class="px-6 py-4">2025-01-13</td>
-                                <td class="px-6 py-4">
-                                    <span class="status-pending px-3 py-1 rounded-full text-xs font-medium">Pending</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4">004</td>
-                                <td class="px-6 py-4 font-medium">Maria Garcia</td>
-                                <td class="px-6 py-4">STEM</td>
-                                <td class="px-6 py-4">2025-01-12</td>
-                                <td class="px-6 py-4">
-                                    <span class="status-rejected px-3 py-1 rounded-full text-xs font-medium">Rejected</span>
-                                </td>
-                            </tr>
+                            @forelse($applications as $app)
+                                <tr class="hover:bg-gray-50">
+                                    {{-- Application ID --}}
+                                    <td class="px-6 py-4">{{ $app->applicationID }}</td>
+
+                                    {{-- Student Name via relation --}}
+                                    <td class="px-6 py-4 font-medium">
+                                        {{ $app->user->fname . ' ' . $app->user->lname }}
+                                    </td>
+
+                                    {{-- Scholarship name --}}
+                                    <td class="px-6 py-4">
+                                        {{ $app->scholarship->name }}
+                                    </td>
+
+                                    {{-- Submission date --}}
+                                    <td class="px-6 py-4">
+                                        {{ \Carbon\Carbon::parse($app->submission_date)->format('Y-m-d') }}
+                                    </td>
+
+                                    {{-- Status with dynamic badge --}}
+                                    <td class="px-6 py-4">
+                                        @php
+                                            $statusClasses = [
+                                                'approved' => 'bg-green-100 text-green-800',
+                                                'pending' => 'bg-yellow-100 text-yellow-800',
+                                                'rejected' => 'bg-red-100 text-red-800',
+                                                'canceled' => 'bg-gray-100 text-gray-800',
+                                            ];
+                                        @endphp
+                                        <span
+                                            class="px-3 py-1 rounded-full text-xs font-medium {{ $statusClasses[$app->status] ?? 'bg-gray-100 text-gray-800' }}">
+                                            {{ ucfirst($app->status) }}
+                                        </span>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="5" class="px-6 py-4 text-center text-gray-500">
+                                        No applications found.
+                                    </td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
             </div>
-            
+
             <!-- Announcements Section -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <div class="bg-white rounded-lg shadow p-6">
@@ -375,25 +445,29 @@
                         </li>
                     </ul>
                 </div>
-                
+
                 <div class="bg-white rounded-lg shadow p-6">
                     <h3 class="text-lg font-semibold mb-4">Quick Actions</h3>
                     <div class="grid grid-cols-2 gap-4">
-                        <a href="#" class="bg-indigo-50 text-indigo-600 p-4 rounded-lg flex flex-col items-center justify-center hover:bg-indigo-100 transition">
+                        <a href="{{ route('interviewResult.create',['scholarshipID' => $scholarshipID]) }}"
+                            class="bg-indigo-50 text-indigo-600 p-4 rounded-lg flex flex-col items-center justify-center hover:bg-indigo-100 transition">
                             <i class="fas fa-plus-circle text-2xl mb-2"></i>
-                            <span class="text-sm font-medium">Add New Course</span>
+                            <span class="text-sm font-medium">Add Interview Result</span>
                         </a>
-                        <a href="#" class="bg-green-50 text-green-600 p-4 rounded-lg flex flex-col items-center justify-center hover:bg-green-100 transition">
+                        <a href="{{ route('supervisor.finalApplication', ['scholarshipID' => $scholarshipID]) }}"
+                            class="bg-green-50 text-green-600 p-4 rounded-lg flex flex-col items-center justify-center hover:bg-green-100 transition">
                             <i class="fas fa-user-plus text-2xl mb-2"></i>
-                            <span class="text-sm font-medium">Add Student</span>
+                            <span class="text-sm font-medium">Manage Applications</span>
                         </a>
-                        <a href="#" class="bg-yellow-50 text-yellow-600 p-4 rounded-lg flex flex-col items-center justify-center hover:bg-yellow-100 transition">
+                        <a href="{{ route('interviewResult.create',['scholarshipID' => $scholarshipID]) }}"
+                            class="bg-yellow-50 text-yellow-600 p-4 rounded-lg flex flex-col items-center justify-center hover:bg-yellow-100 transition">
                             <i class="fas fa-file-upload text-2xl mb-2"></i>
-                            <span class="text-sm font-medium">Upload Results</span>
+                            <span class="text-sm font-medium">Upload Exam Result</span>
                         </a>
-                        <a href="#" class="bg-purple-50 text-purple-600 p-4 rounded-lg flex flex-col items-center justify-center hover:bg-purple-100 transition">
+                        <a href="{{ route('supervisor.course', ['scholarshipID' => $scholarshipID]) }}"
+                            class="bg-purple-50 text-purple-600 p-4 rounded-lg flex flex-col items-center justify-center hover:bg-purple-100 transition">
                             <i class="fas fa-chart-line text-2xl mb-2"></i>
-                            <span class="text-sm font-medium">View Reports</span>
+                            <span class="text-sm font-medium">Manage Courses</span>
                         </a>
                     </div>
                 </div>
@@ -408,7 +482,7 @@
                 <i class="fas fa-graduation-cap text-2xl text-indigo-400"></i>
                 <h1 class="text-xl font-bold">DAFI Scholarship</h1>
             </div>
-            
+
             <nav>
                 <ul class="space-y-3">
                     <li>
@@ -418,50 +492,57 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
+                        <a href="#"
+                            class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
                             <i class="fas fa-users"></i>
                             <span>Students</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
+                        <a href="#"
+                            class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
                             <i class="fas fa-book"></i>
                             <span>Courses</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
+                        <a href="#"
+                            class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
                             <i class="fas fa-file-alt"></i>
                             <span>Applications</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
+                        <a href="#"
+                            class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
                             <i class="fas fa-question-circle"></i>
                             <span>Questions</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
+                        <a href="#"
+                            class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
                             <i class="fas fa-clipboard-check"></i>
                             <span>Exams</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
+                        <a href="#"
+                            class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
                             <i class="fas fa-comments"></i>
                             <span>Interviews</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
+                        <a href="#"
+                            class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
                             <i class="fas fa-cog"></i>
                             <span>Settings</span>
                         </a>
                     </li>
                 </ul>
             </nav>
-            
+
             <div class="mt-auto pt-10">
                 <div class="flex items-center space-x-3 p-3 rounded-lg bg-gray-800">
                     <div class="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center">
@@ -480,14 +561,14 @@
         // Toggle mobile sidebar
         const sidebarToggle = document.getElementById('sidebarToggle');
         const mobileSidebar = document.getElementById('mobileSidebar');
-        
+
         sidebarToggle.addEventListener('click', () => {
             mobileSidebar.classList.toggle('hidden');
             const sidebarContent = mobileSidebar.querySelector('div');
             sidebarContent.classList.toggle('translate-x-0');
             sidebarContent.classList.toggle('-translate-x-full');
         });
-        
+
         // Close sidebar when clicking outside
         mobileSidebar.addEventListener('click', (e) => {
             if (e.target === mobileSidebar) {
@@ -497,7 +578,7 @@
                 sidebarContent.classList.add('-translate-x-full');
             }
         });
-        
+
         // Add ripple effect to stat cards
         document.querySelectorAll('.stat-card').forEach(card => {
             card.addEventListener('click', function(e) {
@@ -510,14 +591,14 @@
                 }
             });
         });
-        
+
         // Add hover effect to table rows
         document.querySelectorAll('tbody tr').forEach(row => {
             row.addEventListener('mouseenter', function() {
                 this.style.transform = 'scale(1.01)';
                 this.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
             });
-            
+
             row.addEventListener('mouseleave', function() {
                 this.style.transform = 'scale(1)';
                 this.style.boxShadow = 'none';
@@ -525,4 +606,5 @@
         });
     </script>
 </body>
+
 </html>

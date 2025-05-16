@@ -47,7 +47,7 @@
         <img src="{{ asset('images/welcome.jpg') }}" alt="Scholarship Illustration" loading="lazy"/>
       </div>
     </section>
-
+    {{-- @include('candidate.mentorAi'); --}}
     <!-- Count Section -->
     <section id="students-count" class="reveal reveal-bottom">
       <div class="container">
