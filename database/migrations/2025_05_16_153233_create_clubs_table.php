@@ -11,10 +11,10 @@ class CreateClubsTable extends Migration
     Schema::create('clubs', function (Blueprint $table) {
     $table->id();
     $table->string('name');
-    $table->enum('type', ['art', 'techno', 'sports', 'science', 'culture']);
+    $table->enum('category', ['art', 'techno', 'sports', 'science', 'culture']);
     $table->text('description')->nullable();
     $table->timestamps();
-});;
+});
     }
 
     public function down()

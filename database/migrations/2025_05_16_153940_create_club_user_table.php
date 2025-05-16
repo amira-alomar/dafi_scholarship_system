@@ -11,13 +11,10 @@ class CreateClubUserTable extends Migration
         Schema::create('club_user', function (Blueprint $table) {
             $table->id();
 
-             $table->foreignId('idUser')->constrained('all_users', 'id')->onDelete('cascade');
+            $table->foreignId('idUser')->constrained('all_users', 'id')->onDelete('cascade');
             $table->foreignId('club_id')->constrained()->onDelete('cascade');
-
-            $table->string('status')->default('pending'); // e.g. pending, approved, rejected
-
+            $table->enum('status',['accepted','rejected','pending'])->default('pending');
             $table->timestamps();
-
             $table->unique(['idUser', 'club_id']); // To avoid duplicate memberships
         });
     }
