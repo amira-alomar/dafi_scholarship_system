@@ -2,16 +2,18 @@ body {
     font-family: "Poppins", sans-serif;
     background: #f4f4f4;
     margin: 0;
-    padding: 20px;
+    padding: 0px;
+}
+.layout {
+    display: flex;
+    height: 100vh; 
+    overflow: hidden;
 }
 .container {
-    max-width: 900px;
-    margin: auto;
-    background: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    flex: 1;
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  height: 100vh;
 }
 h2 {
     text-align: center;

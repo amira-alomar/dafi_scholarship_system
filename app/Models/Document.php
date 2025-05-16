@@ -11,7 +11,7 @@ class Document extends Model
     use HasFactory;
 
     protected $primaryKey = 'documentID';
-    protected $fillable = ['document_path', 'document_type', 'document_name', 'idApp'];
+    protected $fillable = ['document_path', 'document_type', 'document_name', 'idApp','required_document_id'];
 
     // Relationships
     public function application()

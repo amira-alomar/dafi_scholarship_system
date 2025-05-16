@@ -12,13 +12,17 @@
     padding: 0;
     box-sizing: border-box;
   }
+  .layout {
+    display: flex;
+    min-height: 100vh;
+    flex:1;
+  }
   body {
     font-family: 'Poppins', sans-serif;
     background: var(--muted-bg);
     color: var(--text-color);
-    padding: 20px;
     display: flex;
-    justify-content: center;
+    /* justify-content: center; */
   }
   .container {
     width: 1000px;

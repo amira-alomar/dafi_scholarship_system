@@ -4,8 +4,13 @@ body {
     margin: 0;
     padding: 0;
 }
+.layout {
+    display: flex;
+    min-height: 100vh;
+    
+}
 .container {
-    width: 100vw;
+    height: 100vh;
     min-height: 100vh;
     margin: 0;
     background: white;
@@ -13,6 +18,8 @@ body {
     border-radius: 0;
     box-shadow: none;
     box-sizing: border-box;
+    flex: 1;
+    overflow-y: auto;
 }
 
 

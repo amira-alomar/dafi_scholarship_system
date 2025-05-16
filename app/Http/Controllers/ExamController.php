@@ -11,32 +11,42 @@ use Illuminate\Validation\Rule;
 
 class ExamController extends Controller
 {
-
-
-   public function create($scholarshipID)
+    public function create($scholarshipID)
     {
-        // جلب الطلاب المؤهلين للامتحان
-        $eligibleApplications = $this->showEligibleForExam($scholarshipID);
+        $allEligible = $this->showEligibleForExam($scholarshipID);
 
-        return view('supervisor.examResult', compact('eligibleApplications','scholarshipID'));
+        // filter applications that do NOT have an exam yet
+        $eligibleApplications = $allEligible->filter(function ($item) {
+            return is_null($item->application->idExam);
+        });
+
+        // fetch only exams related to this scholarship
+        $applicationIds = Application::where('idScholarship', $scholarshipID)
+            ->whereNotNull('idExam')
+            ->pluck('idExam');
+
+        $exams = Exam::whereIn('examID', $applicationIds)
+            ->with(['application.user']) // eager load
+            ->latest()
+            ->get();
+
+
+        return view('supervisor.examResult', compact('eligibleApplications', 'scholarshipID', 'exams'));
     }
-
-   public function store(Request $request, $scholarshipID)
+    public function store(Request $request, $scholarshipID)
     {
         $eligibleStudentIds = $this->showEligibleForExam($scholarshipID)
-    ->pluck('application.user.id')
-    ->toArray();
+            ->pluck('application.user.id')
+            ->toArray();
 
-        // التحقق من المدخلات
         $validated = $request->validate([
-           'student_id' => ['required', Rule::in($eligibleStudentIds)],
+            'student_id' => ['required', Rule::in($eligibleStudentIds)],
             'score' => 'required|numeric',
             'status' => 'required|in:passed,failed',
             'exam_date' => 'required|date',
             'course' => 'required|string|max:255',
         ]);
 
-        // إنشاء سجل امتحان جديد
         $exam = Exam::create([
             'score' => $validated['score'],
             'status' => $validated['status'],
@@ -44,20 +54,19 @@ class ExamController extends Controller
             'course' => $validated['course'],
         ]);
 
-        // ربط الامتحان بالتطبيق الخاص بالطالب
         $application = Application::where('idUser', $validated['student_id'])
             ->where('idScholarship', $scholarshipID)
             ->first();
 
         if ($application) {
-            // إضافة idExam إلى جدول التطبيقات
             $application->idExam = $exam->examID;
             $application->save();
         }
 
-        return redirect()->route('supervisor.exam', ['scholarshipID' => $scholarshipID])
+        return redirect()->route('examResult.create', $scholarshipID)
             ->with('success', 'Exam result added successfully!');
     }
+
 
     // نفس الكود الذي جلبناه لجلب الطلاب المؤهلين
     public function showEligibleForExam($scholarshipID)

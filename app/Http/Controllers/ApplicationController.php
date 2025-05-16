@@ -218,4 +218,42 @@ class ApplicationController extends Controller
         // Redirect to the final application page with the scholarship ID
         return redirect()->route('supervisor.finalApplication', ['scholarshipID' => $request->scholarshipID]);
     }
+    public function acceptedStudents($scholarshipID)
+    {
+        $applications = Application::with('user')
+            ->where('status', 'approved')
+            ->where('idScholarship', $scholarshipID)
+            ->get();
+
+        return view('supervisor.acceptedStudents', compact('applications'));
+    }
+
+    public function approveFinalApplication($applicationID)
+    {
+        // 1. Load the application (or 404)
+        $application = Application::findOrFail($applicationID);
+
+        // 2. Only pending apps can change
+        if ($application->status !== 'pending') {
+            return back()->with('info', 'This application is already ' . $application->status . '.');
+        }
+
+        // 3. Update status
+        $application->update(['status' => 'approved']);
+
+        return back()->with('success', 'Application approved successfully.');
+    }
+
+    public function rejectFinalApplication($applicationID)
+    {
+        $application = Application::findOrFail($applicationID);
+
+        if ($application->status !== 'pending') {
+            return back()->with('info', 'This application is already ' . $application->status . '.');
+        }
+
+        $application->update(['status' => 'rejected']);
+
+        return back()->with('success', 'Application rejected successfully.');
+    }
 }

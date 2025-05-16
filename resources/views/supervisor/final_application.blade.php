@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="{{ asset('css/finalapp.css') }}">
 </head>
+
 <body>
     <div class="container">
         <div class="header">
@@ -28,7 +30,8 @@
                         <li class="progress-item">
                             <div>
                                 <span class="progress-stage">{{ $progress->stage->name }}</span>
-                                <span class="progress-status status-{{ strtolower($progress->status) }}">{{ ucfirst($progress->status) }}</span>
+                                <span
+                                    class="progress-status status-{{ strtolower($progress->status) }}">{{ ucfirst($progress->status) }}</span>
                             </div>
 
                             @php
@@ -36,11 +39,18 @@
                             @endphp
 
                             @if ($stageName === 'form')
-                                <a class="details-link" href="{{ route('supervisor.applicationDetails', ['scholarshipId' => $scholarshipID, 'applicationID' => $application->applicationID]) }}">
+                                <a class="details-link"
+                                    href="{{ route('supervisor.applicationDetails', ['scholarshipId' => $scholarshipID, 'applicationID' => $application->applicationID]) }}">
                                     View Details
                                 </a>
                             @elseif($stageName === 'exam')
-                                <a class="details-link" href="{{ route('exam.details', ['studentID' => $application->user->id]) }}">
+                                <a class="details-link"
+                                    href="{{ route('exam.details', ['studentID' => $application->user->id]) }}">
+                                    View Details
+                                </a>
+                            @elseif($stageName === 'interview')
+                                <a class="details-link"
+                                    href="{{ route('interview.details', ['studentID' => $application->user->id]) }}">
                                     View Details
                                 </a>
                             @endif
@@ -54,14 +64,16 @@
                         <p class="notes-content">{{ $application->notes }}</p>
                     </div>
                 @else
-                    <form action="{{ route('supervisor.addNote', ['scholarshipID' => $scholarshipID]) }}" method="POST">
+                    <form action="{{ route('supervisor.addNote', ['scholarshipID' => $scholarshipID]) }}"
+                        method="POST">
                         @csrf
                         <input type="hidden" name="application_id" value="{{ $application->applicationID }}">
 
-                        <button type="button" class="add-notes-btn" onclick="toggleNotesField('{{ $application->applicationID }}')">
+                        <button type="button" class="add-notes-btn"
+                            onclick="toggleNotesField('{{ $application->applicationID }}')">
                             Add Notes
                         </button>
-                        
+
                         <div id="notes-field-{{ $application->applicationID }}" class="notes-form">
                             <textarea name="notes" class="notes-textarea" placeholder="Enter your notes here..."></textarea>
                             <button type="submit" class="save-note-btn">Save Note</button>
@@ -70,14 +82,20 @@
                 @endif
 
                 @if ($application->status == 'pending')
-                    <div class="action-buttons">
-                        <button type="submit" class="accept-btn" name="final_status" value="approved">
-                            Accept
-                        </button>
+                    <div class="action-buttons flex gap-4">
+                        <form
+                            action="{{ route('finalApplication.approve', ['applicationID' => $application->applicationID]) }}"
+                            method="POST">
+                            @csrf
+                            <button type="submit" class="accept-btn">Accept</button>
+                        </form>
 
-                        <button type="submit" class="reject-btn" name="final_status" value="rejected">
-                            Reject
-                        </button>
+                        <form
+                            action="{{ route('finalApplication.reject', ['applicationID' => $application->applicationID]) }}"
+                            method="POST">
+                            @csrf
+                            <button type="submit" class="reject-btn">Reject</button>
+                        </form>
                     </div>
                 @else
                     <div class="final-result">
@@ -112,4 +130,5 @@
         });
     </script>
 </body>
+
 </html>

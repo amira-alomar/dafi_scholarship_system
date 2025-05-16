@@ -11,6 +11,10 @@ class Scholarship extends Model
 
     protected $primaryKey = 'scholarshipID';
     public $incrementing = false;
+    protected $casts = [
+        'start_date' => 'date',
+        'end_date'   => 'date',
+    ];
 
     protected $fillable = ['name', 'status', 'funding_organization', 'start_date', 'end_date', 'description', 'picture', 'idUni', 'target_group'];
 

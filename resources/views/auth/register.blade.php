@@ -36,6 +36,7 @@
           <input type="text" name="address" placeholder="Adress" required>
           <input type="email" name="email" placeholder="Email" required>
           <input type="password" name="password" placeholder="Password" required>
+          <input type="date" name="birthdate" placeholder="Birthdate" required>
           <input type="text" name="phone_number" placeholder="Phone Number" required>
           <button type="submit" class="btn">Register</button>
         </form>
