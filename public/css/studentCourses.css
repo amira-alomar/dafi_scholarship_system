@@ -69,9 +69,6 @@ body {
   margin-bottom: 0.5rem;
   color: var(--foreground);
 }
-.user-avatar:empty {
-  display: none;
-}
 
 
 .form-group input,
@@ -244,3 +241,4 @@ tr:hover td {
   }
 
 }
+

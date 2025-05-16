@@ -21,8 +21,8 @@
   
   <div class="sidebar-user">
     <div class="user-avatar">
-      <!-- <img src="{{ $image ? asset('storage/profile_images/' . $image) : 'https://i.pravatar.cc/150?img=32' }}" alt="User avatar"> -->
-       <img src=" https://avatar.iran.liara.run/public/97">
+      <img src="{{ optional(auth()->user())->profile_picture ? asset('storage/profile_images/' . optional(auth()->user())->profile_picture) : 'https://i.pravatar.cc/150?img=32' }}" alt="User avatar">
+      
     </div>
     <div class="user-info">
       <h3 class="user-name">{{ optional(auth()->user())->fname ?? 'Guest' }}</h3>
@@ -89,7 +89,7 @@
                 @csrf
                 @method('PUT')
                     <div class="profile-pic-upload">
-                    <img src="{{ $image ? asset('storage/profile_images/' . $image) : 'https://i.pravatar.cc/150?img=32' }}" 
+                    <img src="{{ optional(auth()->user())->profile_picture ? asset('storage/profile_images/' . optional(auth()->user())->profile_picture) : 'https://i.pravatar.cc/150?img=32' }}" 
      alt="Profile Picture" 
      class="profile-pic"
      onclick="document.getElementById('profile-upload').click()">

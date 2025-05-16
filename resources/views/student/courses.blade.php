@@ -91,14 +91,20 @@
     <!-- Form for adding/editing a course -->
     <div class="form-card">
       <h2><i class="fas fa-plus-circle"></i>Add a Course</h2>
-      <form id="courseForm">
+      <form id="courseForm" action="{{ route('courses.store') }}" method="POST" enctype="multipart/form-data">
+         @csrf 
+       
         <div class="form-group">
           <label for="semester">Semester</label>
           <input type="text" id="semester" name="semester" placeholder="Enter semester number" required>
         </div>
         <div class="form-group">
           <label for="courseName">Course Name</label>
-          <input type="text" id="courseName" name="courseName" placeholder="Enter course name" required>
+          <input type="text" id="courseName" name="course_name" placeholder="Enter course name" required>
+        </div>
+          <div class="form-group">
+          <label for="courseCode">Course Code</label>
+          <input type="text" id="code" name="code" placeholder="Enter course code" required>
         </div>
         <div class="form-group">
           <label for="grade">Grade</label>
@@ -106,7 +112,7 @@
         </div>
         <div class="form-group">
           <label for="registrationImage">Upload Registration Image</label>
-          <input type="file" id="registrationImage" name="registrationImage" accept="image/*">
+          <input type="file" id="registrationImage" name="registration_image" accept="image/*">
         </div>
         <button type="submit" class="btn">
           <i class="fas fa-save"></i> Save Course
@@ -123,6 +129,7 @@
             <tr>
               <th>Semester</th>
               <th>Course Name</th>
+               <th>Course Code</th>
               <th>Grade</th>
               <th>Registration Image</th>
               <th>Action</th>
@@ -130,28 +137,33 @@
           </thead>
           <tbody id="coursesTableBody">
             <!-- Example row -->
+              @forelse($courses as $course)
             <tr>
-              <td>1</td>
-              <td>Mathematics</td>
-              <td>95</td>
-              <td><a href="#" class="view-link">View Image</a></td>
-              <td><a href="#" class="action-btn edit-btn"><i class="fas fa-edit"></i> Edit</a></td>
-            </tr>
-            <!-- Additional example rows -->
-            <tr>
-              <td>1</td>
-              <td>Physics</td>
-              <td>88</td>
-              <td><a href="#" class="view-link">View Image</a></td>
-              <td><a href="#" class="action-btn edit-btn"><i class="fas fa-edit"></i> Edit</a></td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>Chemistry</td>
-              <td>92</td>
-              <td><a href="#" class="view-link">View Image</a></td>
-              <td><a href="#" class="action-btn edit-btn"><i class="fas fa-edit"></i> Edit</a></td>
-            </tr>
+              <td>{{ $course->semester }}</td>
+              <td>{{ $course->course_name }}</td>
+              <td>{{ $course->code }}</td>
+              <td>{{ $course->grade }}</td>
+              <td>
+                @if($course->image)
+                  <a href="{{ asset('course_images/' . $course->image) }}" target="_blank">View Image</a>
+                @else
+                  —
+                @endif
+              </td>
+                  <td>
+    
+                    <!-- @method('edit') مثلاً -->
+                    <button type="submit" class="action-btn edit-btn">
+                      <i class="fas fa-edit"></i> Edit
+                    </button>
+
+                </td>
+              </tr>
+              @empty
+             <tr>
+    <td colspan="5">No courses registered yet.</td>
+  </tr>
+  @endforelse
           </tbody>
         </table>
       </div>
@@ -159,28 +171,6 @@
   </div>
 </div>
   <script>
-    // Form submission handler
-    document.getElementById('courseForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const semester = document.getElementById('semester').value;
-      const courseName = document.getElementById('courseName').value;
-      const grade = document.getElementById('grade').value;
-      const tableBody = document.getElementById('coursesTableBody');
-      
-      const newRow = document.createElement('tr');
-      newRow.innerHTML = `
-        <td>${semester}</td>
-        <td>${courseName}</td>
-        <td>${grade}</td>
-        <td><a href="#" class="view-link">View Image</a></td>
-        <td><a href="#" class="action-btn edit-btn"><i class="fas fa-edit"></i> Edit</a></td>
-      `;
-      tableBody.appendChild(newRow);
-      e.target.reset();
-      
-      // Show success message
-      alert('Course added successfully!');
-    });
 
     // Mobile menu toggle
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
@@ -201,6 +191,19 @@
     
     window.addEventListener('resize', checkScreenSize);
     checkScreenSize(); // Initial check
+
+    @if(session('success'))
+  <div id="success-toast" class="toast">
+    {{ session('success') }}
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const toast = document.getElementById('success-toast');
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 4000);
+    });
+  </script>
+@endif
   </script>
 </body>
 </html>

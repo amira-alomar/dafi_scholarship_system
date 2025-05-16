@@ -101,8 +101,8 @@ class StudentProfileController extends Controller
             $file = $request->file('image');
             $filename = time() . '_' . $file->getClientOriginalName();
             $path = $file->storeAs('profile_images', $filename, 'public'); // يخزن الصورة في storage/app/public/profile_images
-            $studentInfo->image = $filename;
-            $studentInfo->save(); 
+            $user->profile_picture = $filename;
+            $user->save(); 
         }
         
     

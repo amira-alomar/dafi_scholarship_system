@@ -62,5 +62,9 @@ class AllUser  extends Authenticatable
         return $this->hasMany(UserOpportunity::class, 'idUser', 'id');
     }
   
-   
+   public function clubs()
+{
+    return $this->belongsToMany(Club::class)->withPivot('status')->withTimestamps();
+}
+
 }

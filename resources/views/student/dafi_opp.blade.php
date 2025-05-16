@@ -24,11 +24,11 @@
   
   <div class="sidebar-user">
     <div class="user-avatar">
-         <img src="https://avatar.iran.liara.run/public/97">
+         <img src="{{ optional(auth()->user())->profile_picture  ? asset('storage/profile_images/' . optional(auth()->user())->profile_picture) : 'https://i.pravatar.cc/150?img=32' }}" alt="User avatar">
     </div>
     <div class="user-info">
       <h3 class="user-name">{{ optional(auth()->user())->fname ?? 'Guest' }}</h3>
-      <p class="user-role"><span>Computer Science </span> Student</p>
+      <p class="user-role"><span>{{ $major ?? 'Not Set' }} </span> Student</p>
      
     </div>
   </div>
@@ -97,17 +97,6 @@
 
                 </div>
             </section>
-@if (session('success'))
-    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6 mx-4">
-        {{ session('success') }}
-    </div>
-@endif
-
-@if (session('error'))
-    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6 mx-4">
-        {{ session('error') }}
-    </div>
-@endif
 
             <!-- Main Content -->
             <main class="container mx-auto px-4 py-12">
@@ -195,5 +184,35 @@
         </div>
     </div>
     
+    @if(session('success'))
+  <div id="success-toast" class="toast" >
+    {{ session('success') }}
+  </div>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const toast = document.getElementById('success-toast');
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 4000);
+    });
+  </script>
+@endif
+
+@if(session('error'))
+  <div id="error-toast" class="toast bg-red-500" >
+    {{ session('error') }}
+  </div>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const toast = document.getElementById('error-toast');
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 4 000);
+    });
+  </script>
+@endif
+
 </body>
 </html>
