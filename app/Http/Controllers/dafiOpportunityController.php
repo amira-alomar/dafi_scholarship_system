@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Opportunity;
 use App\Models\UserOpportunity;
 use Illuminate\Http\Request;
+use App\Models\StudentInfo;
 
 class DafiOpportunityController extends Controller
 {
@@ -14,12 +15,11 @@ public function index()
 
     if ($user->studentInfo && $user->studentInfo->idScholarship) {
         $scholarshipId = $user->studentInfo->idScholarship;
-
-        // استخدم العلاقة بدلاً من where
-        $opportunities = \App\Models\Scholarship::find($scholarshipId)
-                            ->opportunities()
-                            ->get();
-
+$scholarship = \App\Models\Scholarship::find($scholarshipId);
+    
+//   $opportunities = Opportunity::with('scholarships')->get();
+  if ($scholarship) {
+            $opportunities = $scholarship->opportunities;
         foreach ($opportunities as $opportunity) {
             $opportunity->type = strtolower(trim($opportunity->type));
         }
@@ -28,6 +28,7 @@ public function index()
     }
 
     return view('student.dafi_opp', ['opportunities' => []]);
+}
 }
 
 }
