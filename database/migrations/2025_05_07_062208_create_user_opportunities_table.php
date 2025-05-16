@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('idOpportunity')->constrained('opportunities', 'opportunityID')->onDelete('cascade');
             $table->primary(['idUser', 'idOpportunity']);
             $table->date('application_date')->nullable();
-            $table->string('status')->default('pending');
+            $table->enum('status',['accepted','rejected','pending'])->default('pending');
             $table->timestamps();
         });
     }
