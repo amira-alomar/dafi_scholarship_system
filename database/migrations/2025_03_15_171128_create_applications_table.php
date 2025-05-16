@@ -18,9 +18,9 @@ return new class extends Migration
             $table->date('submission_date');
             $table->foreignId('idUser')->constrained('all_users', 'id')->onDelete('cascade');
             $table->foreignId('idScholarship')->constrained('scholarships', 'scholarshipID')->onDelete('cascade');
-            $table->foreignId('idForm')->constrained('application_forms', 'applicationFormID')->onDelete('cascade');
-            $table->foreignId('idInterview')->nullable()->constrained('interviews', 'interviewID')->onDelete('set null');
-            $table->foreignId('idExam')->nullable()->constrained('exams', 'examID')->onDelete('set null');
+            $table->foreignId('idForm')->unique()->constrained('application_forms', 'applicationFormID')->onDelete('cascade');
+            $table->foreignId('idInterview')->nullable()->unique()->constrained('interviews', 'interviewID')->onDelete('set null');
+            $table->foreignId('idExam')->nullable()->unique()->constrained('exams', 'examID')->onDelete('set null');
             $table->timestamps();
         });
     }

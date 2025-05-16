@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('application_forms', function (Blueprint $table) {
             $table->id('applicationFormID');
-            $table->enum('status', ['submitted', 'under_review', 'approved', 'rejected']);
+            $table->enum('status', ['submitted', 'unsubmitted']);
             $table->timestamps();
         });
     }

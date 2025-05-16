@@ -52,7 +52,7 @@
         <div>
           <label class="block">Date:</label>
           <input type="date" name="interview_date" required class="w-full border px-2 py-1"
-                 value="{{ now()->toDateString() }}"/>
+                value="{{ now()->toDateString() }}"/>
         </div>
 
         <div>
