@@ -10,7 +10,7 @@
       <link rel="stylesheet" href="{{ asset('css/studentCourses.css') }}">
   
 </head>
-<body >
+<body class="page-courses">
  <!-- Sidebar goes here -->
     <div class="flex">
         <div class="hidden md:block w-64 bg-gray-100 min-h-screen">
@@ -23,11 +23,11 @@
   
   <div class="sidebar-user">
      <div class="user-avatar">
-       <img src=" https://avatar.iran.liara.run/public/97">
+        <img src="{{ optional(auth()->user())->profile_picture  ? asset('storage/profile_images/' . optional(auth()->user())->profile_picture) : 'https://i.pravatar.cc/150?img=32' }}" alt="User avatar">
     </div>
     <div class="user-info">
       <h3 class="user-name">{{ optional(auth()->user())->fname ?? 'Guest' }}</h3>
-      <p class="user-role"><span>Computer Science </span> Student</p>
+      <p class="user-role"><span>{{ $major ?? 'Not Set' }} </span> Student</p>
      
     </div>
   </div>
@@ -90,33 +90,69 @@
   <div class="main-content">
     <!-- Form for adding/editing a course -->
     <div class="form-card">
-      <h2><i class="fas fa-plus-circle"></i>Add a Course</h2>
-      <form id="courseForm" action="{{ route('courses.store') }}" method="POST" enctype="multipart/form-data">
-         @csrf 
+              <h2>
+          @if(isset($editingCourse))
+            <i class="fas fa-edit"></i> Edit Course
+          @else
+            <i class="fas fa-plus-circle"></i> Add a Course
+          @endif
+        </h2>
+
+        <form id="courseForm"
+          action="{{ isset($editingCourse)
+                      ? route('courses.update', $editingCourse->courseID)
+                      : route('courses.store') }}"
+          method="POST"
+          enctype="multipart/form-data">
+          @csrf
+          @if(isset($editingCourse))
+            @method('PUT')
+          @endif
        
         <div class="form-group">
           <label for="semester">Semester</label>
-          <input type="text" id="semester" name="semester" placeholder="Enter semester number" required>
+          <input type="text" id="semester" name="semester"
+          value="{{ old('semester', $editingCourse->semester ?? '') }}"
+          placeholder="Enter semester " required>
         </div>
         <div class="form-group">
           <label for="courseName">Course Name</label>
-          <input type="text" id="courseName" name="course_name" placeholder="Enter course name" required>
+             <input type="text" id="courseName" name="course_name"
+          value="{{ old('course_name', $editingCourse->course_name ?? '') }}"
+          placeholder="Enter course_name " required>
         </div>
           <div class="form-group">
           <label for="courseCode">Course Code</label>
-          <input type="text" id="code" name="code" placeholder="Enter course code" required>
+          <input type="text" id="code" name="code"
+          value="{{ old('code', $editingCourse->code ?? '') }}"
+          placeholder="Enter course code " required>
         </div>
         <div class="form-group">
           <label for="grade">Grade</label>
-          <input type="text" id="grade" name="grade" placeholder="Enter your grade" required>
+          <input type="text" id="grade" name="grade"
+          value="{{ old('grade', $editingCourse->grade ?? '') }}"
+          placeholder="Enter grade " required>
         </div>
         <div class="form-group">
           <label for="registrationImage">Upload Registration Image</label>
-          <input type="file" id="registrationImage" name="registration_image" accept="image/*">
+     <input type="file" id="registrationImage" name="registration_image"
+          placeholder="Enter registration_image "  accept="image/*">
         </div>
-        <button type="submit" class="btn">
-          <i class="fas fa-save"></i> Save Course
-        </button>
+        @if(isset($editingCourse) && $editingCourse->image)
+  <div class="form-group">
+    <label>Current Registration Image:</label><br>
+    <img src="{{ asset('course_images/' . $editingCourse->image) }}" alt="Current image" style="max-height: 150px;">
+  </div>
+@endif
+    @if(isset($editingCourse))
+  <a href="{{ route('courses.index') }}" class="btn btn-secondary">
+    <i class="fas fa-times"></i> Cancel
+  </a>
+@endif
+<button type="submit" class="btn">
+  <i class="fas fa-save"></i>
+  {{ isset($editingCourse) ? 'Update Course' : 'Save Course' }}
+</button>
       </form>
     </div>
 
@@ -150,14 +186,17 @@
                   —
                 @endif
               </td>
-                  <td>
+             
     
                     <!-- @method('edit') مثلاً -->
-                    <button type="submit" class="action-btn edit-btn">
-                      <i class="fas fa-edit"></i> Edit
-                    </button>
+                    <td>
+                <a href="{{ route('courses.edit', $course->courseID) }}"
+                  class="action-btn edit-btn">
+                  <i class="fas fa-edit"></i> Edit
+                </a>
+              </td>
 
-                </td>
+                
               </tr>
               @empty
              <tr>

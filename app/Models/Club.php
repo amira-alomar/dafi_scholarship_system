@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+
 
 class Club extends Model
 {
@@ -12,10 +14,12 @@ class Club extends Model
         'name',
         'type',
         'description',
+        'image',
     ];
 
     public function users()
     {
-        return $this->belongsToMany(User::class)->withPivot('status')->withTimestamps();
+        return $this->belongsToMany(AllUser::class, 'club_user', 'club_id', 'idUser')->withPivot('status')->withTimestamps();
     }
+
 }

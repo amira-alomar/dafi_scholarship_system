@@ -155,3 +155,38 @@
                 width: 95%;
             }
         }
+    .club-card {
+        --card: #fff;
+        --border: #ddd;
+    }
+    .category-tag {
+        background-color: #e0e7ff;
+        color: #3730a3;
+    }
+    .join-btn {
+        background-color: #2563eb;
+        color: white;
+    }
+    .join-btn:hover {
+        background-color: #1e40af;
+    }
+    .modal {
+        display: none;
+    }
+    .modal.show {
+        display: flex;
+    }
+    .toast.success { background-color: #28a745; }
+.toast.info    { background-color: #17a2b8; }
+.toast.error   { background-color: #dc3545; }
+
+
+.toast {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 9999;
+    opacity: 0.95;
+    text-align: center;
+}
+

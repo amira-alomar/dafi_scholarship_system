@@ -64,7 +64,7 @@ class AllUser  extends Authenticatable
   
    public function clubs()
 {
-    return $this->belongsToMany(Club::class)->withPivot('status')->withTimestamps();
+    return $this->belongsToMany(Club::class, 'club_user', 'idUser', 'club_id')->withPivot('status')->withTimestamps();
 }
 
 }

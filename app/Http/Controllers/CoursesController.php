@@ -21,7 +21,7 @@ class CoursesController extends Controller
         $editingCourse = Course::where('idUser', $userId)->find($request->edit);
     }
 
-        return view('student.courses', compact('courses','editingCourse'));
+        return view('student.courses', compact('courses','editingCourse','major'));
     }
 
     // تخزين كورس جديد
@@ -36,7 +36,6 @@ class CoursesController extends Controller
         ]);
 
         $data = $request->only(['semester', 'course_name', 'grade','code']);
-        $data['registration_image'] = null;
         $data['idUser'] = Auth::id();
         // إذا لديك idUni في studentInfo:
         $data['idUni'] = Auth::user()->studentInfo->idUni ?? null;
@@ -69,8 +68,11 @@ public function update(Request $request, Course $course)
 
     if ($request->hasFile('registration_image')) {
         $filename = time() . '_' . $request->file('registration_image')->getClientOriginalName();
-        $request->file('registration_image')->storeAs('public/course_images', $filename);
+       $request->file('registration_image')->move(public_path('course_images'), $filename);
         $data['image'] = $filename;
+    }else {
+        // الإبقاء على الصورة القديمة
+        $data['image'] = $course->image;
     }
 
     $course->update($data);
@@ -78,5 +80,18 @@ public function update(Request $request, Course $course)
     return redirect()->route('courses.index')->with('success', 'Course updated successfully.');
 }
 
+public function edit(Course $course)
+{
+   
+
+    // جلب جميع الدورات لعرض الجدول
+    $courses = Course::where('idUser', Auth::id())->get();
+
+    // عرض الصفحة مع تمرير الدورة قيد التعديل
+    return view('student.courses', [
+        'courses' => $courses,
+        'editingCourse' => $course,
+    ]);
+}
 
 }

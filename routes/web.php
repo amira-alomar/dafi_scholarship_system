@@ -31,6 +31,8 @@ use App\Http\Controllers\RequiredDocumentController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Models\JobOpportunity;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ClubController;
+
 
 Route::get('/login', function () {
     return view('auth.login');
@@ -280,19 +282,23 @@ Route::middleware(['auth', 'role:Student'])->group(function () {
     Route::get('/dafi_opp', [DafiOpportunityController::class, 'index']);
     Route::post('/trainings', [TrainingController::class, 'store'])->name('trainings.store');
     Route::post('/volunteerings', [VolunteeringController::class, 'store'])->name('volunteerings.store');
-
-Route::get('/courses',    [CoursesController::class, 'index'])  ->name('courses.index');
-Route::post('/courses/store', [CoursesController::class, 'store'])->name('courses.store');
-Route::put('/courses/{id}',  [CoursesController::class, 'update'])->name('courses.update');
-
+    Route::get('/courses',    [CoursesController::class, 'index'])  ->name('courses.index');
+    Route::post('/courses/store', [CoursesController::class, 'store'])->name('courses.store');
+    Route::put('/courses/{course}',  [CoursesController::class, 'update'])->name('courses.update');
+    Route::get('/courses/{course}/edit', [CoursesController::class, 'edit']) ->name('courses.edit');
     Route::get('/student/profile', [StudentProfileController::class, 'index'])->name('student.profile');
     Route::put('/student/profile', [StudentProfileController::class, 'update'])->name('student.profile.update');
     Route::post('/profile/skills/add', [StudentProfileController::class, 'addSkill'])->name('profile.skills.add');
     Route::post('/applications', [UserOpportunityController::class, 'store'])->name('applications.store');
-     Route::get('/student/clubs', function () {
-        return view('student.clubs');
-    })->name('student.clubs');
+    
 
+   
+   Route::get('/student/clubs', [ClubController::class, 'index'])->name('student.clubs');
+   Route::get('/student/clubs/{club}', [ClubController::class, 'show'])
+     ->name('student.clubs.show');
+
+Route::post('/student/clubs/join', [ClubController::class, 'join'])
+     ->name('student.clubs.join');
 
 
 
