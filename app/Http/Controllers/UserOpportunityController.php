@@ -17,6 +17,7 @@ class UserOpportunityController extends Controller
         'name'              => 'required|string|max:255',
         'email'             => 'required|email',
         'opportunity_title' => 'required|string',
+         'status'       => 'required|string',
     ]);
 
     $user = Auth::user();

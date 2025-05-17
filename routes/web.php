@@ -32,6 +32,8 @@ use App\Http\Middleware\AdminMiddleware;
 use App\Models\JobOpportunity;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClubController;
+use App\Http\Controllers\StudentDashboardController;
+
 
 
 Route::get('/login', function () {
@@ -290,8 +292,8 @@ Route::middleware(['auth', 'role:Student'])->group(function () {
     Route::put('/student/profile', [StudentProfileController::class, 'update'])->name('student.profile.update');
     Route::post('/profile/skills/add', [StudentProfileController::class, 'addSkill'])->name('profile.skills.add');
     Route::post('/applications', [UserOpportunityController::class, 'store'])->name('applications.store');
-    
-
+    Route::get('/student/dashboard', [StudentDashboardController::class, 'index'])->name('student.dashboard');
+ Route::post('/dashboard/{id}/save', [StudentDashboardController::class, 'saveJob'])->name('dashboard.save');
    
    Route::get('/student/clubs', [ClubController::class, 'index'])->name('student.clubs');
    Route::get('/student/clubs/{club}', [ClubController::class, 'show'])

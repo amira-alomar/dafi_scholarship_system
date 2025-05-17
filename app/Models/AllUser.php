@@ -66,5 +66,17 @@ class AllUser  extends Authenticatable
 {
     return $this->belongsToMany(Club::class, 'club_user', 'idUser', 'club_id')->withPivot('status')->withTimestamps();
 }
+public function appliedOpportunities()
+{
+    return $this->belongsToMany(
+        Opportunity::class,
+        'user_opportunities',
+        'idUser',
+        'idOpportunity'
+    )
+    ->withPivot('status', 'application_date')
+    ->withTimestamps();
+}
+
 
 }

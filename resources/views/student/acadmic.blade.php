@@ -419,7 +419,11 @@
                   </div>
                   <div class="certificate-details">
                     <h3 class="certificate-title">{{ $volunteering->name }}</h3>
-                    <p class="certificate-date">Added: {{ $volunteering->created_at->format('M d, Y') }}</p>
+                   <p class="certificate-date">
+                        Added:
+                        {{ $volunteering->created_at ? $volunteering->created_at->format('M d, Y') : 'Date not available' }}
+                      </p>
+
                   </div>
                   <a href="{{ asset('storage/'.$volunteering->certificate) }}" target="_blank" class="certificate-link">View Certificate</a>
 
