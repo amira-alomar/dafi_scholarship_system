@@ -15,7 +15,6 @@ class CreateClubUserTable extends Migration
             $table->foreignId('club_id')->constrained()->onDelete('cascade');
             $table->enum('status',['accepted','rejected','pending'])->default('pending');
             $table->timestamps();
-            $table->unique(['idUser', 'club_id']); // To avoid duplicate memberships
         });
     }
 

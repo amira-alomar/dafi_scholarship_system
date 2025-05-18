@@ -133,9 +133,41 @@ Route::middleware([AdminMiddleware::class])->group(function () {
 
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])
         ->name('admin.dashboard');
-    Route::get('/club', function () {
-        return view('admin.club');
-    })->name('club');
+    // Route::get('/club', function () {
+    //     return view('admin.club');
+    // })->name('club');
+    // List all clubs (and optionally filter by club_id if passed)
+Route::get('/admin/clubs', [ClubController::class, 'listClubs'])
+     ->name('admin.clubs.list');
+
+// Show create‐club form is part of the same view; submission:
+Route::post('/admin/clubs', [ClubController::class, 'storeClub'])
+     ->name('admin.clubs.store');
+
+// Fetch one club’s data (for edit modal or detail view via AJAX)
+Route::get('/admin/clubs/{club}/fetch', [ClubController::class, 'fetchClub'])
+     ->name('admin.clubs.fetch');
+
+// Update an existing club
+Route::patch('/admin/clubs/{club}', [ClubController::class, 'updateClub'])
+     ->name('admin.clubs.update');
+
+// Delete a club (AJAX or form)
+Route::delete('/admin/clubs/{club}', [ClubController::class, 'removeClub'])
+     ->name('admin.clubs.remove');
+
+// Show members & requests for one club (if you render a members section server‐side)
+Route::get('/admin/clubs/{club}/members', [ClubController::class, 'showMembers'])
+     ->name('admin.clubs.members');
+
+// Accept a pending membership
+Route::post('/admin/clubs/members/accept/{member}', [ClubController::class, 'acceptMember'])
+     ->name('admin.clubs.members.accept');
+
+// Reject a pending membership
+Route::post('/admin/clubs/members/reject/{member}', [ClubController::class, 'rejectMember'])
+     ->name('admin.clubs.members.reject');
+  
 
     // Add application stage
     Route::post('/scholarship/{id}/stages', [ManageScholarshipController::class, 'AddStage'])->name('stage.add');

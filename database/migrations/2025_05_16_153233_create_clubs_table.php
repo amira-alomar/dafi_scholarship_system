@@ -8,14 +8,14 @@ class CreateClubsTable extends Migration
 {
     public function up()
     {
-    Schema::create('clubs', function (Blueprint $table) {
-    $table->id();
-    $table->string('name');
-    $table->string('image');
-    $table->enum('category', ['art', 'techno', 'sports', 'science', 'culture']);
-    $table->text('description')->nullable();
-    $table->timestamps();
-});
+        Schema::create('clubs', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('image')->nullable();
+            $table->enum('category', ['art', 'techno', 'sports', 'science', 'culture']);
+            $table->text('description')->nullable();
+            $table->timestamps();
+        });
     }
 
     public function down()
@@ -23,4 +23,3 @@ class CreateClubsTable extends Migration
         Schema::dropIfExists('clubs');
     }
 }
-

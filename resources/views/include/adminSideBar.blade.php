@@ -64,7 +64,7 @@
                 <span class="sidebar-item-text">Partners</span>
             </a>
 
-            <a href="{{ route('club') }}" class="sidebar-item flex items-center p-2 rounded-lg">
+            <a href="{{ route('admin.clubs.list') }}" class="sidebar-item flex items-center p-2 rounded-lg">
                 <i class="sidebar-item-icon fas fa-handshake mr-3"></i>
                 <span class="sidebar-item-text">Clubs</span>
             </a>
