@@ -45,20 +45,25 @@
         input:checked + .slider:before {
             transform: translateX(26px);
         }
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
     </style>
 </head>
-<body class="bg-[#f5f5f5] font-sans text-[#0f172a]">
+<body class="flex h-screen overflow-hidden bg-[#f5f5f5] font-sans text-[#0f172a]">
     <!-- Navigation -->
-    <nav class="bg-[#313e53] text-[#f8fafc] px-6 py-4 shadow-md">
-        <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-xl font-semibold">Scholarship Management</h1>
-            {{-- <a href="{{ route('supervisor.manageScholarship', ['scholarshipID' => $scholarship->scholarshipID]) }}"  class="bg-[#e05252] hover:bg-[#ef4444] text-white px-4 py-2 rounded-md transition-colors duration-200">
-                Back to Dashboard
-            </a> --}}
-        </div>
-    </nav>
+    
+ @include('include.sidebar', ['scholarshipID' => $scholarshipID])
 
-    <div class="container mx-auto px-4 py-8">
+    <div class="flex-1 overflow-y-auto px-4 py-8">
         <div class="bg-white rounded-lg shadow-md p-6 mb-6">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-2xl font-bold text-[#0f172a]">Accepted Students</h2>

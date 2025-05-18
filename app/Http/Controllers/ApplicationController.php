@@ -225,7 +225,7 @@ class ApplicationController extends Controller
             ->where('idScholarship', $scholarshipID)
             ->get();
 
-        return view('supervisor.acceptedStudents', compact('applications'));
+        return view('supervisor.acceptedStudents', compact('applications','scholarshipID'));
     }
 
     public function approveFinalApplication($applicationID)

@@ -11,40 +11,28 @@ use Illuminate\Validation\Rule;
 
 class ExamController extends Controller
 {
-   public function create($scholarshipID)
-{
-    // (Optional) make sure the scholarship exists, otherwise 404 is valid:
-    $scholarship = Scholarship::find($scholarshipID);
-    if (! $scholarship) {
-        abort(404, 'Scholarship not found.');
+    public function create($scholarshipID)
+    {
+        $allEligible = $this->showEligibleForExam($scholarshipID);
+
+        // filter applications that do NOT have an exam yet
+        $eligibleApplications = $allEligible->filter(function ($item) {
+            return is_null($item->application->idExam);
+        });
+
+        // fetch only exams related to this scholarship
+        $applicationIds = Application::where('idScholarship', $scholarshipID)
+            ->whereNotNull('idExam')
+            ->pluck('idExam');
+
+        $exams = Exam::whereIn('examID', $applicationIds)
+            ->with(['application.user']) // eager load
+            ->latest()
+            ->get();
+
+
+        return view('supervisor.examResult', compact('eligibleApplications', 'scholarshipID', 'exams'));
     }
-
-    // get all eligible application‑progress records
-    $allEligible = $this->showEligibleForExam($scholarshipID);
-
-    // filter those without an exam yet
-    $eligibleApplications = $allEligible->filter(fn($item) =>
-        is_null($item->application->idExam)
-    );
-
-    // get all already‐created exams for this scholarship
-    $applicationIds = Application::where('idScholarship', $scholarshipID)
-        ->whereNotNull('idExam')
-        ->pluck('idExam');
-    $exams = Exam::whereIn('examID', $applicationIds)
-        ->with('application.user')
-        ->latest()
-        ->get();
-
-    // **Always** return the view, even if $eligibleApplications and $exams are empty
-    return view('supervisor.examResult', compact(
-        'scholarshipID',
-        'scholarship',
-        'eligibleApplications',
-        'exams'
-    ));
-}
-
     public function store(Request $request, $scholarshipID)
     {
         $eligibleStudentIds = $this->showEligibleForExam($scholarshipID)

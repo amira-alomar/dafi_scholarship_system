@@ -158,84 +158,7 @@
 <body class="min-h-screen">
     <div class="flex">
         <!-- Sidebar -->
-        <div class="w-64 bg-gray-900 text-white min-h-screen p-6 hidden md:block">
-            <div class="flex items-center space-x-2 mb-10">
-                <i class="fas fa-graduation-cap text-2xl text-indigo-400"></i>
-                <h1 class="text-xl font-bold">DAFI Scholarship</h1>
-            </div>
-
-            <nav>
-                <ul class="space-y-3">
-                    <li>
-                        <a href="#" class="flex items-center space-x-3 p-3 rounded-lg bg-gray-800">
-                            <i class="fas fa-tachometer-alt"></i>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#"
-                            class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
-                            <i class="fas fa-users"></i>
-                            <span>Students</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#"
-                            class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
-                            <i class="fas fa-book"></i>
-                            <span>Courses</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#"
-                            class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
-                            <i class="fas fa-file-alt"></i>
-                            <span>Applications</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#"
-                            class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
-                            <i class="fas fa-question-circle"></i>
-                            <span>Questions</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#"
-                            class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
-                            <i class="fas fa-clipboard-check"></i>
-                            <span>Exams</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#"
-                            class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
-                            <i class="fas fa-comments"></i>
-                            <span>Interviews</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#"
-                            class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
-                            <i class="fas fa-cog"></i>
-                            <span>Settings</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-
-            <div class="mt-auto pt-10">
-                <div class="flex items-center space-x-3 p-3 rounded-lg bg-gray-800">
-                    <div class="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center">
-                        <i class="fas fa-user text-sm"></i>
-                    </div>
-                    <div>
-                        <p class="text-sm font-medium">Supervisor</p>
-                        <p class="text-xs text-gray-400">Admin</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+        @include('include.sidebar', ['scholarshipID' => $scholarshipID])
 
         <!-- Mobile sidebar toggle -->
         <button id="sidebarToggle" class="md:hidden fixed top-4 left-4 z-50 bg-gray-900 text-white p-2 rounded-lg">
@@ -338,7 +261,7 @@
                 <div class="stat-card animate-card bg-white rounded-lg shadow p-6">
                     <a href="{{ route('interviewResult.create', ['scholarshipID' => $scholarshipID]) }}"
                         class="text-gray-600 hover:text-indigo-600 transition flex items-center justify-between">
-                        <span>Interview Exam</span>
+                        <span>Result Interview</span>
                         <i class="fas fa-arrow-right text-sm"></i>
                     </a>
                     <p class="text-2xl font-bold mt-2">2,430</p>
@@ -449,7 +372,7 @@
                 <div class="bg-white rounded-lg shadow p-6">
                     <h3 class="text-lg font-semibold mb-4">Quick Actions</h3>
                     <div class="grid grid-cols-2 gap-4">
-                        <a href="{{ route('interviewResult.create',['scholarshipID' => $scholarshipID]) }}"
+                        <a href="{{ route('interviewResult.create', ['scholarshipID' => $scholarshipID]) }}"
                             class="bg-indigo-50 text-indigo-600 p-4 rounded-lg flex flex-col items-center justify-center hover:bg-indigo-100 transition">
                             <i class="fas fa-plus-circle text-2xl mb-2"></i>
                             <span class="text-sm font-medium">Add Interview Result</span>
@@ -459,7 +382,7 @@
                             <i class="fas fa-user-plus text-2xl mb-2"></i>
                             <span class="text-sm font-medium">Manage Applications</span>
                         </a>
-                        <a href="{{ route('interviewResult.create',['scholarshipID' => $scholarshipID]) }}"
+                        <a href="{{ route('interviewResult.create', ['scholarshipID' => $scholarshipID]) }}"
                             class="bg-yellow-50 text-yellow-600 p-4 rounded-lg flex flex-col items-center justify-center hover:bg-yellow-100 transition">
                             <i class="fas fa-file-upload text-2xl mb-2"></i>
                             <span class="text-sm font-medium">Upload Exam Result</span>

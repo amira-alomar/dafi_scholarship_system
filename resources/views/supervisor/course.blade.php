@@ -21,24 +21,11 @@
         }
     </style>
 </head>
-<body class="bg-[#f5f5f5] font-sans">
+<body  class="flex h-screen overflow-hidden bg-[#f5f5f5] font-sans">
     <!-- Navigation Bar -->
-    <nav class="bg-[#313e53] text-[#f8fafc] shadow-md">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16 items-center">
-                <div class="flex items-center">
-                    <span class="text-xl font-semibold">Course Management</span>
-                </div>
-                <div>
-                    <a href="#" class="bg-[#e05252] hover:bg-[#ef4444] text-white px-4 py-2 rounded-md text-sm font-medium transition-colors">
-                        Back to Dashboard
-                    </a>
-                </div>
-            </div>
-        </div>
-    </nav>
+   @include('include.sidebar', ['scholarshipID' => $scholarshipID])
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+   <main class="flex-1 overflow-y-auto px-4 sm:px-6 lg:px-8 py-8">
         <div class="bg-white rounded-lg shadow-sm overflow-hidden">
             <div class="px-6 py-4 border-b border-[#e2e8f0]">
                 <h2 class="text-2xl font-bold text-[#0f172a]">Manage Student Courses</h2>

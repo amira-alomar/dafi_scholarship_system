@@ -10,6 +10,7 @@
 </head>
 
 <body>
+     @include('include.sidebar', ['scholarshipID' => $scholarshipID])
     <div class="container">
         <div class="header">
             <h1>Final Applications Results (Scholarship #{{ $scholarshipID }})</h1>

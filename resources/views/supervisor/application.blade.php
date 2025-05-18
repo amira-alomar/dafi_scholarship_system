@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,44 +28,39 @@
             --radius: 0.5rem;
             --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
         }
-        
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+        }
+
         body {
             background-color: var(--background);
             font-family: var(--font-sans);
+            display: flex;
+            overflow: hidden;
         }
-        
+
         .application-card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+                0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
-        
+
         .status-badge {
             font-size: 0.75rem;
             letter-spacing: 0.05em;
         }
     </style>
 </head>
-<body class="min-h-screen bg-[var(--background)]">
-    <!-- Top Navigation Bar -->
-    <nav class="bg-[var(--secondary)] text-[var(--secondary-foreground)] shadow-md">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex items-center">
-                    <div class="flex-shrink-0">
-                        <i class="fas fa-graduation-cap text-xl"></i>
-                    </div>
-                </div>
-                {{-- <div class="flex space-x-4">
-                    <a href="{{ route('dashboard') }}" class="flex items-center px-3 py-2 rounded-md text-sm font-medium bg-[var(--primary)] text-[var(--primary-foreground)] hover:bg-opacity-90 transition">
-                        <i class="fas fa-arrow-left mr-2"></i> Back to Dashboard
-                    </a>
-                </div> --}}
-            </div>
-        </div>
-    </nav>
 
-    <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<body>
+    <!-- Sidebar (flex child #1) -->
+    @include('include.sidebar', ['scholarshipID' => $scholarshipId])
+
+    <!-- Main Content (flex child #2) -->
+    <main class="flex-1 overflow-y-auto px-4 sm:px-6 lg:px-8 py-8">
         <div class="flex items-center justify-between mb-8">
             <h1 class="text-3xl font-bold text-[var(--foreground)]">Student Applications</h1>
             <div class="text-sm text-[var(--muted-foreground)]">
@@ -73,58 +69,34 @@
         </div>
 
         <div class="space-y-4">
-            @foreach($applications as $app)
-            <div class="application-card bg-[var(--card)] rounded-lg shadow-sm p-6 transition duration-200 border border-[var(--border)]">
-                <div class="flex flex-col md:flex-row md:items-center md:justify-between">
-                    <div class="mb-4 md:mb-0">
-                        <a href="{{ route('supervisor.applicationDetails', ['scholarshipId' => $scholarshipId,'applicationID' => $app->applicationID]) }}" 
-                           class="text-lg font-semibold text-[var(--accent)] hover:text-[var(--primary)] transition">
-                            {{ $app->user->fname." ".$app->user->lname ?? 'Unknown' }}
-                        </a>
-                        <p class="text-sm text-[var(--muted-foreground)] mt-1">
-                            <i class="fas fa-award mr-1"></i> {{ $app->scholarship->name ?? 'No Scholarship' }}
-                        </p>
+            @foreach ($applications as $app)
+                <div
+                    class="application-card bg-[var(--card)] rounded-lg shadow-sm p-6 border border-[var(--border)] transition">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                        <div class="mb-4 md:mb-0">
+                            <a href="{{ route('supervisor.applicationDetails', ['scholarshipId' => $scholarshipId, 'applicationID' => $app->applicationID]) }}"
+                                class="text-lg font-semibold text-[var(--accent)] hover:text-[var(--primary)] transition">
+                                {{ $app->user->fname . ' ' . $app->user->lname ?? 'Unknown' }}
+                            </a>
+                            <p class="text-sm text-[var(--muted-foreground)] mt-1">
+                                <i class="fas fa-award mr-1"></i> {{ $app->scholarship->name ?? 'No Scholarship' }}
+                            </p>
+                        </div>
                     </div>
-                    
-                    <div class="flex flex-col sm:flex-row sm:space-x-3 space-y-2 sm:space-y-0">
-                        @if ($app->applicationForm->status === 'submitted')
-                            <form action="{{ route('application.approve', ['scholarshipId' => $scholarshipId, 'applicationID' => $app->applicationID]) }}" method="POST">
-                                @csrf
-                                <button type="submit" class="flex items-center px-4 py-2 bg-[var(--accent)] text-[var(--accent-foreground)] rounded-md hover:bg-opacity-90 transition">
-                                    <i class="fas fa-check-circle mr-2"></i> Approve
-                                </button>
-                            </form>
-                            <form action="{{ route('application.reject', ['scholarshipId' => $scholarshipId, 'applicationID' => $app->applicationID]) }}" method="POST">
-                                @csrf
-                                <button type="submit" class="flex items-center px-4 py-2 bg-[var(--destructive)] text-[var(--destructive-foreground)] rounded-md hover:bg-opacity-90 transition">
-                                    <i class="fas fa-times-circle mr-2"></i> Reject
-                                </button>
-                            </form>
-                        @elseif ($app->applicationForm->status === 'approved')
-                            <span class="flex items-center px-4 py-2 bg-green-100 text-green-800 rounded-md status-badge">
-                                <i class="fas fa-check-circle mr-2"></i> Accepted
-                            </span>
-                        @elseif ($app->applicationForm->status === 'rejected')
-                            <span class="flex items-center px-4 py-2 bg-red-100 text-red-800 rounded-md status-badge">
-                                <i class="fas fa-times-circle mr-2"></i> Rejected
-                            </span>
-                        @endif
-                    </div>
-                </div>
-            </div>
             @endforeach
         </div>
-    </main>
 
-    <!-- Empty State (if needed) -->
-    @if(count($applications) === 0)
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
-        <div class="bg-[var(--card)] rounded-lg shadow-sm p-8 max-w-md mx-auto">
-            <i class="fas fa-folder-open text-4xl text-[var(--muted-foreground)] mb-4"></i>
-            <h3 class="text-lg font-medium text-[var(--foreground)] mb-2">No applications found</h3>
-            <p class="text-sm text-[var(--muted-foreground)]">There are currently no student applications to display.</p>
-        </div>
-    </div>
-    @endif
+        @if (count($applications) === 0)
+            <div class="py-12 text-center">
+                <div class="bg-[var(--card)] rounded-lg shadow-sm p-8 max-w-md mx-auto">
+                    <i class="fas fa-folder-open text-4xl text-[var(--muted-foreground)] mb-4"></i>
+                    <h3 class="text-lg font-medium text-[var(--foreground)] mb-2">No applications found</h3>
+                    <p class="text-sm text-[var(--muted-foreground)]">There are currently no student applications to
+                        display.</p>
+                </div>
+            </div>
+        @endif
+    </main>
 </body>
+
 </html>
