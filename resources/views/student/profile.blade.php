@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="{{ asset('js/job.js') }}"></script>
 </head>
 <body>
 <div style="display: flex; min-height: 100vh;">
@@ -242,64 +243,18 @@
                     <div class="profile-section-title">
                         <span>Saved Jobs</span>
                     </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full">
-                            <thead>
-                                <tr class="text-left border-b">
-                                    <th class="pb-2">Course Code</th>
-                                    <th class="pb-2">Course Name</th>
-                                    <th class="pb-2">Semester</th>
-                                    <th class="pb-2">Grade</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            @forelse($currentCourses as $course)
-                                <tr class="border-b">
-                                    <td class="py-3">{{ $course->code }}</td>
-                                    <td>{{ $course->course_name }}</td>
-                                    <td>{{ $course->semester }}</td>
-                                </tr>
-                                @empty
-                                <tr class="border-b">
-                                <td colspan="4">No current courses found.</td>
-                                </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                
-                <div class="profile-card">
-                    <div class="profile-section-title">
-                        <span>Completed Courses</span>
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full">
-                            <thead>
-                                <tr class="text-left border-b">
-                                <th class="pb-2">Course Code</th>
-                                    <th class="pb-2">Course Name</th>
-                                    <th class="pb-2">Semester</th>
-                                    <th class="pb-2">Grade</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            @forelse($completedCourses as $course)
-                                <tr class="border-b">
-                                    <td class="py-3">{{ $course->code }}</td>
-                                    <td>{{ $course->course_name }}</td>
-                                    <td>{{ $course->semester }}</td>
-                                    <td>{{ $course->grade }}</td>
-                                    
-                                </tr>
-                                @empty
-                                <tr class="border-b">
-                                <td colspan="5">No completed courses found.</td>
-                                </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                    </div>
+                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        @forelse($savedJobs as $job)
+            
+        
+                      <div class="card p-6 ">
+                        <x-job-card :job="$job" />
+</div>
+
+        @empty
+            <p class="text-gray-500">You haven't saved any jobs yet.</p>
+        @endforelse
+        </div>
                 </div>
             </div>
             <!-- Achievements Tab -->
@@ -362,7 +317,54 @@
         </form>
     </div>
 </div>
+ <!-- Modal -->
+    <div id="modal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <h3 id="modal-title" class="text-2xl font-semibold"></h3>
+                        <div class="flex items-center text-gray-600 mt-2">
+                            <i class="fas fa-map-marker-alt mr-2"></i>
+                            <span id="modal-location"></span>
+                        </div>
+                    </div>
+                    <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
 
+                <div class="mb-6">
+                    <div class="flex justify-between text-sm mb-1">
+                        <span>Your skills match:</span>
+                        <span id="modal-skills">3/5 skills</span>
+                    </div>
+                    <div class="skill-progress">
+                        <div id="modal-progress" class="skill-progress-fill" style="width: 60%"></div>
+                    </div>
+                </div>
+                <div class="mb-6">
+                    <h4 class="font-medium text-lg mb-2">Job Description</h4>
+                    <p id="modal-description" class="text-gray-600">
+                    </p>
+                </div>
+                      <div class="mb-6">
+                    <h4 class="font-medium text-lg mb-2">Application method</h4>
+                    <p id="modal-app" class="text-gray-600"> 
+                    </p>
+                </div>
+                       <div class="mb-6">
+                    <h4 class="font-medium text-lg mb-2">Company name</h4>
+                    <p id="modal-company" class="text-gray-600">  
+                    </p>
+                </div>
+                       <div class="mb-6">
+                    <h4 class="font-medium text-lg mb-2">Application deadline</h4>
+                    <p id="modal-deadline" class="text-gray-600">
+                    </p>
+                </div>
+            </div>
+        </div>
 
 
 <script>

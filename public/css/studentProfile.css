@@ -8,7 +8,7 @@
   
   body {
     font-family: var(--font-sans);
-    background-color: var(--background);
+    background-color:  #f5f5f5;
     color: var(--foreground);
     line-height: 1.5;
     font-size: 16px;
@@ -421,3 +421,16 @@
         flex-wrap: wrap;
     }
 }
+ .job-card {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .job-card-content {
+            flex-grow: 1;
+        }
+
+        .job-card-footer {
+            margin-top: auto;
+        }
