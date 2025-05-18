@@ -33,6 +33,8 @@ use App\Models\JobOpportunity;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClubController;
 use App\Http\Controllers\StudentDashboardController;
+use App\Http\Controllers\GraduateFeedbackController;
+
 
 
 
@@ -330,7 +332,8 @@ Route::middleware(['auth', 'role:Student'])->group(function () {
    Route::get('/student/clubs', [ClubController::class, 'index'])->name('student.clubs');
    Route::get('/student/clubs/{club}', [ClubController::class, 'show'])
      ->name('student.clubs.show');
-
+Route::post('/graduate/feedback', [GraduateFeedbackController::class, 'store'])
+    ->name('graduate.feedback.store');
 Route::post('/student/clubs/join', [ClubController::class, 'join'])
      ->name('student.clubs.join');
 

@@ -15,6 +15,7 @@ use App\Models\UserSkills;
 use App\Models\JobOpportunity;
 use App\Models\SavedJob;
 use App\Models\club;
+use App\Models\Graduates;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,7 +24,8 @@ class StudentDashboardController extends Controller
         public function index()
     {
         $user = auth()->user();
-         $userId = Auth::id();
+        $userId = Auth::id();
+        $isGraduate = $user->graduates()->exists();
         $applications = $user->appliedOpportunities()
                          ->orderByPivot('application_date', 'desc')
                          ->get();
@@ -38,12 +40,8 @@ class StudentDashboardController extends Controller
         $goals = AcademicGoal::where('studentInfoID', $studentInfoID)->get();
 
 
-        $currentCourses = $courses->filter(function ($course) {
-            return $course->grade === null; // مثلاً: إذا ما في درجة بعد = كورس حالي
-        });
-        $completedCourses = $courses->filter(function ($course) {
-            return $course->grade !== null; // الكورسات اللي فيها درجات = مكتملة
-        });
+       
+      
         $userSkills = $user->skills->pluck('skillID')->toArray();
 
         $jobs = JobOpportunity::with('skills')->get()->map(function ($job) use ($userSkills) {
@@ -60,9 +58,15 @@ class StudentDashboardController extends Controller
             })->filter(function ($job) {
                 return $job->match_count > 0;
             });
-        $dashboardClubs = $user->clubs()
-        ->withPivot('status')
-        ->get();
+   $dashboardClubs = $user->clubs()
+    ->withPivot('status')
+    ->withCount([
+        'users as accepted_users_count' => function ($q) {
+            $q->where('club_user.status', 'accepted');
+        }
+    ])
+    ->get();
+
 
              // نفرض أن السميستر الحالي هو السنة الميلادية الحالية
     $currentYear = Carbon::now()->year;
@@ -88,6 +92,7 @@ class StudentDashboardController extends Controller
     // نأخذ أول 4 للعرض في الداشبورد
     $dashboardCourses = $allThisYear->take(4)->get();
 
+    $registeredCoursesYear=$allThisYear->count();
     // نحسب كم تبقى من كورسات لهذا العام
     $remainingCount = max(0, $allThisYear->count() - $dashboardCourses->count());
 
@@ -97,13 +102,13 @@ class StudentDashboardController extends Controller
             'allSkills' => Skill::all(),
             'userSkills' => $userSkills,
             'goals' => $goals,
+            'registeredCoursesYear' => $registeredCoursesYear,
+            'isGraduate' => $isGraduate,
             'dashboardClubs' => $dashboardClubs,
             'jobs' => $jobs,
             'dashboardCourses' => $dashboardCourses,
             'remainingCount' => $remainingCount,
             'applications' => $applications,
-            'currentCourses' => $currentCourses,
-            'completedCourses' => $completedCourses,
             'totalTrainings' => $totalTrainings,
             'volunteeringHours' => $totalVolunteeringHours,
             'major' => optional($studentInfo)->major,

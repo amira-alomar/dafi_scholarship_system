@@ -12,13 +12,17 @@ use App\Models\StudentInfo;
 use App\Models\Course;
 use App\Models\Skill;
 use App\Models\UserSkills;
+use App\Models\SavedJob;
+use App\Models\JobOpportunity;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class StudentProfileController extends Controller
 {
     public function index()
     {
-       
+        
+
         $userSkills = auth()->user()->userSkills;
         $courses = Course::where('idUser', Auth::id())->get();
         $studentInfo = auth()->user()->studentInfo;
@@ -34,10 +38,32 @@ class StudentProfileController extends Controller
         $completedCourses = $courses->filter(function ($course) {
             return $course->grade !== null; // الكورسات اللي فيها درجات = مكتملة
         });
+        $userSkillsjob = $user->skills->pluck('skillID')->toArray();
+        $savedJobIds = SavedJob::where('user_id', $user->id)
+                              ->pluck('job_opportunity_id')
+                              ->toArray();
+         $savedJobs = JobOpportunity::whereIn('jobID', $savedJobIds)->get()->map(function ($job) use ($userSkillsjob) {
+            // extract this job’s skill IDs to a plain array
+            $jobSkillIds = $job->skills->pluck('skillID')->toArray();
+
+            // intersect two arrays
+            $matchingSkills = array_intersect($userSkillsjob, $jobSkillIds);
+
+            // assign back onto *this* $job, not $savedJobs
+            $job->match_count   = count($matchingSkills);
+            $job->total_skills  = count($jobSkillIds);
+            $job->match_percent = $job->total_skills
+                ? round((count($matchingSkills) / $job->total_skills) * 100)
+                : 0;
+
+            return $job;
+        });
+                              
         
         return view('student.profile', [
             'allSkills' => Skill::all(),
             'userSkills' => $userSkills,
+            'savedJobs' => $savedJobs,
             'currentCourses' => $currentCourses,
             'completedCourses' => $completedCourses,
             'totalTrainings' => $totalTrainings,
@@ -117,13 +143,11 @@ class StudentProfileController extends Controller
         'name' => 'required|string|max:255',
         'level' => 'required|string|max:50',
     ]);
-
+$user = auth()->user();
     $skill = Skill::where('name', $request->name)->first();
-
-if (!$skill) {
-    return redirect()->back()->withErrors(['name' => 'Skill not found in the list']);
-}
-
+$user->skills()->syncWithoutDetaching([
+    $skill->skillID => ['level' => $request->level],
+]);
 
     // ربط المهارة بالمستخدم مع المستوى
     UserSkills::updateOrCreate(
@@ -134,5 +158,4 @@ if (!$skill) {
     return redirect()->back()->with('success', 'Skill added successfully.');
     
 }
-     }
- 
+}

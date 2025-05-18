@@ -23,9 +23,8 @@
   </div>
   
   <div class="sidebar-user">
-    <div class="user-avatar">
-    <!-- <img src="{{ $image ? asset('storage/profile_images/' . $image) : 'https://i.pravatar.cc/150?img=32' }}" alt="User avatar"> -->
-      <img src=" https://avatar.iran.liara.run/public/97">
+<div class="user-avatar">
+         <img src="{{ optional(auth()->user())->profile_picture  ? asset('storage/profile_images/' . optional(auth()->user())->profile_picture) : 'https://i.pravatar.cc/150?img=32' }}" alt="User avatar">
     </div>
     <div class="user-info">
       <h3 class="user-name">{{ optional(auth()->user())->fname ?? 'Guest' }}</h3>

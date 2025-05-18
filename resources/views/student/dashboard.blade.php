@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{{ asset('css/sidebarstudent.css') }}">
         <link rel="stylesheet" href="{{ asset('css/DashboardAcceptedStudents.css') }}">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="min-h-screen">
     <div class="flex">
@@ -24,11 +25,11 @@
   
   <div class="sidebar-user">
     <div class="user-avatar">
-      <img src=" https://avatar.iran.liara.run/public/97">
+         <img src="{{ optional(auth()->user())->profile_picture  ? asset('storage/profile_images/' . optional(auth()->user())->profile_picture) : 'https://i.pravatar.cc/150?img=32' }}" alt="User avatar">
     </div>
     <div class="user-info">
       <h3 class="user-name">{{ optional(auth()->user())->fname ?? 'Guest' }}</h3>
-      <p class="user-role"><span>Computer Science </span> Student</p>
+      <p class="user-role"><span>{{ $major ?? 'Not Set' }} </span> Student</p>
      
     </div>
   </div>
@@ -136,11 +137,25 @@
                         </div>
                         <div>
                             <p class="text-gray-500">Courses Registered</p>
-                            <h3 class="text-2xl font-bold">3</h3>
+                            <h3 class="text-2xl font-bold">{{ $registeredCoursesYear }}</h3>
                         </div>
                     </div>
                 </div>
             </div>
+                      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mb-4">
+                      <div class="card p-6 mb-8">
+              <h2 class="text-xl font-bold mb-4">Volunteering Progress</h2>
+              <div class="w-full md:w-1/2 mx-auto">
+                  <canvas id="progressChart"></canvas>
+              </div>
+          </div>
+                    <div class="card p-6 mb-8">
+              <h2 class="text-xl font-bold mb-4">Training Progress</h2>
+              <div class="w-full md:w-1/2 mx-auto">
+                  <canvas id="trainingChart"></canvas>
+              </div>
+          </div>
+          </div>
 
             <!-- Academic Goals -->
             <div class="card p-6 mb-8">
@@ -353,6 +368,7 @@
               <i class="fas fa-users mr-1"></i>
               {{ $club->accepted_users_count }} members
             </span>
+          
             @php
               $status = $club->pivot->status;
               $badge = $status === 'accepted'
@@ -369,66 +385,21 @@
   @endif
 </div>
 
-
-            <!-- Profile Snapshot -->
-            <div class="card p-6">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-xl font-bold">Profile Snapshot</h2>
-                    <div class="flex space-x-3">
-                        <button class="px-4 py-2 rounded-md bg-gray-100 hover:bg-gray-200">
-                            Edit Profile
-                        </button>
-                        <button class="px-4 py-2 rounded-md bg-gray-100 hover:bg-gray-200">
-                            Change Photo
-                        </button>
-                    </div>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <h3 class="text-lg font-medium mb-4">Personal Information</h3>
-                        <div class="space-y-4">
-                            <div>
-                                <p class="text-sm text-gray-500">Full Name</p>
-                                <p class="font-medium">Yasmine Mohamad</p>
-                            </div>
-                            <div>
-                                <p class="text-sm text-gray-500">Major</p>
-                                <p class="font-medium">Computer Science</p>
-                            </div>
-                            <div>
-                                <p class="text-sm text-gray-500">GPA</p>
-                                <p class="font-medium">3.40</p>
-                            </div>
-                            <div>
-                                <p class="text-sm text-gray-500">Student ID</p>
-                                <p class="font-medium">12233883</p>
-                            </div>
-                            <div>
-                                <p class="text-sm text-gray-500">Current Year</p>
-                                <p class="font-medium">third</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <h3 class="text-lg font-medium mb-4">Contact Information</h3>
-                        <div class="space-y-4">
-                            <div>
-                                <p class="text-sm text-gray-500">Email</p>
-                                <p class="font-medium">yasmine.mohamad@dafi.edu</p>
-                            </div>
-                            <div>
-                                <p class="text-sm text-gray-500">Phone</p>
-                                <p class="font-medium">+1 (555) 123-4567</p>
-                            </div>
-                            <div>
-                                <p class="text-sm text-gray-500">Address</p>
-                                <p class="font-medium">123 University Ave, Apt 4B<br>College Town, CT 06511</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    @if($isGraduate)
+        <div class="card p-6 mb-8">
+            <h2 class="text-xl font-bold mb-4">We value your feedback!</h2>
+            <form method="POST" action="{{ route('graduate.feedback.store') }}">
+                @csrf
+                <label for="feedback" class="block text-sm text-gray-600 mb-2"> If you are a graduate student Submit Your Feedback</label>
+                <textarea name="feedback" id="feedback" rows="4" class="w-full border rounded p-2" required></textarea>
+                <button type="submit" class="mt-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">
+                    Submit Feedback
+                </button>
+            </form>
         </div>
+    @endif
+
+
     </div>
 
     <script>
@@ -456,6 +427,84 @@
                 toast.classList.add('hidden');
             }, 3000);
         }
+    const completedHours = {{ $volunteeringHours  ?? 0 }};
+    const goalHours = {{ $goalHours ?? 60 }}; // يمكنك تعيين هذا الرقم ديناميكيًا من السيرفر
+    const remainingHours = Math.max(0, goalHours - completedHours);
+    const percentage = Math.min(100, (completedHours / goalHours) * 100).toFixed(1);
+
+    const ctx = document.getElementById('progressChart').getContext('2d');
+    const progressChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Completed', 'Remaining'],
+            datasets: [{
+                data: [completedHours, remainingHours],
+                backgroundColor: ['#3B82F6', '#E5E7EB'],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            cutout: '70%',
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return `${context.label}: ${context.raw} hrs`;
+                        }
+                    }
+                },
+                legend: {
+                    display: true,
+                    position: 'bottom'
+                },
+                title: {
+                    display: true,
+                    text: `Progress: ${percentage}%`
+                }
+            }
+        }
+    });
+    // بيانات التدريبات من السيرفر (Blade)
+const completedTrainings   = {{ $totalTrainings   ?? 0 }};
+const goalTrainings        = 6; 
+const remainingTrainings   = Math.max(0, goalTrainings - completedTrainings);
+const percentageTrainings  = Math.min(100, (completedTrainings / goalTrainings) * 100).toFixed(1);
+
+// إنشاء الرسم البياني الدائري للتدريبات
+const ctx2 = document.getElementById('trainingChart').getContext('2d');
+const trainingChart = new Chart(ctx2, {
+    type: 'doughnut',
+    data: {
+        labels: ['Completed', 'Remaining'],
+        datasets: [{
+            data: [completedTrainings, remainingTrainings],
+             
+            backgroundColor: ['#10B981', '#E5E7EB'], // لون مختلف لتميزه
+            borderWidth: 1
+        }]
+    },
+    options: {
+        cutout: '70%',
+        plugins: {
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        return `${context.label}: ${context.raw} training${context.raw > 1 ? 's' : ''}`;
+                    }
+                }
+            },
+            legend: {
+                display: true,
+                position: 'bottom'
+            },
+            title: {
+                display: true,
+                text: `Progress: ${percentageTrainings}%`
+            }
+        }
+    }
+});
+
     </script>
 </body>
 </html>

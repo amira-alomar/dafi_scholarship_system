@@ -26,10 +26,13 @@ class AllUser  extends Authenticatable
     {
         return $this->hasMany(Graduates::class, 'user_id'); // User has many Graduates
     }
-   public function skills()
+public function skills()
 {
-    return $this->belongsToMany(Skill::class, 'user_skills', 'idUser', 'idSkill');
+    return $this->belongsToMany(Skill::class, 'user_skills', 'idUser', 'idSkill')
+                ->withPivot('level')
+                ->withTimestamps();
 }
+
 
 
     public function applications()
