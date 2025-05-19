@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\InterviewInvitationMail;
 use Illuminate\Http\Request;
 use App\Models\Scholarship;
 use App\Models\Application;
@@ -10,6 +11,7 @@ use App\Models\ApplicationStageProgress;
 use App\Models\AllUser;
 use App\Models\Interview;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Mail;
 
 class InterviewController extends Controller
 {
@@ -67,7 +69,7 @@ class InterviewController extends Controller
     public function scheduleInterview($applicationID)
     {
         // 1. تجيب الطلبية (application)
-        $application = Application::findOrFail($applicationID);
+        $application = Application::with('user')->findOrFail($applicationID);
 
         // 2. تجيب الـStage الخاص بالمقابلات
         $interviewStage = ApplicationStage::where('idScholarship', $application->idScholarship)
@@ -93,7 +95,8 @@ class InterviewController extends Controller
             'idAppStage' => $interviewStage->applicationStageID,
             'status'     => 'pending',  // أو 'scheduled' لو بدك
         ]);
-
+        $studentEmail = $application->user->email;
+        Mail::to($studentEmail)->send(new InterviewInvitationMail());
         return back()->with('success', 'Interview scheduled successfully.');
     }
 

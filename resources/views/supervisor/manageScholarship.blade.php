@@ -185,99 +185,185 @@
             </div>
 
             <!-- Statistics Cards -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
-                <div class="stat-card animate-card bg-white rounded-lg shadow p-6">
-                    <a href="{{ route('supervisor.manageUsers', ['scholarshipID' => $scholarshipID]) }}"
-                        class="text-gray-600 hover:text-indigo-600 transition flex items-center justify-between">
-                        <span>Manage Users</span>
-                        <i class="fas fa-arrow-right text-sm"></i>
-                    </a>
-                    <p class="text-2xl font-bold mt-2">1,250</p>
-                </div>
+            <!-- Supervisor Dashboard: Grouped & Ordered -->
+            <div class="space-y-8">
 
-                <div class="stat-card animate-card bg-white rounded-lg shadow p-6">
-                    <a href="{{ route('supervisor.acceptedStudents', ['scholarshipID' => $scholarshipID]) }}"
-                        class="text-gray-600 hover:text-indigo-600 transition flex items-center justify-between">
-                        <span>Accepted Students</span>
-                        <i class="fas fa-arrow-right text-sm"></i>
-                    </a>
-                    <p class="text-2xl font-bold mt-2">5,678</p>
-                </div>
+                <section>
+                    <h2 class="text-xl font-semibold mb-4">🔧 Pre‑Setup</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Questions must be defined before any admission step -->
+                        <div class="bg-white rounded-lg shadow p-6 hover:shadow-md transition">
+                            <a href="{{ route('supervisor.questions', ['scholarshipId' => $scholarshipID]) }}"
+                                class="flex items-center justify-between text-gray-600 hover:text-indigo-600 transition">
+                                <span>Manage Questions</span>
+                                <i class="fas fa-arrow-right text-sm"></i>
+                            </a>
+                            <p class="text-2xl font-bold mt-2">2,430</p>
+                        </div>
+                    </div>
+                </section>
 
-                <div class="stat-card animate-card bg-white rounded-lg shadow p-6">
-                    <a href="{{ route('supervisor.course', ['scholarshipID' => $scholarshipID]) }}"
-                        class="text-gray-600 hover:text-indigo-600 transition flex items-center justify-between">
-                        <span>View Courses</span>
-                        <i class="fas fa-arrow-right text-sm"></i>
-                    </a>
-                    <p class="text-2xl font-bold mt-2">2,430</p>
-                </div>
+                <!-- 2. Admission Workflow -->
+                <section>
+                    <h2 class="text-xl font-semibold mb-4">🎓 Admission Steps</h2>
+                    <div class="bg-white rounded-lg shadow overflow-hidden">
+                        <div class="flex flex-col sm:flex-row items-stretch">
+                            <!-- Step 1 -->
+                            <div class="flex-1 group hover:bg-gray-50 transition">
+                                <a href="{{ route('supervisor.application', ['scholarshipId' => $scholarshipID]) }}"
+                                    class="block p-6">
+                                    <div class="flex items-center">
+                                        <div
+                                            class="flex-shrink-0 w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center group-hover:bg-indigo-200 transition">
+                                            <span class="text-indigo-600 font-medium">1</span>
+                                        </div>
+                                        <div class="ml-4">
+                                            <h3 class="text-gray-600 group-hover:text-indigo-600 transition">View
+                                                Applications</h3>
+                                            <p class="text-2xl font-bold mt-1">2,430</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
 
-                <div class="stat-card animate-card bg-white rounded-lg shadow p-6">
-                    <a href="{{ route('supervisor.application', ['scholarshipId' => $scholarshipID]) }}"
-                        class="text-gray-600 hover:text-indigo-600 transition flex items-center justify-between">
-                        <span>View Forms</span>
-                        <i class="fas fa-arrow-right text-sm"></i>
-                    </a>
-                    <p class="text-2xl font-bold mt-2">2,430</p>
-                </div>
+                            <div class="stepper-connector hidden sm:block"></div>
 
-                <div class="stat-card animate-card bg-white rounded-lg shadow p-6">
-                    <a href="{{ route('supervisor.questions', ['scholarshipId' => $scholarshipID]) }}"
-                        class="text-gray-600 hover:text-indigo-600 transition flex items-center justify-between">
-                        <span>View Questions</span>
-                        <i class="fas fa-arrow-right text-sm"></i>
-                    </a>
-                    <p class="text-2xl font-bold mt-2">2,430</p>
-                </div>
+                            <!-- Step 2 -->
+                            <div class="flex-1 group hover:bg-gray-50 transition">
+                                <a href="{{ route('examResult.create', ['scholarshipID' => $scholarshipID]) }}"
+                                    class="block p-6">
+                                    <div class="flex items-center">
+                                        <div
+                                            class="flex-shrink-0 w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center group-hover:bg-indigo-200 transition">
+                                            <span class="text-indigo-600 font-medium">2</span>
+                                        </div>
+                                        <div class="ml-4">
+                                            <h3 class="text-gray-600 group-hover:text-indigo-600 transition">Exam
+                                                Results</h3>
+                                            <p class="text-2xl font-bold mt-1">2,430</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
 
-                <div class="stat-card animate-card bg-white rounded-lg shadow p-6">
-                    <a href="{{ route('supervisor.exam', ['scholarshipID' => $scholarshipID]) }}"
-                        class="text-gray-600 hover:text-indigo-600 transition flex items-center justify-between">
-                        <span>Manage Exam</span>
-                        <i class="fas fa-arrow-right text-sm"></i>
-                    </a>
-                    <p class="text-2xl font-bold mt-2">2,430</p>
-                </div>
+                            <div class="stepper-connector hidden sm:block"></div>
 
-                <div class="stat-card animate-card bg-white rounded-lg shadow p-6">
-                    <a href="{{ route('supervisor.interview', ['scholarshipID' => $scholarshipID]) }}"
-                        class="text-gray-600 hover:text-indigo-600 transition flex items-center justify-between">
-                        <span>Manage Interview</span>
-                        <i class="fas fa-arrow-right text-sm"></i>
-                    </a>
-                    <p class="text-2xl font-bold mt-2">2,430</p>
-                </div>
+                            <!-- Step 3 -->
+                            <div class="flex-1 group hover:bg-gray-50 transition">
+                                <a href="{{ route('supervisor.exam', ['scholarshipID' => $scholarshipID]) }}"
+                                    class="block p-6">
+                                    <div class="flex items-center">
+                                        <div
+                                            class="flex-shrink-0 w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center group-hover:bg-indigo-200 transition">
+                                            <span class="text-indigo-600 font-medium">3</span>
+                                        </div>
+                                        <div class="ml-4">
+                                            <h3 class="text-gray-600 group-hover:text-indigo-600 transition">Manage Exam
+                                            </h3>
+                                            <p class="text-2xl font-bold mt-1">2,430</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
 
-                <div class="stat-card animate-card bg-white rounded-lg shadow p-6">
-                    <a href="{{ route('examResult.create', ['scholarshipID' => $scholarshipID]) }}"
-                        class="text-gray-600 hover:text-indigo-600 transition flex items-center justify-between">
-                        <span>Result Exam</span>
-                        <i class="fas fa-arrow-right text-sm"></i>
-                    </a>
-                    <p class="text-2xl font-bold mt-2">2,430</p>
-                </div>
+                        <div class="border-t border-gray-200"></div>
 
-                <div class="stat-card animate-card bg-white rounded-lg shadow p-6">
-                    <a href="{{ route('interviewResult.create', ['scholarshipID' => $scholarshipID]) }}"
-                        class="text-gray-600 hover:text-indigo-600 transition flex items-center justify-between">
-                        <span>Result Interview</span>
-                        <i class="fas fa-arrow-right text-sm"></i>
-                    </a>
-                    <p class="text-2xl font-bold mt-2">2,430</p>
-                </div>
+                        <div class="flex flex-col sm:flex-row items-stretch">
+                            <!-- Step 4 -->
+                            <div class="flex-1 group hover:bg-gray-50 transition">
+                                <a href="{{ route('interviewResult.create', ['scholarshipID' => $scholarshipID]) }}"
+                                    class="block p-6">
+                                    <div class="flex items-center">
+                                        <div
+                                            class="flex-shrink-0 w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center group-hover:bg-indigo-200 transition">
+                                            <span class="text-indigo-600 font-medium">4</span>
+                                        </div>
+                                        <div class="ml-4">
+                                            <h3 class="text-gray-600 group-hover:text-indigo-600 transition">Interview
+                                                Results</h3>
+                                            <p class="text-2xl font-bold mt-1">2,430</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
 
-                <div class="stat-card animate-card bg-white rounded-lg shadow p-6">
-                    <a href="{{ route('supervisor.finalApplication', ['scholarshipID' => $scholarshipID]) }}"
-                        class="text-gray-600 hover:text-indigo-600 transition flex items-center justify-between">
-                        <span>Result Application</span>
-                        <i class="fas fa-arrow-right text-sm"></i>
-                    </a>
-                    <p class="text-2xl font-bold mt-2">2,430</p>
-                </div>
+                            <div class="stepper-connector hidden sm:block"></div>
+
+                            <!-- Step 5 -->
+                            <div class="flex-1 group hover:bg-gray-50 transition">
+                                <a href="{{ route('supervisor.interview', ['scholarshipID' => $scholarshipID]) }}"
+                                    class="block p-6">
+                                    <div class="flex items-center">
+                                        <div
+                                            class="flex-shrink-0 w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center group-hover:bg-indigo-200 transition">
+                                            <span class="text-indigo-600 font-medium">5</span>
+                                        </div>
+                                        <div class="ml-4">
+                                            <h3 class="text-gray-600 group-hover:text-indigo-600 transition">Manage
+                                                Interview</h3>
+                                            <p class="text-2xl font-bold mt-1">2,430</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+
+                            <div class="stepper-connector hidden sm:block"></div>
+
+                            <!-- Step 6 -->
+                            <div class="flex-1 group hover:bg-gray-50 transition">
+                                <a href="{{ route('supervisor.finalApplication', ['scholarshipID' => $scholarshipID]) }}"
+                                    class="block p-6">
+                                    <div class="flex items-center">
+                                        <div
+                                            class="flex-shrink-0 w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center group-hover:bg-indigo-200 transition">
+                                            <span class="text-indigo-600 font-medium">6</span>
+                                        </div>
+                                        <div class="ml-4">
+                                            <h3 class="text-gray-600 group-hover:text-indigo-600 transition">Final
+                                                Applications</h3>
+                                            <p class="text-2xl font-bold mt-1">2,430</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 3. General Management -->
+                <section>
+                    <h2 class="text-xl font-semibold mb-4">📋 General Management</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="bg-white rounded-lg shadow p-6 hover:shadow-md transition">
+                            <a href="{{ route('supervisor.manageUsers', ['scholarshipID' => $scholarshipID]) }}"
+                                class="flex items-center justify-between text-gray-600 hover:text-indigo-600 transition">
+                                <span>Manage Users</span>
+                                <i class="fas fa-arrow-right text-sm"></i>
+                            </a>
+                            <p class="text-2xl font-bold mt-2">1,250</p>
+                        </div>
+                        <div class="bg-white rounded-lg shadow p-6 hover:shadow-md transition">
+                            <a href="{{ route('supervisor.acceptedStudents', ['scholarshipID' => $scholarshipID]) }}"
+                                class="flex items-center justify-between text-gray-600 hover:text-indigo-600 transition">
+                                <span>Accepted Students</span>
+                                <i class="fas fa-arrow-right text-sm"></i>
+                            </a>
+                            <p class="text-2xl font-bold mt-2">5,678</p>
+                        </div>
+                        <div class="bg-white rounded-lg shadow p-6 hover:shadow-md transition">
+                            <a href="{{ route('supervisor.course', ['scholarshipID' => $scholarshipID]) }}"
+                                class="flex items-center justify-between text-gray-600 hover:text-indigo-600 transition">
+                                <span>View Courses</span>
+                                <i class="fas fa-arrow-right text-sm"></i>
+                            </a>
+                            <p class="text-2xl font-bold mt-2">2,430</p>
+                        </div>
+                    </div>
+                </section>
+
             </div>
-
-            <!-- Recent Applications Section -->
+            <hr><br><br>
             <!-- Recent Applications Section -->
             <div class="bg-white rounded-lg shadow mb-8 overflow-hidden">
                 <div class="p-6 border-b border-gray-200">

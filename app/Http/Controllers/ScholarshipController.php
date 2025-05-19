@@ -12,6 +12,8 @@ use App\Models\AdminScholarship;
 use App\Models\AllUser;
 use App\Models\ApplicationStageProgress;
 use App\Models\Exam;
+use App\Mail\InvitatiobMail;
+use Illuminate\Support\Facades\Mail;
 
 class ScholarshipController extends Controller
 {
@@ -231,8 +233,8 @@ class ScholarshipController extends Controller
 
     public function sendInvitation($applicationID)
     {
-        $application = Application::findOrFail($applicationID);
 
+        $application = Application::with('user')->findOrFail($applicationID);
         $examStage = ApplicationStage::where('idScholarship', $application->idScholarship)
             ->where('name', 'Exam')
             ->first();
@@ -256,7 +258,8 @@ class ScholarshipController extends Controller
             'idAppStage' => $examStage->applicationStageID,
             'status' => 'pending',
         ]);
-
+        $studentEmail = $application->user->email;
+        Mail::to($studentEmail)->send(new InvitatiobMail());
         return back()->with('success', 'Invitation sent successfully.');
     }
 

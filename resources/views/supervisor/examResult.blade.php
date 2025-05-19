@@ -34,11 +34,10 @@
 </head>
 
 <body>
-
-    <nav class="navbar">
-        <div class="navbar-brand">🎓 Scholarship Portal</div>
-        <a href="{{ route('supervisor.dashboard') }}"><span>🏠</span> Back to Dashboard</a>
-    </nav>
+<div class="sidebar">
+        @include('include.sidebar', ['scholarshipID' => $scholarshipID])
+    </div>
+   
 
     <div class="container">
         <h2>Exam Result for Scholarship ID: {{ $scholarshipID }}</h2>
