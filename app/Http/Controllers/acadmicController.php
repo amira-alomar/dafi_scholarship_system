@@ -27,7 +27,9 @@ class AcadmicController extends Controller{
             'major' => optional($studentInfo)->major,
             'gpa' => optional($studentInfo)->gpa,
             'image' => optional($studentInfo)->image,
-            'university' => optional($studentInfo->university)->name ?? null,
+            'university'   => data_get($studentInfo, 'university.name', 'Not Set'),
+
+
         ]);
     }
     

@@ -117,8 +117,9 @@ class StudentDashboardController extends Controller
             'image' => optional($studentInfo)->image,
             'universityID' => optional($studentInfo)->universityID,
             'expected_graduation' => optional($studentInfo)->expected_graduation,
-            'university' => optional($studentInfo->university)->name ?? null,
-            'scholarship' => optional($studentInfo->scholarship)->name ?? null,
+            'university'   => data_get($studentInfo, 'university.name', 'Not Set'),
+            'scholarship'  => data_get($studentInfo, 'scholarship.name', 'Not Set'),
+
            
         ]);
     }
