@@ -10,6 +10,9 @@
   <link rel="stylesheet" href="{{ asset('css/sidebarstudent.css') }}">
   <script defer src="{{ asset('js/acadmic.js') }}"></script>
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+      
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
 </head>
 <body>
 
@@ -17,9 +20,9 @@
   <div style="display: flex; min-height: 100vh;">
       <!-- Sidebar Navigation -->
       <div class="sidebar">
-  <div class="sidebar-header">
-     <img src="https://static.thenounproject.com/png/3314643-200.png" alt="Logo" class="sidebar-logo">
-    <h1 class="sidebar-title">ScholarPath</h1>
+  <div class="sidebar-header items-center space-x-2">
+    <i class="fas fa-graduation-cap text-2xl text-indigo-400"></i>
+    <h1 class="sidebar-title text-xl font-bold">ScholarPath</h1>
   </div>
   
   <div class="sidebar-user">

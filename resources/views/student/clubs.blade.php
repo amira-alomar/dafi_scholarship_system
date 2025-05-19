@@ -37,76 +37,74 @@
     <!-- Sidebar goes here -->
     <div class="flex">
         <div class="hidden md:block w-64 bg-gray-100 min-h-screen">
-            <!-- Sidebar Navigation -->
-            <div class="sidebar">
-                <div class="sidebar-header">
-                    <img src="https://static.thenounproject.com/png/3314643-200.png" alt="Logo"
-                        class="sidebar-logo">
-                    <h1 class="sidebar-title">ScholarPath</h1>
-                </div>
-
-                <div class="sidebar-user">
-                    <div class="user-avatar">
-                        <img src="{{ optional(auth()->user())->profile_picture ? asset('storage/profile_images/' . optional(auth()->user())->profile_picture) : 'https://i.pravatar.cc/150?img=32' }}"
-                            alt="User avatar">
-                    </div>
-                    <div class="user-info">
-                        <h3 class="user-name">{{ optional(auth()->user())->fname ?? 'Guest' }}</h3>
-                        <p class="user-role"><span>{{ $major ?? 'Not Set' }} </span> Student</p>
-
-                    </div>
-                </div>
-
-                <nav class="sidebar-nav">
-                    <div class="nav-section">
-                        <h4 class="nav-section-title">Main</h4>
-                        <ul class="nav-list">
-                            <li class="nav-item">
-                                <a href="{{ url('/student/dashboard') }}" class="nav-link">
-                                    <i class="bx bx-home-alt"></i>
-                                    <span>Dashboard</span>
-                                </a>
-                            </li>
-                            <li class="nav-item ">
-                                <a href="{{ url('/acadmic') }}" class="nav-link">
-                                    <i class="bx bx-book-open"></i>
-                                    <span>Academic Information</span>
-                                </a>
-                            </li>
-                            <li class="nav-item ">
-                                <a href="{{ url('/dafi_opp') }}" class="nav-link">
-                                    <i class="bx bx-notepad"></i>
-                                    <span> Opportunity</span>
-                                </a>
-                            </li>
-                            <li class="nav-item ">
-                                <a href="{{ url('/jobs') }}" class="nav-link">
-                                    <i class="bx bx-task"></i>
-                                    <span>Job Opportunity</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ url('/courses') }}" class="nav-link">
-                                    <i class="bx bx-book"></i>
-                                    <span>My Courses</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('student.clubs') }}" class="nav-link">
-                                    <i class="bx bx-wink-smile"></i>
-                                    <span>Clubs</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('student.profile') }}" class="nav-link">
-                                    <i class="bx bx-calendar"></i>
-                                    <span>Profile</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </nav>
-            </div>
+             <!-- Sidebar Navigation -->
+      <div class="sidebar">
+  <div class="sidebar-header">
+    <img src="https://static.thenounproject.com/png/3314643-200.png" alt="Logo" class="sidebar-logo">
+    <h1 class="sidebar-title">ScholarPath</h1>
+  </div>
+  
+  <div class="sidebar-user">
+    <div class="user-avatar">
+        <img src="{{ optional(auth()->user())->profile_picture  ? asset('storage/profile_images/' . optional(auth()->user())->profile_picture) : 'https://i.pravatar.cc/150?img=32' }}" alt="User avatar">
+    </div>
+    <div class="user-info">
+      <h3 class="user-name">{{ optional(auth()->user())->fname ?? 'Guest' }}</h3>
+      <p class="user-role"><span>{{ $major ?? 'Not Set' }} </span> Student</p>
+     
+    </div>
+  </div>
+  
+  <nav class="sidebar-nav">
+    <div class="nav-section">
+      <h4 class="nav-section-title">Main</h4>
+      <ul class="nav-list">
+        <li class="nav-item">
+          <a href="{{ url('/student/dashboard') }}" class="nav-link">
+            <i class="bx bx-home-alt"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li class="nav-item ">
+          <a href="{{ url('/acadmic') }}" class="nav-link">
+            <i class="bx bx-book-open"></i>
+            <span>Academic Information</span>
+          </a>
+        </li>
+        <li class="nav-item ">
+          <a href="{{ url('/dafi_opp') }}" class="nav-link">
+            <i class="bx bx-notepad"></i>
+            <span> Opportunity</span>
+          </a>
+        </li>
+        <li class="nav-item ">
+          <a href="{{ url('/jobs') }}" class="nav-link">
+           <i class="bx bx-task"></i>
+            <span>Job Opportunity</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="{{ url('/courses') }}" class="nav-link">
+            <i class="bx bx-book"></i>
+            <span>My Courses</span>
+          </a>
+        </li>
+         <li class="nav-item">
+          <a href="{{ route('student.clubs') }}" class="nav-link">
+            <i class="bx bx-wink-smile"></i>
+            <span>Clubs</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="{{ route('student.profile') }}" class="nav-link">
+            <i class="bx bx-calendar"></i>
+            <span>Profile</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+    </div>
         </div>
 
         <!-- Main content -->
