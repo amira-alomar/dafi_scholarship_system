@@ -33,7 +33,7 @@ class PartnerController extends Controller
 
        
         if ($request->hasFile('picture')) {
-            $path = $request->file('picture')->store('partners'); // Default private
+            $path = $request->file('picture')->store('partners');
             $data['picture'] = $path;
         }
         
