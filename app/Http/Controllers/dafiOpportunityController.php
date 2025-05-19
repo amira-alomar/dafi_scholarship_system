@@ -12,7 +12,7 @@ class DafiOpportunityController extends Controller
 public function index()
 {
     $user = Auth::user();
-     $studentInfo = auth()->user()->studentInfo;
+    $studentInfo = auth()->user()->studentInfo;
     $major =  optional($studentInfo)->major ?? null;
    
 
