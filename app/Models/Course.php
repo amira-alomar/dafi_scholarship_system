@@ -11,6 +11,9 @@ class Course extends Model
 
     protected $primaryKey = 'courseID';
     protected $fillable = ['code', 'course_name', 'grade', 'semester', 'image', 'idUser', 'idUni'];
+    public $incrementing = true; // أو false لو مش incrementing
+    protected $keyType = 'int';  // أو 'string' لو المفتاح نصي
+
 
     // Relationships
     public function user()
@@ -22,4 +25,9 @@ class Course extends Model
     {
         return $this->belongsTo(University::class, 'idUni', 'universityID');
     }
+    public function getRouteKeyName()
+{
+    return 'courseID';
+}
+
 }
