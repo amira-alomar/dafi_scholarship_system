@@ -140,10 +140,7 @@ class ScholarshipController extends Controller
             return back()->with('error', 'No application found for this student.');
         }
 
-        // // نجيب الستاج الأول (أو الي انت حابب تحدديه)
-        // $stage = ApplicationStage::orderBy('order', 'asc')->first(); // او حسب انتي شو بدك
-
-        // أول شي تجيبي مرحلة الامتحان الحقيقية
+       
         $examStage = ApplicationStage::where('idScholarship', $application->idScholarship)
             ->where('name', 'Exam')
             ->first();

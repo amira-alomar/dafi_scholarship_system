@@ -37,11 +37,14 @@
                 <i class="sidebar-item-icon fas fa-tachometer-alt mr-3"></i>
                 <span class="sidebar-item-text">Dashboard</span>
             </a>
-
             <div class="mb-2 px-2 text-xs font-semibold text-muted uppercase tracking-wider mt-4">Management</div>
             <a href="{{ route('admin.opp') }}" class="sidebar-item flex items-center p-2 rounded-lg">
                 <i class="sidebar-item-icon fas fa-bullseye mr-3"></i>
                 <span class="sidebar-item-text">Opportunities</span>
+            </a>
+            <a href="{{ route('applications.index') }}" class="sidebar-item flex items-center p-2 rounded-lg">
+                <i class="sidebar-item-icon fas fa-bullseye mr-3"></i>
+                <span class="sidebar-item-text">Applications Opportunities</span>
             </a>
             <a href="{{ route('admin.user') }}" class="sidebar-item flex items-center p-2 rounded-lg">
                 <i class="sidebar-item-icon fas fa-users mr-3"></i>

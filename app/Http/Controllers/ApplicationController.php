@@ -11,6 +11,8 @@ use App\Models\Answer;
 use App\Models\ApplicationStage;
 use App\Models\ApplicationStageProgress;
 use App\Models\Scholarship;
+use App\Models\Role;
+use App\Models\AllUser;
 
 class ApplicationController extends Controller
 {
@@ -218,15 +220,30 @@ class ApplicationController extends Controller
         // Redirect to the final application page with the scholarship ID
         return redirect()->route('supervisor.finalApplication', ['scholarshipID' => $request->scholarshipID]);
     }
-    public function acceptedStudents($scholarshipID)
-    {
-        $applications = Application::with('user')
-            ->where('status', 'approved')
-            ->where('idScholarship', $scholarshipID)
-            ->get();
+   public function acceptedStudents($scholarshipID, $idUser)
+{
+    // جلب الـ Application
+    $application = Application::where('idScholarship', $scholarshipID)
+                            ->where('idUser', $idUser)
+                            ->firstOrFail();
 
-        return view('supervisor.acceptedStudents', compact('applications','scholarshipID'));
-    }
+    // تغيير الحالة لـ approved
+    $application->status = 'approved';
+    $application->save();
+
+    // جلب الـ role_id للـ Student (غالباً 1)
+    $studentRoleId = Role::where('role_name', 'Student')->value('id');
+    // لو ثابت عندك 1، ممكن تستغني عن الاستعلام فوق:
+    // $studentRoleId = 1;
+
+    // تحديث دور المستخدم
+    $user = AllUser::findOrFail($idUser);
+    $user->role_id = $studentRoleId;
+    $user->save();
+
+    return back()->with('success', 'تم القبول وتحديث الدور إلى Student!');
+}
+
 
     public function approveFinalApplication($applicationID)
     {

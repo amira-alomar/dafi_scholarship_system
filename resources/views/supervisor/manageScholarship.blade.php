@@ -156,17 +156,18 @@
 </head>
 
 <body class="min-h-screen">
-    <div class="flex">
+        <div class="flex h-screen">
         <!-- Sidebar -->
+        <aside class="w-64 bg-gray-900 text-white p-6 overflow-y-auto">
         @include('include.sidebar', ['scholarshipID' => $scholarshipID])
-
+        </aside>
         <!-- Mobile sidebar toggle -->
         <button id="sidebarToggle" class="md:hidden fixed top-4 left-4 z-50 bg-gray-900 text-white p-2 rounded-lg">
             <i class="fas fa-bars"></i>
         </button>
 
         <!-- Main Content -->
-        <div class="flex-1 p-6 md:p-8">
+        <main class="flex-1  p-6 overflow-y-auto">
             <!-- Header -->
             <div class="flex justify-between items-center mb-8">
                 <div>
@@ -482,7 +483,7 @@
                 </div>
             </div>
         </div>
-    </div>
+
 
     <!-- Mobile Sidebar -->
     <div id="mobileSidebar" class="fixed inset-0 bg-gray-900 bg-opacity-50 z-40 hidden">
@@ -565,7 +566,7 @@
             </div>
         </div>
     </div>
-
+    </div>
     <script>
         // Toggle mobile sidebar
         const sidebarToggle = document.getElementById('sidebarToggle');

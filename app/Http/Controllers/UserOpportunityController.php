@@ -39,5 +39,28 @@ class UserOpportunityController extends Controller
 
     return back()->with('success', 'Application submitted successfully!');
 }
+public function index()
+    {
+        $applications = UserOpportunity::with(['user', 'opportunity'])->get();
+        return view('admin.appliedForOpp', compact('applications'));
+    }
+
+    public function accept($idUser, $idOpportunity)
+    {
+        UserOpportunity::where('idUser', $idUser)
+            ->where('idOpportunity', $idOpportunity)
+            ->update(['status' => 'accepted']);
+
+        return back()->with('success', 'Application accepted!');
+    }
+
+    public function reject($idUser, $idOpportunity)
+    {
+        UserOpportunity::where('idUser', $idUser)
+            ->where('idOpportunity', $idOpportunity)
+            ->update(['status' => 'rejected']);
+
+        return back()->with('success', 'Application rejected!');
+    }
 
 }

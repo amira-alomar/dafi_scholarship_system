@@ -132,6 +132,10 @@ Route::middleware([AdminMiddleware::class])->group(function () {
         ->name('assignments.update');
     Route::delete('/assignments/{assignment}', [AdminController::class, 'destroyAssignment'])
         ->name('assignments.destroy');
+    //
+    Route::get('/applications', [UserOpportunityController::class, 'index'])->name('applications.index');
+    Route::post('/applications/{idUser}/{idOpportunity}/accept', [UserOpportunityController::class, 'accept'])->name('applications.accept');
+    Route::post('/applications/{idUser}/{idOpportunity}/reject', [UserOpportunityController::class, 'reject'])->name('applications.reject');
 
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])
         ->name('admin.dashboard');
@@ -139,37 +143,37 @@ Route::middleware([AdminMiddleware::class])->group(function () {
     //     return view('admin.club');
     // })->name('club');
     // List all clubs (and optionally filter by club_id if passed)
-Route::get('/admin/clubs', [ClubController::class, 'listClubs'])
-     ->name('admin.clubs.list');
+    Route::get('/admin/clubs', [ClubController::class, 'listClubs'])
+        ->name('admin.clubs.list');
 
-// Show create‐club form is part of the same view; submission:
-Route::post('/admin/clubs', [ClubController::class, 'storeClub'])
-     ->name('admin.clubs.store');
+    // Show create‐club form is part of the same view; submission:
+    Route::post('/admin/clubs', [ClubController::class, 'storeClub'])
+        ->name('admin.clubs.store');
 
-// Fetch one club’s data (for edit modal or detail view via AJAX)
-Route::get('/admin/clubs/{club}/fetch', [ClubController::class, 'fetchClub'])
-     ->name('admin.clubs.fetch');
+    // Fetch one club’s data (for edit modal or detail view via AJAX)
+    Route::get('/admin/clubs/{club}/fetch', [ClubController::class, 'fetchClub'])
+        ->name('admin.clubs.fetch');
 
-// Update an existing club
-Route::patch('/admin/clubs/{club}', [ClubController::class, 'updateClub'])
-     ->name('admin.clubs.update');
+    // Update an existing club
+    Route::patch('/admin/clubs/{club}', [ClubController::class, 'updateClub'])
+        ->name('admin.clubs.update');
 
-// Delete a club (AJAX or form)
-Route::delete('/admin/clubs/{club}', [ClubController::class, 'removeClub'])
-     ->name('admin.clubs.remove');
+    // Delete a club (AJAX or form)
+    Route::delete('/admin/clubs/{club}', [ClubController::class, 'removeClub'])
+        ->name('admin.clubs.remove');
 
-// Show members & requests for one club (if you render a members section server‐side)
-Route::get('/admin/clubs/{club}/members', [ClubController::class, 'showMembers'])
-     ->name('admin.clubs.members');
+    // Show members & requests for one club (if you render a members section server‐side)
+    Route::get('/admin/clubs/{club}/members', [ClubController::class, 'showMembers'])
+        ->name('admin.clubs.members');
 
-// Accept a pending membership
-Route::post('/admin/clubs/members/accept/{member}', [ClubController::class, 'acceptMember'])
-     ->name('admin.clubs.members.accept');
+    // Accept a pending membership
+    Route::post('/admin/clubs/members/accept/{member}', [ClubController::class, 'acceptMember'])
+        ->name('admin.clubs.members.accept');
 
-// Reject a pending membership
-Route::post('/admin/clubs/members/reject/{member}', [ClubController::class, 'rejectMember'])
-     ->name('admin.clubs.members.reject');
-  
+    // Reject a pending membership
+    Route::post('/admin/clubs/members/reject/{member}', [ClubController::class, 'rejectMember'])
+        ->name('admin.clubs.members.reject');
+
 
     // Add application stage
     Route::post('/scholarship/{id}/stages', [ManageScholarshipController::class, 'AddStage'])->name('stage.add');
@@ -202,7 +206,7 @@ Route::post('/admin/clubs/members/reject/{member}', [ClubController::class, 'rej
     //     ->name('supervisor.course');
     // Route::delete('/courses/{id}', [CourseController::class, 'destroy'])
     //     ->name('courses.destroy');
-    
+
     Route::get('/supervisor/courses/{scholarshipID}', [CourseController::class, 'index'])
         ->name('supervisor.course');
 
@@ -318,24 +322,24 @@ Route::middleware(['auth', 'role:Student'])->group(function () {
     Route::get('/dafi_opp', [DafiOpportunityController::class, 'index']);
     Route::post('/trainings', [TrainingController::class, 'store'])->name('trainings.store');
     Route::post('/volunteerings', [VolunteeringController::class, 'store'])->name('volunteerings.store');
-    Route::get('/courses',    [CoursesController::class, 'index'])  ->name('courses.index');
+    Route::get('/courses',    [CoursesController::class, 'index'])->name('courses.index');
     Route::post('/courses/store', [CoursesController::class, 'store'])->name('courses.store');
     Route::put('/courses/{course}',  [CoursesController::class, 'update'])->name('courses.update');
-    Route::get('/courses/{course}/edit', [CoursesController::class, 'edit']) ->name('courses.edit');
+    Route::get('/courses/{course}/edit', [CoursesController::class, 'edit'])->name('courses.edit');
     Route::get('/student/profile', [StudentProfileController::class, 'index'])->name('student.profile');
     Route::put('/student/profile', [StudentProfileController::class, 'update'])->name('student.profile.update');
     Route::post('/profile/skills/add', [StudentProfileController::class, 'addSkill'])->name('profile.skills.add');
     Route::post('/applications', [UserOpportunityController::class, 'store'])->name('applications.store');
     Route::get('/student/dashboard', [StudentDashboardController::class, 'index'])->name('student.dashboard');
- Route::post('/dashboard/{id}/save', [StudentDashboardController::class, 'saveJob'])->name('dashboard.save');
-   
-   Route::get('/student/clubs', [ClubController::class, 'index'])->name('student.clubs');
-   Route::get('/student/clubs/{club}', [ClubController::class, 'show'])
-     ->name('student.clubs.show');
-Route::post('/graduate/feedback', [GraduateFeedbackController::class, 'store'])
-    ->name('graduate.feedback.store');
-Route::post('/student/clubs/join', [ClubController::class, 'join'])
-     ->name('student.clubs.join');
+    Route::post('/dashboard/{id}/save', [StudentDashboardController::class, 'saveJob'])->name('dashboard.save');
+
+    Route::get('/student/clubs', [ClubController::class, 'index'])->name('student.clubs');
+    Route::get('/student/clubs/{club}', [ClubController::class, 'show'])
+        ->name('student.clubs.show');
+    Route::post('/graduate/feedback', [GraduateFeedbackController::class, 'store'])
+        ->name('graduate.feedback.store');
+    Route::post('/student/clubs/join', [ClubController::class, 'join'])
+        ->name('student.clubs.join');
 
 
 
