@@ -7,6 +7,7 @@ use App\Models\Application;
 use App\Models\Exam;
 use App\Models\ApplicationStageProgress;
 use App\Models\Scholarship;
+use App\Models\ApplicationStage;
 use Illuminate\Validation\Rule;
 
 class ExamController extends Controller
@@ -94,4 +95,36 @@ class ExamController extends Controller
             }])
             ->get();
     }
+    public function endExamStage($scholarshipID)
+{
+    // 1) Fetch the glorious “Exam” stage
+    $examStage = ApplicationStage::where('idScholarship', $scholarshipID)
+        ->where('name', 'Exam')
+        ->firstOrFail();
+
+    // 2) Bulk-reject the poor souls still “pending”
+    $affected = ApplicationStageProgress::where('idAppStage', $examStage->applicationStageID)
+        ->where('status', 'pending')
+        ->update(['status' => 'rejected']);
+
+    if ($affected === 0) {
+        return redirect()->back()
+            ->with('error', 'No pending exam-takers found—either they were all too punctual or nobody bothered to show up.');
+    }
+
+    // 3) Drag their parent Applications down with them
+    $appIds = ApplicationStageProgress::where('idAppStage', $examStage->applicationStageID)
+        ->where('status', 'rejected')
+        ->pluck('idApp')
+        ->unique()
+        ->toArray();
+
+    Application::whereIn('applicationID', $appIds)
+        ->update(['status' => 'rejected']);
+
+    // 4) Triumphantly report how many dreams were crushed
+    return redirect()->back()
+        ->with('success', "Exam stage closed! {$affected} applicant(s) mercilessly rejected.");
+}
+
 }

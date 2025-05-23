@@ -15,49 +15,61 @@ use Illuminate\Support\Facades\Mail;
 
 class InterviewController extends Controller
 {
-    public function showEligibleForInterview($scholarshipID)
+   public function showEligibleForInterview($scholarshipID)
 {
     try {
         $scholarship = Scholarship::findOrFail($scholarshipID);
 
+        // 1) Fetch the Exam and Interview stages
         $examStage = $scholarship->applicationStages()
             ->where('name', 'Exam')
             ->firstOrFail();
-
         $interviewStage = $scholarship->applicationStages()
             ->where('name', 'Interview')
             ->first();
 
         if (!$interviewStage) {
-            $message = "The interview stage is not available for this scholarship.";
-            return view('supervisor.interview', compact('message', 'scholarshipID'));
+            $message = 'The Interview stage is not available for this scholarship.';
+            // Even if it’s “not available,” we still want to tell them if Exam is closed or not
+            $pendingCount = ApplicationStageProgress::where('idAppStage', $examStage->applicationStageID)
+                ->where('status', 'pending')
+                ->count();
+            $examClosed = ($pendingCount === 0);
+            return view('supervisor.interview', compact('message', 'scholarshipID', 'examClosed'));
         }
 
-        $previousStage = $scholarship->applicationStages()
-            ->where('order', '<', $interviewStage->order)
-            ->orderByDesc('order')
-            ->first();
+        // 2) Check if any Exam-stage applicants are still pending
+        $pendingCount = ApplicationStageProgress::where('idAppStage', $examStage->applicationStageID)
+            ->where('status', 'pending')
+            ->count();
+        $examClosed = ($pendingCount === 0);
 
-        if (!$previousStage) {
-            $message = 'Previous stage not found.';
-            return view('supervisor.exam', compact('scholarshipID', 'message'));
+        // 3) If Exam isn’t closed, bail out early with your flag
+        if (! $examClosed) {
+            $message = 'Interview stage cannot start yet—there are still applicants in the Exam stage.';
+            return view('supervisor.interview', compact('message', 'scholarshipID', 'examClosed'));
         }
 
+        // 4) Everyone who survived Exam (i.e. “accepted”) is now Interview-eligible
         $eligibleApplications = ApplicationStageProgress::where('idAppStage', $examStage->applicationStageID)
             ->where('status', 'accepted')
-            ->with(['application.user', 'application.stageProgress' => function ($q) use ($interviewStage) {
-                $q->where('idAppStage', $interviewStage->applicationStageID);
-            }])
+            ->with([
+                'application.user',
+                'application.stageProgress' => function ($q) use ($interviewStage) {
+                    $q->where('idAppStage', $interviewStage->applicationStageID);
+                }
+            ])
             ->get();
 
-        return view('supervisor.interview', compact('eligibleApplications', 'scholarshipID'));
+        return view('supervisor.interview', compact('eligibleApplications', 'scholarshipID', 'examClosed'));
+
     } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-        $message = "Scholarship or Exam stage not found.";
-        return view('supervisor.interview', compact('message', 'scholarshipID'));
+        $message = 'Scholarship or Exam stage not found.';
+        // Assume Exam still open if we can’t find it
+        $examClosed = false;
+        return view('supervisor.interview', compact('message', 'scholarshipID', 'examClosed'));
     }
 }
-
-
 
     public function showInterviewDetails($studentID)
     {
@@ -150,28 +162,42 @@ class InterviewController extends Controller
     }
 
     public function rejectInterview($studentID)
-    {
-        $student     = AllUser::findOrFail($studentID);
-        $application = Application::where('idUser', $studentID)->firstOrFail();
+{
+    // 1) Ensure the user exists
+    $student = AllUser::findOrFail($studentID);
 
-        $interviewStage = ApplicationStage::where('idScholarship', $application->idScholarship)
-            ->where('name', 'Interview')
-            ->firstOrFail();
+    // 2) Grab their application
+    $application = Application::where('idUser', $studentID)
+        ->firstOrFail();
 
-        $updated = ApplicationStageProgress::where('idApp', $application->applicationID)
-            ->where('idAppStage', $interviewStage->applicationStageID)
-            ->update(['status' => 'rejected']);
+    // 3) Fetch the “Interview” stage for this scholarship
+    $interviewStage = ApplicationStage::where('idScholarship', $application->idScholarship)
+        ->where('name', 'Interview')
+        ->firstOrFail();
 
-        if (! $updated) {
-            ApplicationStageProgress::create([
-                'idApp'      => $application->applicationID,
-                'idAppStage' => $interviewStage->applicationStageID,
-                'status'     => 'rejected',
-            ]);
-        }
+    // 4) Attempt to mark the interview progress as “rejected”
+    $updated = ApplicationStageProgress::where('idApp', $application->applicationID)
+        ->where('idAppStage', $interviewStage->applicationStageID)
+        ->update(['status' => 'rejected']);
 
-        return back()->with('success', 'Student has been rejected from the interview stage.');
+    // 5) If no progress row existed, create one and reject it
+    if (! $updated) {
+        ApplicationStageProgress::create([
+            'idApp'      => $application->applicationID,
+            'idAppStage' => $interviewStage->applicationStageID,
+            'status'     => 'rejected',
+        ]);
     }
+
+    // 6) Finally, reject the entire application—no take-backs!
+    Application::where('applicationID', $application->applicationID)
+        ->update(['status' => 'rejected']);
+
+    // 7) Send them back with the bad news
+    return back()
+        ->with('success', 'Student has been rejected from the Interview stage—application status set to REJECTED.');
+}
+
 
 
 public function create($scholarshipID)
@@ -290,4 +316,36 @@ public function create($scholarshipID)
 
         return back()->with('success', 'Interview has been canceled.');
     }
+    public function endInterviewStage($scholarshipID)
+{
+    // 1) Summon the Interview stage for this scholarship
+    $interviewStage = ApplicationStage::where('idScholarship', $scholarshipID)
+        ->where('name', 'Interview')
+        ->firstOrFail();
+
+    // 2) Bulk-reject all the poor souls still “pending”
+    $affectedProgress = ApplicationStageProgress::where('idAppStage', $interviewStage->applicationStageID)
+        ->where('status', 'pending')
+        ->update(['status' => 'rejected']);
+
+    if ($affectedProgress === 0) {
+        return redirect()->back()
+            ->with('error', 'No pending interviewees found—either everyone’s superhuman, or nobody showed up.');
+    }
+
+    // 3) Drag their parent Application records down with them
+    $applicationIds = ApplicationStageProgress::where('idAppStage', $interviewStage->applicationStageID)
+        ->where('status', 'rejected')
+        ->pluck('idApp')
+        ->unique()
+        ->toArray();
+
+    Application::whereIn('applicationID', $applicationIds)
+        ->update(['status' => 'rejected']);
+
+    // 4) Victory lap
+    return redirect()->back()
+        ->with('success', "Interview stage closed! {$affectedProgress} applicant(s) mercilessly rejected.");
+}
+
 }

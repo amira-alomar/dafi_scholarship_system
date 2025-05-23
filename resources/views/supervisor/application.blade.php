@@ -67,6 +67,12 @@
                 <i class="fas fa-info-circle mr-1"></i> {{ count($applications) }} applications found
             </div>
         </div>
+        <form action="{{ route('supervisor.endFormStage', $scholarshipId) }}" method="POST">
+            @csrf
+            <button type="submit" class="btn btn-danger">
+                End “Form” Stage (Reject All Pending)
+            </button>
+        </form>
 
         <div class="space-y-4">
             @foreach ($applications as $app)
@@ -83,7 +89,7 @@
                             </p>
                         </div>
                     </div>
-                    </div> 
+                </div>
             @endforeach
         </div>
 

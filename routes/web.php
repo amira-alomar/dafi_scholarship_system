@@ -287,7 +287,22 @@ Route::middleware([AdminMiddleware::class])->group(function () {
     // Approve and reject routes with scholarshipId
     Route::post('/supervisor/{scholarshipId}/application/approve/{applicationID}', [ApplicationController::class, 'approveApplication'])
         ->name('application.approve');
-
+// routes/web.php
+Route::post(
+    '/supervisor/scholarship/{scholarshipId}/end-form',
+    [ApplicationController::class, 'endFormStage']
+)->name('supervisor.endFormStage');
+//
+Route::post(
+    '/supervisor/scholarship/{scholarshipID}/end-interview',
+    [InterviewController::class, 'endInterviewStage']
+)->name('supervisor.endInterviewStage');
+//
+Route::post(
+    '/supervisor/scholarship/{scholarshipID}/end-exam',
+    [ExamController::class, 'endExamStage']
+)->name('supervisor.endExamStage');
+//
     Route::post('/supervisor/{scholarshipId}/application/reject/{applicationID}', [ApplicationController::class, 'rejectApplication'])
         ->name('application.reject');
     //exam result
