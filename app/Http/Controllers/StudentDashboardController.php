@@ -35,6 +35,11 @@ class StudentDashboardController extends Controller
         $studentInfoID = $studentInfo->studentInfoID ?? null;
         $totalVolunteeringHours = $studentInfo?->volunteerings()?->sum('total_hours') ?? 0;
         $totalTrainings = $studentInfo?->trainings()?->count() ?? 0;
+        // قيمة الهدف من قاعدة البيانات أو قيمة افتراضية
+        $volunteering_goal = $studentInfo->number_of_volunteering ?? 60;
+         $training_goal = $studentInfo->number_of_training ?? 6;
+
+       
        
         $major = $user->major ?? null;
         $goals = AcademicGoal::where('studentInfoID', $studentInfoID)->get();
@@ -101,6 +106,8 @@ class StudentDashboardController extends Controller
         return view('student.dashboard', [
             'allSkills' => Skill::all(),
             'userSkills' => $userSkills,
+            'volunteering_goal' => $volunteering_goal,
+            'training_goal' => $training_goal,
             'goals' => $goals,
             'registeredCoursesYear' => $registeredCoursesYear,
             'isGraduate' => $isGraduate,
@@ -142,4 +149,29 @@ class StudentDashboardController extends Controller
 
         return back()->with('success', 'Job saved successfully!');
     }
+public function updateTarget(Request $request)
+{
+    $request->validate([
+        'volunteering_goal' => 'nullable|integer|min:1',
+         'training_goal' => 'nullable|integer|min:1',
+    ]);
+
+    $studentInfo = auth()->user()->studentInfo;
+
+      if ($studentInfo) {
+        if ($request->filled('volunteering_goal')) {
+            $studentInfo->number_of_volunteering = $request->volunteering_goal;
+        }
+        if ($request->filled('training_goal')) {
+            $studentInfo->number_of_training = $request->training_goal;
+        }
+        $studentInfo->save();
+    }
+
+
+    return back()->with('success', 'Goal updated successfully!');
+}
+
+        //  $table->integer('number_of_training')->default(0);
+        //     $table->integer('number_of_volunteering')->default(0);
 }

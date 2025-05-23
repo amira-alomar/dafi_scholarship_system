@@ -186,35 +186,32 @@
         </div>
     </div>
     
-    @if(session('success'))
-  <div id="success-toast" class="toast" >
+@if(session('success'))
+  <div id="success-toast" class="toast toast-success">
     {{ session('success') }}
   </div>
+@endif
+
+@if(session('error'))
+  <div id="error-toast" class="toast toast-error">
+    {{ session('error') }}
+  </div>
+@endif
+
+@if(session('success') || session('error'))
   <script>
     window.addEventListener('DOMContentLoaded', () => {
-      const toast = document.getElementById('success-toast');
-      toast.classList.add('show');
-      setTimeout(() => {
-        toast.classList.remove('show');
-      }, 4000);
+      ['success-toast','error-toast'].forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.classList.add('show');
+        setTimeout(() => el.classList.remove('show'), 4000);
+      });
     });
   </script>
 @endif
 
-@if(session('error'))
-  <div id="error-toast" class="toast bg-red-500" >
-    {{ session('error') }}
-  </div>
-  <script>
-    window.addEventListener('DOMContentLoaded', () => {
-      const toast = document.getElementById('error-toast');
-      toast.classList.add('show');
-      setTimeout(() => {
-        toast.classList.remove('show');
-      }, 4 000);
-    });
-  </script>
-@endif
+
 
 </body>
 </html>

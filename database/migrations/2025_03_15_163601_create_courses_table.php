@@ -19,7 +19,11 @@ return new class extends Migration
             $table->string('semester');
             $table->string('image')->nullable();
             $table->foreignId('idUser')->constrained('all_users', 'id')->onDelete('cascade');
-            $table->foreignId('idUni')->constrained('universities', 'universityID')->onDelete('cascade');
+        $table->foreignId('idUni')
+      ->nullable()
+      ->constrained('universities', 'universityID')
+      ->onDelete('cascade');
+
             $table->timestamps();
         });
     }

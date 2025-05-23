@@ -8,16 +8,16 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
       <link rel="stylesheet" href="{{ asset('css/sidebarstudent.css') }}">
       <link rel="stylesheet" href="{{ asset('css/studentCourses.css') }}">
-      <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
-       <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+    
+       <script src="https://cdn.tailwindcss.com"></script>
   
 </head>
 <body class="page-courses">
  <!-- Sidebar goes here -->
     <div class="flex">
-        <div class="hidden md:block w-64 bg-gray-100 min-h-screen">
+        <div class="hidden md:block  bg-gray-100 min-h-screen">
              <!-- Sidebar Navigation -->
-      <div class="sidebar">
+         <div class="sidebar hidden md:flex md:flex-col">
   <div class="sidebar-header items-center space-x-2">
     <i class="fas fa-graduation-cap text-2xl text-indigo-400"></i>
     <h1 class="sidebar-title text-xl font-bold">ScholarPath</h1>
@@ -88,8 +88,8 @@
 
 
   <!-- Main Content -->
-    <div class="flex-1 p-6">
-  <div class="main-content">
+    <div style="flex: 1; padding-left: 15px;">
+      <div class="main-content p-4 md:p-8 md:ml-[250px] w-full md:w-[calc(100%-250px)]">
     <!-- Form for adding/editing a course -->
     <div class="form-card">
               <h2>
@@ -117,23 +117,24 @@
           value="{{ old('semester', $editingCourse->semester ?? '') }}"
           placeholder="Enter semester " required>
         </div>
-        <div class="form-group">
-          <label for="courseName">Course Name</label>
-             <input type="text" id="courseName" name="course_name"
-          value="{{ old('course_name', $editingCourse->course_name ?? '') }}"
-          placeholder="Enter course_name " required>
-        </div>
+      
           <div class="form-group">
           <label for="courseCode">Course Code</label>
           <input type="text" id="code" name="code"
           value="{{ old('code', $editingCourse->code ?? '') }}"
           placeholder="Enter course code " required>
         </div>
+          <div class="form-group">
+          <label for="courseName">Course Name</label>
+             <input type="text" id="courseName" name="course_name"
+          value="{{ old('course_name', $editingCourse->course_name ?? '') }}"
+          placeholder="Enter course_name " required>
+        </div>
         <div class="form-group">
           <label for="grade">Grade</label>
           <input type="text" id="grade" name="grade"
           value="{{ old('grade', $editingCourse->grade ?? '') }}"
-          placeholder="Enter grade " required>
+          placeholder="Enter grade ">
         </div>
         <div class="form-group">
           <label for="registrationImage">Upload Registration Image</label>
@@ -211,30 +212,8 @@
     </div>
   </div>
 </div>
-  <script>
-
-    // Mobile menu toggle
-    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-    const sidebar = document.querySelector('.sidebar');
-    
-    function checkScreenSize() {
-      if (window.innerWidth <= 576) {
-        mobileMenuBtn.style.display = 'flex';
-      } else {
-        mobileMenuBtn.style.display = 'none';
-        sidebar.classList.remove('active');
-      }
-    }
-    
-    mobileMenuBtn.addEventListener('click', function() {
-      sidebar.classList.toggle('active');
-    });
-    
-    window.addEventListener('resize', checkScreenSize);
-    checkScreenSize(); // Initial check
-
-    @if(session('success'))
-  <div id="success-toast" class="toast">
+@if(session('success'))
+  <div id="success-toast" class="toast toast-success">
     {{ session('success') }}
   </div>
   <script>
@@ -245,6 +224,5 @@
     });
   </script>
 @endif
-  </script>
 </body>
 </html>
