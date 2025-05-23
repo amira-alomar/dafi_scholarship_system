@@ -11,28 +11,35 @@ use Illuminate\Validation\Rule;
 
 class ExamController extends Controller
 {
-    public function create($scholarshipID)
-    {
+   public function create($scholarshipID)
+{
+    try {
         $allEligible = $this->showEligibleForExam($scholarshipID);
-
-        // filter applications that do NOT have an exam yet
-        $eligibleApplications = $allEligible->filter(function ($item) {
-            return is_null($item->application->idExam);
-        });
-
-        // fetch only exams related to this scholarship
-        $applicationIds = Application::where('idScholarship', $scholarshipID)
-            ->whereNotNull('idExam')
-            ->pluck('idExam');
-
-        $exams = Exam::whereIn('examID', $applicationIds)
-            ->with(['application.user']) // eager load
-            ->latest()
-            ->get();
-
-
-        return view('supervisor.examResult', compact('eligibleApplications', 'scholarshipID', 'exams'));
+    } catch (\Exception $e) {
+        $message = "The exam stage is not available for this scholarship.";
+        $eligibleApplications = collect();
+        $exams = collect();
+        return view('supervisor.examResult', compact('message', 'eligibleApplications', 'scholarshipID', 'exams'));
     }
+
+    // filter applications that do NOT have an exam yet
+    $eligibleApplications = $allEligible->filter(function ($item) {
+        return is_null($item->application->idExam);
+    });
+
+    // fetch only exams related to this scholarship
+    $applicationIds = Application::where('idScholarship', $scholarshipID)
+        ->whereNotNull('idExam')
+        ->pluck('idExam');
+
+    $exams = Exam::whereIn('examID', $applicationIds)
+        ->with(['application.user']) // eager load
+        ->latest()
+        ->get();
+
+    return view('supervisor.examResult', compact('eligibleApplications', 'scholarshipID', 'exams'));
+}
+
     public function store(Request $request, $scholarshipID)
     {
         $eligibleStudentIds = $this->showEligibleForExam($scholarshipID)

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Add FAQ</title>
@@ -29,10 +30,19 @@
             font-family: var(--font-sans);
             background-color: var(--background);
             color: var(--foreground);
+            margin: 0;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .card-wrapper {
+            flex: 1;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
         }
 
         .card {
@@ -41,8 +51,9 @@
             border-radius: var(--radius);
             padding: 2rem;
             width: 400px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
         }
+
 
         h2 {
             margin-bottom: 1rem;
@@ -55,7 +66,8 @@
             color: var(--secondary);
         }
 
-        input[type="text"], textarea {
+        input[type="text"],
+        textarea {
             width: 100%;
             padding: 0.5rem;
             border: 1px solid var(--input);
@@ -84,24 +96,31 @@
         }
     </style>
 </head>
+
 <body>
-    <div class="card">
-        <h2>Add FAQ</h2>
+    <div class="layout">
+        @include('include.adminSideBar')
+        <div class="card-wrapper">
+            <div class="card">
+                <h2>Add FAQ</h2>
 
-        @if(session('success'))
-            <div class="success">{{ session('success') }}</div>
-        @endif
+                @if (session('success'))
+                    <div class="success">{{ session('success') }}</div>
+                @endif
 
-        <form action="{{ route('faqs.store') }}" method="POST">
-            @csrf
-            <label for="question">Question</label>
-            <input type="text" name="question" id="question" required>
+                <form action="{{ route('faqs.store') }}" method="POST">
+                    @csrf
+                    <label for="question">Question</label>
+                    <input type="text" name="question" id="question" required>
 
-            <label for="answer">Answer</label>
-            <textarea name="answer" id="answer" rows="4" required></textarea>
+                    <label for="answer">Answer</label>
+                    <textarea name="answer" id="answer" rows="4" required></textarea>
 
-            <button type="submit">Save FAQ</button>
-        </form>
-    </div>
+                    <button type="submit">Save FAQ</button>
+                </form>
+            </div>
+            </div>
+        </div>
 </body>
+
 </html>

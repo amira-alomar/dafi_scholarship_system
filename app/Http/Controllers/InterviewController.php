@@ -16,7 +16,8 @@ use Illuminate\Support\Facades\Mail;
 class InterviewController extends Controller
 {
     public function showEligibleForInterview($scholarshipID)
-    {
+{
+    try {
         $scholarship = Scholarship::findOrFail($scholarshipID);
 
         $examStage = $scholarship->applicationStages()
@@ -25,7 +26,22 @@ class InterviewController extends Controller
 
         $interviewStage = $scholarship->applicationStages()
             ->where('name', 'Interview')
-            ->firstOrFail();
+            ->first();
+
+        if (!$interviewStage) {
+            $message = "The interview stage is not available for this scholarship.";
+            return view('supervisor.interview', compact('message', 'scholarshipID'));
+        }
+
+        $previousStage = $scholarship->applicationStages()
+            ->where('order', '<', $interviewStage->order)
+            ->orderByDesc('order')
+            ->first();
+
+        if (!$previousStage) {
+            $message = 'Previous stage not found.';
+            return view('supervisor.exam', compact('scholarshipID', 'message'));
+        }
 
         $eligibleApplications = ApplicationStageProgress::where('idAppStage', $examStage->applicationStageID)
             ->where('status', 'accepted')
@@ -35,35 +51,41 @@ class InterviewController extends Controller
             ->get();
 
         return view('supervisor.interview', compact('eligibleApplications', 'scholarshipID'));
+    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        $message = "Scholarship or Exam stage not found.";
+        return view('supervisor.interview', compact('message', 'scholarshipID'));
     }
-
-   public function showInterviewDetails($studentID)
-{
-    // نجيب الطالب
-    $student = AllUser::findOrFail($studentID);
-
-    // نجيب الأبليكيشن
-    $application = Application::where('idUser', $studentID)->firstOrFail();
-
-    // نجيب مرحلة المقابلة
-    $interviewStage = ApplicationStage::where('idScholarship', $application->idScholarship)
-        ->where('name', 'Interview')
-        ->firstOrFail();
-
-    // نجيب التقدم أو نعمل واحد جديد
-    $stageProgress = ApplicationStageProgress::firstOrCreate(
-        [
-            'idApp' => $application->applicationID,
-            'idAppStage' => $interviewStage->applicationStageID,
-        ],
-        ['status' => 'pending']
-    );
-
-    // نجيب المقابلة من العلاقة مباشرة
-    $interview = $application->interview;
-
-    return view('supervisor.interview_details', compact('student', 'interview', 'stageProgress'));
 }
+
+
+
+    public function showInterviewDetails($studentID)
+    {
+        // نجيب الطالب
+        $student = AllUser::findOrFail($studentID);
+
+        // نجيب الأبليكيشن
+        $application = Application::where('idUser', $studentID)->firstOrFail();
+
+        // نجيب مرحلة المقابلة
+        $interviewStage = ApplicationStage::where('idScholarship', $application->idScholarship)
+            ->where('name', 'Interview')
+            ->firstOrFail();
+
+        // نجيب التقدم أو نعمل واحد جديد
+        $stageProgress = ApplicationStageProgress::firstOrCreate(
+            [
+                'idApp' => $application->applicationID,
+                'idAppStage' => $interviewStage->applicationStageID,
+            ],
+            ['status' => 'pending']
+        );
+
+        // نجيب المقابلة من العلاقة مباشرة
+        $interview = $application->interview;
+
+        return view('supervisor.interview_details', compact('student', 'interview', 'stageProgress'));
+    }
 
 
     public function scheduleInterview($applicationID)
@@ -101,77 +123,92 @@ class InterviewController extends Controller
     }
 
     public function acceptInterview($studentID)
-{
-    // 1. Load student & application
-    $student     = AllUser::findOrFail($studentID);
-    $application = Application::where('idUser', $studentID)->firstOrFail();
+    {
+        // 1. Load student & application
+        $student     = AllUser::findOrFail($studentID);
+        $application = Application::where('idUser', $studentID)->firstOrFail();
 
-    // 2. Find the “Interview” stage for this scholarship
-    $interviewStage = ApplicationStage::where('idScholarship', $application->idScholarship)
-        ->where('name', 'Interview')
-        ->firstOrFail();
+        // 2. Find the “Interview” stage for this scholarship
+        $interviewStage = ApplicationStage::where('idScholarship', $application->idScholarship)
+            ->where('name', 'Interview')
+            ->firstOrFail();
 
-    // 3. Update or create the progress record
-    $updated = ApplicationStageProgress::where('idApp', $application->applicationID)
-        ->where('idAppStage', $interviewStage->applicationStageID)
-        ->update(['status' => 'accepted']);
+        // 3. Update or create the progress record
+        $updated = ApplicationStageProgress::where('idApp', $application->applicationID)
+            ->where('idAppStage', $interviewStage->applicationStageID)
+            ->update(['status' => 'accepted']);
 
-    if (! $updated) {
-        ApplicationStageProgress::create([
-            'idApp'      => $application->applicationID,
-            'idAppStage' => $interviewStage->applicationStageID,
-            'status'     => 'accepted',
-        ]);
+        if (! $updated) {
+            ApplicationStageProgress::create([
+                'idApp'      => $application->applicationID,
+                'idAppStage' => $interviewStage->applicationStageID,
+                'status'     => 'accepted',
+            ]);
+        }
+
+        return back()->with('success', 'Student has been accepted for the interview stage.');
     }
 
-    return back()->with('success', 'Student has been accepted for the interview stage.');
-}
+    public function rejectInterview($studentID)
+    {
+        $student     = AllUser::findOrFail($studentID);
+        $application = Application::where('idUser', $studentID)->firstOrFail();
 
-public function rejectInterview($studentID)
-{
-    $student     = AllUser::findOrFail($studentID);
-    $application = Application::where('idUser', $studentID)->firstOrFail();
+        $interviewStage = ApplicationStage::where('idScholarship', $application->idScholarship)
+            ->where('name', 'Interview')
+            ->firstOrFail();
 
-    $interviewStage = ApplicationStage::where('idScholarship', $application->idScholarship)
-        ->where('name', 'Interview')
-        ->firstOrFail();
+        $updated = ApplicationStageProgress::where('idApp', $application->applicationID)
+            ->where('idAppStage', $interviewStage->applicationStageID)
+            ->update(['status' => 'rejected']);
 
-    $updated = ApplicationStageProgress::where('idApp', $application->applicationID)
-        ->where('idAppStage', $interviewStage->applicationStageID)
-        ->update(['status' => 'rejected']);
+        if (! $updated) {
+            ApplicationStageProgress::create([
+                'idApp'      => $application->applicationID,
+                'idAppStage' => $interviewStage->applicationStageID,
+                'status'     => 'rejected',
+            ]);
+        }
 
-    if (! $updated) {
-        ApplicationStageProgress::create([
-            'idApp'      => $application->applicationID,
-            'idAppStage' => $interviewStage->applicationStageID,
-            'status'     => 'rejected',
-        ]);
+        return back()->with('success', 'Student has been rejected from the interview stage.');
     }
-
-    return back()->with('success', 'Student has been rejected from the interview stage.');
-}
 
 
 public function create($scholarshipID)
-    {
+{
+    try {
         // 1. Find everyone who passed the **exam** and hasn't got an interview yet
         $eligible = $this->showEligibleForInterview1($scholarshipID)
             ->filter(fn($item) => is_null($item->application->idInterview));
-
-        // 2. Grab existing interviews for this scholarship
-        $interviewIds = Application::where('idScholarship', $scholarshipID)
-            ->whereNotNull('idInterview')
-            ->pluck('idInterview');
-
-        $interviews = Interview::whereIn('interviewID', $interviewIds)
-            ->with('application.user')
-            ->latest()
-            ->get();
-
+    } catch (\Exception $e) {
+        $message = "The interview stage is not available for this scholarship.";
+        $eligible = collect();
+        $interviews = collect();
         return view('supervisor.interviewResult', compact(
-            'eligible', 'scholarshipID', 'interviews'
+            'eligible',
+            'scholarshipID',
+            'interviews',
+            'message'
         ));
     }
+
+    // 2. Grab existing interviews for this scholarship
+    $interviewIds = Application::where('idScholarship', $scholarshipID)
+        ->whereNotNull('idInterview')
+        ->pluck('idInterview');
+
+    $interviews = Interview::whereIn('interviewID', $interviewIds)
+        ->with('application.user')
+        ->latest()
+        ->get();
+
+    return view('supervisor.interviewResult', compact(
+        'eligible',
+        'scholarshipID',
+        'interviews'
+    ));
+}
+
 
     public function store(Request $request, $scholarshipID)
     {
@@ -183,7 +220,7 @@ public function create($scholarshipID)
         $v = $request->validate([
             'student_id'     => ['required', Rule::in($validIds)],
             'interview_date' => 'required|date',
-            'status'         => ['required', Rule::in(['scheduled','completed','canceled'])],
+            'status'         => ['required', Rule::in(['scheduled', 'completed', 'canceled'])],
         ]);
 
         // 1. Create the interview
@@ -209,20 +246,20 @@ public function create($scholarshipID)
 
         // find “Interview” stage and the one immediately before it (e.g. “Exam”)
         $interviewStage = $scholarship->applicationStages()
-            ->where('name','Interview')
+            ->where('name', 'Interview')
             ->firstOrFail();
 
         $prev = $scholarship->applicationStages()
-            ->where('order','<',$interviewStage->order)
+            ->where('order', '<', $interviewStage->order)
             ->orderByDesc('order')
             ->firstOrFail();
 
         return ApplicationStageProgress::where('idAppStage', $prev->applicationStageID)
-            ->where('status','accepted')
+            ->where('status', 'accepted')
             ->with([
                 'application.user',
-                'application.stageProgress' => fn($q) => 
-                    $q->where('idAppStage',$interviewStage->applicationStageID)
+                'application.stageProgress' => fn($q) =>
+                $q->where('idAppStage', $interviewStage->applicationStageID)
             ])
             ->get();
     }

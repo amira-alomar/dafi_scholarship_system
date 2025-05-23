@@ -4,11 +4,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <style>
-    .main{
+    .main {
         display: flex;
-        
+
     }
 </style>
+
 <body class="main">
     <div class="w-64 bg-gray-900 text-white p-6 hidden md:block overflow-y-auto h-full sticky top-0">
         <div class="flex items-center space-x-2 mb-10">
@@ -92,6 +93,13 @@
                         class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
                         <i class="fas fa-check-double"></i>
                         <span>Application Result</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('logout') }}"
+                        class="flex items-center space-x-3 p-3 rounded-lg bg-red-600 text-white hover:bg-red-700 transition font-semibold shadow-md">
+                        <i class="fas fa-sign-out-alt mr-2"></i>
+                        <span>Logout</span>
                     </a>
                 </li>
             </ul>

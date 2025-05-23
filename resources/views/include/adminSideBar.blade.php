@@ -1,6 +1,7 @@
 <head>
     <link rel="stylesheet" href="{{ asset('css/sidebar.css') }}" />
     <script src="https://cdn.tailwindcss.com"></script>
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 {{-- <body> --}}
 <!-- Sidebar -->
@@ -18,10 +19,6 @@
 
     <!-- User Profile -->
     <div class="p-4 border-b border-color flex items-center space-x-3">
-        <div class="relative">
-            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User" class="w-10 h-10 rounded-full">
-            <span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></span>
-        </div>
         <div>
             <div class="font-medium">Admin User</div>
             <div class="text-sm text-muted">Super Admin</div>
@@ -43,7 +40,7 @@
                 <span class="sidebar-item-text">Opportunities</span>
             </a>
             <a href="{{ route('applications.index') }}" class="sidebar-item flex items-center p-2 rounded-lg">
-                <i class="sidebar-item-icon fas fa-bullseye mr-3"></i>
+                <i class="sidebar-item-icon fas fa-file-alt mr-3"></i>
                 <span class="sidebar-item-text">Applications Opportunities</span>
             </a>
             <a href="{{ route('admin.user') }}" class="sidebar-item flex items-center p-2 rounded-lg">
@@ -68,31 +65,29 @@
             </a>
 
             <a href="{{ route('admin.clubs.list') }}" class="sidebar-item flex items-center p-2 rounded-lg">
-                <i class="sidebar-item-icon fas fa-handshake mr-3"></i>
+                <i class="sidebar-item-icon fas fa-users mr-3"></i>
                 <span class="sidebar-item-text">Clubs</span>
             </a>
+
             <a href="{{ route('faqs.create') }}" class="sidebar-item flex items-center p-2 rounded-lg">
-                <i class="sidebar-item-icon fas fa-handshake mr-3"></i>
+                <i class="sidebar-item-icon fas fa-question-circle mr-3"></i>
                 <span class="sidebar-item-text">FAQs</span>
             </a>
+
             <div class="mb-2 px-2 text-xs font-semibold text-muted uppercase tracking-wider mt-4">System</div>
             <a href="{{ route('admins.manage') }}" class="sidebar-item flex items-center p-2 rounded-lg">
                 <i class="sidebar-item-icon fas fa-user-shield mr-3"></i>
                 <span class="sidebar-item-text">Admins & Supervisors</span>
-            </a>
-            <a href="#" class="sidebar-item flex items-center p-2 rounded-lg">
-                <i class="sidebar-item-icon fas fa-cog mr-3"></i>
-                <span class="sidebar-item-text">Settings</span>
             </a>
         </div>
     </nav>
 
     <!-- Collapse Button -->
     <div class="p-4 border-t border-color">
-        <button class="w-full btn-secondary py-2 px-4 rounded-lg flex items-center justify-center">
+        <a href="{{ route('logout') }}"
+            class="w-full btn-secondary py-2 px-4 rounded-lg flex items-center justify-center">
             <i class="fas fa-sign-out-alt mr-2"></i>
-            <span>Logout</span>
-        </button>
+            <span class="sidebar-item-text">Logout</span>
+        </a>
     </div>
 </div>
-{{-- </body> --}}

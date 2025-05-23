@@ -337,7 +337,7 @@
                                         'user' => 'bg-blue-100 text-blue-600',
                                         'scholarship' => 'bg-green-100 text-green-600',
                                         'job' => 'bg-yellow-100 text-yellow-600',
-                                        // 'club' => 'bg-purple-100 text-purple-600',
+                                        'club' => 'bg-purple-100 text-purple-600',
                                         'partner' => 'bg-pink-100 text-pink-600',
                                         default => 'bg-gray-100 text-gray-600',
                                     } }} rounded-full mr-3">
@@ -346,7 +346,7 @@
                                             'user' => 'fa-user-plus',
                                             'scholarship' => 'fa-graduation-cap',
                                             'job' => 'fa-briefcase',
-                                            // 'club' => 'fa-users',
+                                            'club' => 'fa-users',
                                             'partner' => 'fa-handshake',
                                             default => 'fa-info-circle',
                                         } }} text-sm"></i>

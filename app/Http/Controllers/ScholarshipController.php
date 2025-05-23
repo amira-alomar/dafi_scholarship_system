@@ -95,20 +95,26 @@ class ScholarshipController extends Controller
 
     public function showEligibleForExam($scholarshipID)
     {
-
-        // Get the scholarship
         $scholarship = Scholarship::findOrFail($scholarshipID);
 
-        // Get the exam stage
         $examStage = $scholarship->applicationStages()
             ->where('name', 'Exam')
-            ->firstOrFail();
+            ->first();
 
-        // Get the previous stage
+        if (!$examStage) {
+            $message = 'This stage is not available now.';
+            return view('supervisor.exam', compact('scholarshipID', 'message'));
+        }
+
         $previousStage = $scholarship->applicationStages()
             ->where('order', '<', $examStage->order)
             ->orderByDesc('order')
-            ->firstOrFail();
+            ->first();
+
+        if (!$previousStage) {
+            $message = 'Previous stage not found.';
+            return view('supervisor.exam', compact('scholarshipID', 'message'));
+        }
 
         $eligibleApplications = ApplicationStageProgress::where('idAppStage', $previousStage->applicationStageID)
             ->where('status', 'accepted')
@@ -120,9 +126,9 @@ class ScholarshipController extends Controller
             ])
             ->get();
 
-
         return view('supervisor.exam', compact('eligibleApplications', 'scholarshipID'));
     }
+
 
     public function showExamDetails($studentID)
     {
@@ -140,7 +146,7 @@ class ScholarshipController extends Controller
             return back()->with('error', 'No application found for this student.');
         }
 
-       
+
         $examStage = ApplicationStage::where('idScholarship', $application->idScholarship)
             ->where('name', 'Exam')
             ->first();
@@ -267,6 +273,25 @@ class ScholarshipController extends Controller
             ->orderBy('created_at', 'desc')
             ->take(5)
             ->get();
-        return view('supervisor.manageScholarship', compact('scholarshipID', 'scholarship', 'applications'));
+        $acceptedStudents = Application::where('idScholarship', $scholarshipID)
+            ->where('status', 'approved')
+            ->count();
+
+        $rejectedStudents = Application::where('idScholarship', $scholarshipID)
+            ->where('status', 'rejected')
+            ->count();
+
+        $pendingStudents = Application::where('idScholarship', $scholarshipID)
+            ->where('status', 'pending')
+            ->count();
+
+        return view('supervisor.manageScholarship', compact(
+            'scholarshipID',
+            'scholarship',
+            'applications',
+            'acceptedStudents',
+            'rejectedStudents',
+            'pendingStudents'
+        ));
     }
 }

@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exam Invitation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="{{ asset('css/exam.css') }}">
 </head>
 <style>
@@ -41,6 +42,10 @@
 </style>
 
 <body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        @include('include.sidebar', ['scholarshipID' => $scholarshipID])
+    </div>
     @if (session('success'))
         <!-- Notification -->
         <div class="fixed bottom-4 right-4 w-72 card p-4 shadow-lg notification hidden">
@@ -58,61 +63,73 @@
             </div>
         </div>
     @endif
-    <div class="layout">
-        <!-- Sidebar -->
-        <div class="sidebar">
-            @include('include.sidebar', ['scholarshipID' => $scholarshipID])
-        </div>
+
+
+    <div class="content">
         <!-- Main Content -->
         <div class="container">
-            <div class="page-header">
-                <h2>Exam Invitations</h2>
-                <h3>Scholarship ID: {{ $scholarshipID }}</h3>
-            </div>
-
-            @if ($eligibleApplications->count() > 0)
-                <div class="invitation-grid">
-                    @foreach ($eligibleApplications as $progress)
-                        <div class="invitation-item @if ($progress->application->stageProgress->isNotEmpty()) disabled @endif">
-                            <div class="info">
-                                <p><strong>Student:</strong> {{ $progress->application->user->fname }}
-                                    {{ $progress->application->user->lname }}</p>
-                                <p><strong>Email:</strong> {{ $progress->application->user->email }}</p>
-                                <p><strong>Application ID:</strong> {{ $progress->application->applicationID }}</p>
-                                <span
-                                    class="status @if ($progress->application->stageProgress->isNotEmpty()) status-sent @else status-pending @endif">
-                                    @if ($progress->application->stageProgress->isNotEmpty())
-                                        ✓ Invitation Sent
-                                    @else
-                                        ✗ Pending Invitation
-                                    @endif
-                                </span>
+            @if (isset($message))
+                <div class="content">
+                    <div class="container mx-auto px-0 max-w-full">
+                        <div class="flex items-center justify-center h-screen w-full">
+                            <div class="bg-light-gray rounded-lg p-8 text-center shadow-lg">
+                                <i class="fas fa-exclamation-triangle text-red-500 text-4xl mb-4"></i>
+                                <h3 class="text-xl font-semibold text-gray-800">Not available</h3>
+                                <p class="text-gray-600 mt-2">{{ $message }}</p>
                             </div>
-
-                            <div class="btn-group">
-                                @if ($progress->application->stageProgress->isNotEmpty())
-                                    <button class="send-btn" disabled>Invitation Sent</button>
-                                @else
-                                    <form
-                                        action="{{ route('exam.sendInvitation', ['applicationID' => $progress->application->applicationID]) }}"
-                                        method="POST">
-                                        @csrf
-                                        <button type="submit" class="send-btn">Send Invitation</button>
-                                    </form>
-                                @endif
-                            </div>
-
-                            <a href="{{ route('exam.details', ['studentID' => $progress->application->idUser]) }}"
-                                class="btn-info">
-                                View Exam Details
-                            </a>
                         </div>
-                    @endforeach
+                    </div>
                 </div>
             @else
-                <div class="empty-state">
-                    <p>No eligible students found for this scholarship.</p>
+                <div class="page-header">
+                    <h2>Exam Invitations</h2>
+                    <h3>Scholarship ID: {{ $scholarshipID }}</h3>
                 </div>
+
+                @if ($eligibleApplications->count() > 0)
+                    <div class="invitation-grid">
+                        @foreach ($eligibleApplications as $progress)
+                            <div class="invitation-item @if ($progress->application->stageProgress->isNotEmpty()) disabled @endif">
+                                <div class="info">
+                                    <p><strong>Student:</strong> {{ $progress->application->user->fname }}
+                                        {{ $progress->application->user->lname }}</p>
+                                    <p><strong>Email:</strong> {{ $progress->application->user->email }}</p>
+                                    <p><strong>Application ID:</strong> {{ $progress->application->applicationID }}</p>
+                                    <span
+                                        class="status @if ($progress->application->stageProgress->isNotEmpty()) status-sent @else status-pending @endif">
+                                        @if ($progress->application->stageProgress->isNotEmpty())
+                                            ✓ Invitation Sent
+                                        @else
+                                            ✗ Pending Invitation
+                                        @endif
+                                    </span>
+                                </div>
+
+                                <div class="btn-group">
+                                    @if ($progress->application->stageProgress->isNotEmpty())
+                                        <button class="send-btn" disabled>Invitation Sent</button>
+                                    @else
+                                        <form
+                                            action="{{ route('exam.sendInvitation', ['applicationID' => $progress->application->applicationID]) }}"
+                                            method="POST">
+                                            @csrf
+                                            <button type="submit" class="send-btn">Send Invitation</button>
+                                        </form>
+                                    @endif
+                                </div>
+
+                                <a href="{{ route('exam.details', ['studentID' => $progress->application->idUser]) }}"
+                                    class="btn-info">
+                                    View Exam Details
+                                </a>
+                            </div>
+                        @endforeach
+                    </div>
+                @else
+                    <div class="empty-state">
+                        <p>No eligible students found for this scholarship.</p>
+                    </div>
+                @endif
             @endif
         </div>
 
@@ -161,4 +178,5 @@
         </script>
     </div>
 </body>
+
 </html>

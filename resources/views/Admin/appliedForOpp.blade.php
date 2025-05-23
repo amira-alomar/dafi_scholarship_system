@@ -30,90 +30,125 @@
 
         body {
             font-family: var(--font-sans);
-            margin: 0;
-            padding: 0;
+            margin: 0px;
+            padding: 0px;
         }
-         .layout {
+
+        .layout {
             display: flex;
             flex: 1;
         }
-        .main{
+
+        .main {
             width: 100%;
         }
     </style>
 </head>
 
-<body class="bg-[--background] p-6 min-h-screen">
- <div class="layout">
+<body class="bg-[--background]  min-h-screen">
+    <div class="layout">
         @include('include.adminSideBar')
-    <div class="main max-w-5xl mx-auto">
-        <div class="bg-[--card] p-6 rounded-[--radius] shadow-md">
-            <h2 class="text-2xl font-semibold text-[--foreground] mb-6 border-b border-[--border] pb-2">User Applications
-            </h2>
+        <div class="main max-w-5xl mx-auto">
+            <div class="bg-[--card] p-6 rounded-[--radius] shadow-md">
+                <h2 class="text-2xl font-semibold text-[--foreground] mb-6 border-b border-[--border] pb-2">User
+                    Applications
+                </h2>
 
-            @if (session('success'))
-                <div class="bg-green-100 text-green-800 p-4 rounded mb-4">
-                    {{ session('success') }}
-                </div>
-            @endif
+                @php
+                    $message = trim(session('success'));
+                @endphp
 
-            <div class="overflow-x-auto">
-                <table class="min-w-full border border-[--border] text-sm">
-                    <thead class="bg-[--muted] text-[--muted-foreground]">
-                        <tr>
-                            <th class="p-3 text-left border-b border-[--border]">User</th>
-                            <th class="p-3 text-left border-b border-[--border]">Opportunity</th>
-                            <th class="p-3 text-left border-b border-[--border]">Date</th>
-                            <th class="p-3 text-left border-b border-[--border]">Status</th>
-                            <th class="p-3 text-left border-b border-[--border]">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($applications as $app)
-                            <tr class="hover:bg-[--muted] transition">
-                                <td class="p-3 border-b border-[--border]">
-                                    {{ $app->user ? $app->user->fname . ' ' . $app->user->lname : 'Unknown User' }}
-                                </td>
+                @if (!empty($message))
+                    @php
+                        $isRejected = str_contains(strtolower($message), 'rejected');
+                    @endphp
 
-                                {{ $app->opportunity->title ?? 'Unknown Opportunity' }}</td>
-                                <td class="p-3 border-b border-[--border]">{{ $app->application_date ?? 'N/A' }}</td>
-                                <td class="p-3 border-b border-[--border] font-medium capitalize">
-                                    <span
-                                        class="@if ($app->status == 'pending') text-[--accent] @elseif($app->status == 'accepted') text-green-600 @else text-[--destructive] @endif">
-                                        {{ $app->status }}
-                                    </span>
-                                </td>
-                                <td class="p-3 border-b border-[--border]">
-                                    @if ($app->status == 'pending')
-                                        <div class="flex space-x-2">
-                                            <form
-                                                action="{{ route('applications.accept', [$app->idUser, $app->idOpportunity]) }}"
-                                                method="POST">
-                                                @csrf
-                                                <button
-                                                    class="bg-[--primary] text-[--primary-foreground] px-3 py-1 rounded hover:bg-red-600 transition">Accept</button>
-                                            </form>
-                                            <form
-                                                action="{{ route('applications.reject', [$app->idUser, $app->idOpportunity]) }}"
-                                                method="POST">
-                                                @csrf
-                                                <button
-                                                    class="bg-[--destructive] text-[--destructive-foreground] px-3 py-1 rounded hover:bg-red-700 transition">Reject</button>
-                                            </form>
-                                        </div>
-                                    @else
-                                        <span class="text-[--muted-foreground] italic">No Action</span>
-                                    @endif
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                    <div id="success-alert"
+                        class="{{ $isRejected ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800' }} p-4 rounded mb-4">
+                        {{ $message }}
+                    </div>
+                    @endif
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full border border-[--border] text-sm">
+                            <thead class="bg-[--muted] text-[--muted-foreground]">
+                                <tr>
+                                    <th class="p-3 text-left border-b border-[--border]">User</th>
+                                    <th class="p-3 text-left border-b border-[--border]">Opportunity</th>
+                                    <th class="p-3 text-left border-b border-[--border]"> Application Date</th>
+                                    <th class="p-3 text-left border-b border-[--border]">Status</th>
+                                    <th class="p-3 text-left border-b border-[--border]">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($applications as $app)
+                                    <tr class="hover:bg-[--muted] transition">
+                                        <td class="p-3 border-b border-[--border]">
+                                            {{ $app->user ? $app->user->fname . ' ' . $app->user->lname : 'Unknown User' }}
+                                        </td>
+                                        <td class="p-3 border-b border-[--border]">
+                                            {{ $app->opportunity->title ?? 'Unknown Opportunity' }}
+                                        </td>
+                                        <td class="p-3 border-b border-[--border]">
+                                            {{ $app->application_date ?? 'N/A' }}
+                                        </td>
+                                        <td class="p-3 border-b border-[--border] font-medium capitalize">
+                                            <span
+                                                class="@if ($app->status == 'pending') text-[--accent] @elseif($app->status == 'accepted') text-green-600 @else text-[--destructive] @endif">
+                                                {{ $app->status }}
+                                            </span>
+                                        </td>
+                                        <td class="p-3 border-b border-[--border]">
+                                            @if ($app->status == 'pending')
+                                                <div class="flex space-x-2">
+                                                    <form
+                                                        action="{{ route('applications.accept', [$app->idUser, $app->idOpportunity]) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        <button
+                                                            class="bg-[--primary] text-[--primary-foreground] px-3 py-1 rounded hover:bg-red-600 transition">Accept</button>
+                                                    </form>
+                                                    <form
+                                                        action="{{ route('applications.reject', [$app->idUser, $app->idOpportunity]) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        <button
+                                                            class="bg-[--destructive] text-[--destructive-foreground] px-3 py-1 rounded hover:bg-red-700 transition">Reject</button>
+                                                    </form>
+                                                </div>
+                                            @else
+                                                <span class="text-[--muted-foreground] italic">No Action</span>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+
+                                @if ($applications->isEmpty())
+                                    <tr>
+                                        <td colspan="5" class="p-4 text-center text-gray-500">
+                                            No applications found.
+                                        </td>
+                                    </tr>
+                                @endif
+                            </tbody>
+
+                        </table>
+                    </div>
+
             </div>
-
         </div>
     </div>
-    </div>
 </body>
+
+<script>
+    setTimeout(function() {
+        const alert = document.getElementById('success-alert');
+        if (alert) {
+            alert.style.transition = 'opacity 0.5s';
+            alert.style.opacity = '0';
+            setTimeout(() => alert.remove(), 500);
+        }
+    }, 3000);
+</script>
+
 
 </html>

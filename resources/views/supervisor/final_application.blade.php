@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{{ asset('css/finalapp.css') }}">
 </head>
 
-<body>
+<body >
      @include('include.sidebar', ['scholarshipID' => $scholarshipID])
     <div class="container">
         <div class="header">

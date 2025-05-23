@@ -156,10 +156,10 @@
 </head>
 
 <body class="min-h-screen">
-        <div class="flex h-screen">
+    <div class="flex h-screen">
         <!-- Sidebar -->
         <aside class="w-64 bg-gray-900 text-white p-6 overflow-y-auto">
-        @include('include.sidebar', ['scholarshipID' => $scholarshipID])
+            @include('include.sidebar', ['scholarshipID' => $scholarshipID])
         </aside>
         <!-- Mobile sidebar toggle -->
         <button id="sidebarToggle" class="md:hidden fixed top-4 left-4 z-50 bg-gray-900 text-white p-2 rounded-lg">
@@ -435,25 +435,41 @@
             <!-- Announcements Section -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <div class="bg-white rounded-lg shadow p-6">
-                    <h3 class="text-lg font-semibold mb-4">Announcements</h3>
-                    <ul class="space-y-4">
-                        <li class="announcement-item">
-                            <p class="font-medium">New scholarship opportunity added!</p>
-                            <p class="text-sm text-gray-500">2 hours ago</p>
-                        </li>
-                        <li class="announcement-item">
-                            <p class="font-medium">System maintenance scheduled for 2025-02-28.</p>
-                            <p class="text-sm text-gray-500">1 day ago</p>
-                        </li>
-                        <li class="announcement-item">
-                            <p class="font-medium">Annual review meeting on 2025-03-05.</p>
-                            <p class="text-sm text-gray-500">2 days ago</p>
-                        </li>
-                        <li class="announcement-item">
-                            <p class="font-medium">Don't miss the upcoming webinar on application best practices.</p>
-                            <p class="text-sm text-gray-500">3 days ago</p>
-                        </li>
-                    </ul>
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h3 class="text-lg font-semibold mb-4">Application Status Overview</h3>
+                        <canvas id="statusChart"></canvas>
+                    </div>
+
+                    <!-- Chart.js CDN -->
+                    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+                    <script>
+                        const ctx = document.getElementById('statusChart').getContext('2d');
+                        new Chart(ctx, {
+                            type: 'pie',
+                            data: {
+                                labels: ['Accepted', 'Rejected', 'Pending'],
+                                datasets: [{
+                                    data: [{{ $acceptedStudents }}, {{ $rejectedStudents }}, {{ $pendingStudents }}],
+                                    backgroundColor: ['#10b981', '#ef4444', '#fbbf24'],
+                                    borderColor: '#fff',
+                                    borderWidth: 2
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                plugins: {
+                                    legend: {
+                                        position: 'bottom'
+                                    },
+                                    title: {
+                                        display: true,
+                                        text: 'Scholarship Application Status'
+                                    }
+                                }
+                            }
+                        });
+                    </script>
                 </div>
 
                 <div class="bg-white rounded-lg shadow p-6">
@@ -482,11 +498,11 @@
                     </div>
                 </div>
             </div>
-        </div>
+    </div>
 
 
     <!-- Mobile Sidebar -->
-    <div id="mobileSidebar" class="fixed inset-0 bg-gray-900 bg-opacity-50 z-40 hidden">
+    {{-- <div id="mobileSidebar" class="fixed inset-0 bg-gray-900 bg-opacity-50 z-40 hidden">
         <div class="w-64 bg-gray-900 text-white min-h-screen p-6 transform -translate-x-full transition duration-300">
             <div class="flex items-center space-x-2 mb-10">
                 <i class="fas fa-graduation-cap text-2xl text-indigo-400"></i>
@@ -565,7 +581,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     </div>
     <script>
         // Toggle mobile sidebar

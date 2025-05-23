@@ -8,6 +8,7 @@ use App\Models\Scholarship;
 use App\Models\AllUser;
 use App\Models\University;
 use App\Models\Partner;
+use App\Models\Club;
 use App\Models\JobOpportunity;
 use App\Models\AdminScholarship; // هو نفسه جدول admin_scholarships
 use Carbon\Carbon;
@@ -152,12 +153,12 @@ class AdminController extends Controller
                 'type' => 'job',
             ] : null,
 
-            // optional(Club::latest()->first())->created_at ? [
-            //     'label' => 'New club created',
-            //     'name' => Club::latest()->first()->name,
-            //     'time' => Club::latest()->first()->created_at,
-            //     'type' => 'club',
-            // ] : null,
+            optional(Club::latest()->first())->created_at ? [
+                'label' => 'New club created',
+                'name' => Club::latest()->first()->name,
+                'time' => Club::latest()->first()->created_at,
+                'type' => 'club',
+            ] : null,
 
             optional(Partner::latest()->first())->created_at ? [
                 'label' => 'New partner added',
@@ -200,7 +201,6 @@ class AdminController extends Controller
         'jobsCount',
         'recentScholarships',
         'activities',
-        // الجديد:
         'labels',
         'usersData',
         'schsData',

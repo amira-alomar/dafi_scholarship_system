@@ -12,34 +12,34 @@ use Illuminate\Support\Facades\Auth;
 class UserOpportunityController extends Controller
 {
     public function store(Request $request)
-{
-    $data = $request->validate([
-        'name'              => 'required|string|max:255',
-        'email'             => 'required|email',
-        'opportunity_title' => 'required|string',
-         'status'       => 'required|string',
-    ]);
+    {
+        $data = $request->validate([
+            'name'              => 'required|string|max:255',
+            'email'             => 'required|email',
+            'opportunity_title' => 'required|string',
+            'status'       => 'required|string',
+        ]);
 
-    $user = Auth::user();
-    $opportunity = Opportunity::where('title', $data['opportunity_title'])->firstOrFail();
+        $user = Auth::user();
+        $opportunity = Opportunity::where('title', $data['opportunity_title'])->firstOrFail();
 
-    // تحقق إذا سبق وقدم
-    if (UserOpportunity::where('idUser', $user->id)
+        // تحقق إذا سبق وقدم
+        if (UserOpportunity::where('idUser', $user->id)
             ->where('idOpportunity', $opportunity->opportunityID)
             ->exists()
-    ) {
-        return back()->with('error', 'You have already applied for this opportunity.');
+        ) {
+            return back()->with('error', 'You have already applied for this opportunity.');
+        }
+
+        UserOpportunity::create([
+            'idUser'           => $user->id,
+            'idOpportunity'    => $opportunity->opportunityID,
+            'application_date' => now(),
+        ]);
+
+        return back()->with('success', 'Application submitted successfully!');
     }
-
-    UserOpportunity::create([
-        'idUser'           => $user->id,
-        'idOpportunity'    => $opportunity->opportunityID,
-        'application_date' => now(),
-    ]);
-
-    return back()->with('success', 'Application submitted successfully!');
-}
-public function index()
+    public function index()
     {
         $applications = UserOpportunity::with(['user', 'opportunity'])->get();
         return view('admin.appliedForOpp', compact('applications'));
@@ -62,5 +62,4 @@ public function index()
 
         return back()->with('success', 'Application rejected!');
     }
-
 }

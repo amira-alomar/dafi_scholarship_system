@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\AcceptApplicaton;
+use App\Mail\RejectApplicaton;
 use Illuminate\Http\Request;
 use App\Models\Application;
 use App\Models\AdminScholarship;
@@ -13,6 +15,7 @@ use App\Models\ApplicationStageProgress;
 use App\Models\Scholarship;
 use App\Models\Role;
 use App\Models\AllUser;
+use Illuminate\Support\Facades\Mail;
 
 class ApplicationController extends Controller
 {
@@ -26,19 +29,41 @@ class ApplicationController extends Controller
     }
     public function showApplicationDetails($scholarshipId, $applicationID)
     {
-        $application = Application::with(['applicationForm', 'answers.question', 'documents'])
+        $application = Application::with([
+            'applicationForm',
+            'answers.question',
+            'documents',
+            'stageProgress'        // ← load all stage progresses
+        ])
             ->where('applicationID', $applicationID)
             ->first();
 
+        // bail if missing
         if (!$application) {
             return redirect()->back()->with('error', 'Application not found');
         }
+
+        // grab the “Form” stage to filter
+        $formStage = ApplicationStage::where('idScholarship', $scholarshipId)
+            ->where('name', 'Form')
+            ->firstOrFail();
+
+        // find just the progress row for that stage
+        $formProgress = $application
+            ->stageProgress
+            ->firstWhere('idAppStage', $formStage->applicationStageID);
+
 
         $requiredDocuments = \App\Models\RequiredDocument::with(['documents' => function ($query) use ($application) {
             $query->where('idApp', $application->applicationID);
         }])->get();
 
-        return view('supervisor.applicationDetails', compact('application', 'requiredDocuments', 'scholarshipId'));
+        return view('supervisor.applicationDetails', compact(
+            'application',
+            'requiredDocuments',
+            'scholarshipId',
+            'formProgress'   // ← new!
+        ));
     }
 
 
@@ -58,7 +83,6 @@ class ApplicationController extends Controller
         if ($affected === 0) {
             return redirect()->back()->with('error', 'No matching ApplicationStageProgress found for approval.');
         }
-
         // 4. إعادة التوجيه مع رسالة نجاح
         return redirect()
             ->route('supervisor.application', ['scholarshipId' => $scholarshipId])
@@ -220,46 +244,38 @@ class ApplicationController extends Controller
         // Redirect to the final application page with the scholarship ID
         return redirect()->route('supervisor.finalApplication', ['scholarshipID' => $request->scholarshipID]);
     }
-   public function acceptedStudents($scholarshipID, $idUser)
-{
-    // جلب الـ Application
-    $application = Application::where('idScholarship', $scholarshipID)
-                            ->where('idUser', $idUser)
-                            ->firstOrFail();
+    public function acceptedStudents($scholarshipID)
+    {
+        $applications = Application::with([
+            'user.studentInfo',
+            'scholarship'
+        ])
+            ->where('idScholarship', $scholarshipID)
+            ->where('status', 'approved')
+            ->get();
 
-    // تغيير الحالة لـ approved
-    $application->status = 'approved';
-    $application->save();
-
-    // جلب الـ role_id للـ Student (غالباً 1)
-    $studentRoleId = Role::where('role_name', 'Student')->value('id');
-    // لو ثابت عندك 1، ممكن تستغني عن الاستعلام فوق:
-    // $studentRoleId = 1;
-
-    // تحديث دور المستخدم
-    $user = AllUser::findOrFail($idUser);
-    $user->role_id = $studentRoleId;
-    $user->save();
-
-    return back()->with('success', 'تم القبول وتحديث الدور إلى Student!');
-}
-
-
+        return view('supervisor.acceptedStudents', compact('applications', 'scholarshipID'));
+    }
     public function approveFinalApplication($applicationID)
     {
-        // 1. Load the application (or 404)
         $application = Application::findOrFail($applicationID);
 
-        // 2. Only pending apps can change
         if ($application->status !== 'pending') {
             return back()->with('info', 'This application is already ' . $application->status . '.');
         }
 
-        // 3. Update status
         $application->update(['status' => 'approved']);
 
-        return back()->with('success', 'Application approved successfully.');
+        $studentRoleId = Role::where('role_name', 'Student')->value('id');
+        $user = AllUser::findOrFail($application->idUser);
+        $user->update(['role_id' => $studentRoleId]);
+
+        $studentEmail = $user->email;
+        Mail::to($studentEmail)->send(new AcceptApplicaton());
+
+        return back()->with('success', 'Application approved and user role updated.');
     }
+
 
     public function rejectFinalApplication($applicationID)
     {
@@ -268,9 +284,10 @@ class ApplicationController extends Controller
         if ($application->status !== 'pending') {
             return back()->with('info', 'This application is already ' . $application->status . '.');
         }
-
+        $user = AllUser::findOrFail($application->idUser);
         $application->update(['status' => 'rejected']);
-
+        $studentEmail = $user->email;
+        Mail::to($studentEmail)->send(new RejectApplicaton());
         return back()->with('success', 'Application rejected successfully.');
     }
 }
