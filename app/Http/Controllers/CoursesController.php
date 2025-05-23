@@ -27,11 +27,13 @@ class CoursesController extends Controller
     // تخزين كورس جديد
     public function store(Request $request)
     {
+
+        
         $request->validate([
             'semester' => 'required|string|max:10',
             'course_name' => 'required|string|max:255',
             'code' => 'required|string|max:255',
-            'grade' => 'required|string|max:10',
+            'grade' => 'nullable|string|max:10',
             'registration_image' => 'nullable|image|max:2048', // صورة التسجيل
         ]);
 
@@ -47,7 +49,11 @@ class CoursesController extends Controller
             $data['image'] = $filename;
         }
 
-        Course::create($data);
+       $created = Course::create($data);
+
+if (!$created) {
+    dd('failed to save');
+}
 
         return redirect()
             ->route('courses.index')
@@ -60,7 +66,7 @@ public function update(Request $request, Course $course)
         'semester' => 'required|string|max:10',
         'course_name' => 'required|string|max:255',
         'code' => 'required|string|max:255',
-        'grade' => 'required|string|max:10',
+        'grade' => 'nullable|string|max:10',
         'registration_image' => 'nullable|image|max:2048',
     ]);
 

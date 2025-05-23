@@ -22,7 +22,7 @@ return new class extends Migration
             $table->date('expected_graduation');
             $table->string('image')->nullable();
             $table->foreignId('idUser')->constrained('all_users', 'id')->onDelete('cascade');
-            $table->foreignId('idUni')->constrained('universities', 'universityID')->onDelete('cascade');
+            $table->foreignId('idUni') ->nullable()->constrained('universities', 'universityID')->onDelete('cascade');
             $table->foreignId('idScholarship')->nullable()->constrained('scholarships', 'scholarshipID')->onDelete('set null');
             $table->timestamps();
         });

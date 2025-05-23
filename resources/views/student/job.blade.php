@@ -14,7 +14,7 @@
 <body class="min-h-screen">   
 <div style="display: flex; min-height: 100vh;">
       <!-- Sidebar Navigation -->
-      <div class="sidebar">
+      <div class="sidebar hidden md:flex md:flex-col">
   <div class="sidebar-header items-center space-x-2">
     <i class="fas fa-graduation-cap text-2xl text-indigo-400"></i>
     <h1 class="sidebar-title text-xl font-bold">ScholarPath</h1>
@@ -116,11 +116,7 @@
         </div>
     </div>
 
-    <!-- Toast Notification -->
-    <div id="toast" class="toast fixed bottom-4 right-4 hidden bg-green-100 border border-green-300 text-green-700 px-4 py-3 rounded-lg shadow-lg flex items-center gap-2">
-        <i class="fas fa-check-circle text-green-500"></i>
-        <span>Job saved successfully</span>
-    </div>
+
 
     <!-- Modal -->
     <div id="modal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
@@ -171,5 +167,29 @@
             </div>
         </div>
     </div>
+    @if(session('success'))
+  <div id="success-toast" class="toast toast-success">
+    {{ session('success') }}
+  </div>
+@endif
+
+@if(session('error'))
+  <div id="error-toast" class="toast toast-error">
+    {{ session('error') }}
+  </div>
+@endif
+
+@if(session('success') || session('error'))
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      ['success-toast','error-toast'].forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.classList.add('show');
+        setTimeout(() => el.classList.remove('show'), 4000);
+      });
+    });
+  </script>
+@endif
 </body>
 </html>

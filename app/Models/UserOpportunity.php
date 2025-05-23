@@ -11,7 +11,7 @@ class UserOpportunity extends Model
 
     protected $primaryKey = null;
     public $incrementing = false;
-    protected $fillable = ['idUser', 'idOpportunity'];
+    protected $fillable = ['idUser', 'idOpportunity',  'application_date','status'];
 
     // Relationships
     public function user()

@@ -6,20 +6,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>Academic Information</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="{{ asset('css/acadmic.css') }}">
   <link rel="stylesheet" href="{{ asset('css/sidebarstudent.css') }}">
+    <!-- <link rel="stylesheet" href="{{ asset('css/responsive.css') }}"> -->
+  <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="{{ asset('js/acadmic.js') }}"></script>
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
-      <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
 
   <div style="display: flex; min-height: 100vh;">
       <!-- Sidebar Navigation -->
-      <div class="sidebar">
+     <div class="sidebar hidden md:flex md:flex-col">
   <div class="sidebar-header items-center space-x-2">
     <i class="fas fa-graduation-cap text-2xl text-indigo-400"></i>
     <h1 class="sidebar-title text-xl font-bold">ScholarPath</h1>
@@ -86,7 +87,7 @@
   </nav>
 </div>
     <div style="flex: 1; padding-left: 15px;">
-      <div class="container">
+      <div class="container p-4 md:p-8 md:ml-[250px] w-full md:w-[calc(100%-250px)]">
     <!-- Page title -->
     <h1 class="page-title">Academic Information</h1>
     
@@ -450,6 +451,8 @@
   <div id="success-toast" class="toast">
     {{ session('success') }}
   </div>
+  
+
   <script>
     window.addEventListener('DOMContentLoaded', () => {
       const toast = document.getElementById('success-toast');

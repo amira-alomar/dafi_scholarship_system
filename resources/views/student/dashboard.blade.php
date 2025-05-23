@@ -146,12 +146,41 @@
               <h2 class="text-xl font-bold mb-4">Volunteering Progress</h2>
               <div class="w-full md:w-1/2 mx-auto">
                   <canvas id="progressChart"></canvas>
+                  </div>
+                      <div class="w-full md:w-full">
+                  <form action="{{ route('dashboard.updateTarget') }}" method="POST" class="mt-4">
+                    @csrf
+                   
+                    <label for="volunteering_goal" class="block text-sm font-medium text-gray-700">Set Your Volunteering Goal (Hours)</label>
+                    <input type="number" name="volunteering_goal" id="volunteering_goal"
+                          class="mt-1 p-2 border border-gray-300 rounded-md w-full"
+                          value="{{ auth()->user()->studentInfo->number_of_volunteering ?? '' }}" required>
+                    <button type="submit" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded-md">
+                        Save Goal
+                    </button>
+                </form>
               </div>
+               
           </div>
+ 
+
                     <div class="card p-6 mb-8">
               <h2 class="text-xl font-bold mb-4">Training Progress</h2>
               <div class="w-full md:w-1/2 mx-auto">
                   <canvas id="trainingChart"></canvas>
+              </div>
+                            <div class="w-full md:w-full">
+                  <form action="{{ route('dashboard.updateTarget') }}" method="POST" class="mt-4">
+                    @csrf
+                   
+                    <label for="training_goal" class="block text-sm font-medium text-gray-700">Set Your Volunteering Goal (Hours)</label>
+                    <input type="number" name="training_goal" id="training_goal"
+                          class="mt-1 p-2 border border-gray-300 rounded-md w-full"
+                          value="{{ auth()->user()->studentInfo->number_of_training ?? '' }}" required>
+                    <button type="submit" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded-md">
+                        Save Goal
+                    </button>
+                </form>
               </div>
           </div>
           </div>
@@ -427,7 +456,7 @@
             }, 3000);
         }
     const completedHours = {{ $volunteeringHours  ?? 0 }};
-    const goalHours = {{ $goalHours ?? 60 }}; // يمكنك تعيين هذا الرقم ديناميكيًا من السيرفر
+    const goalHours = {{ $volunteering_goal ?? 60 }}; // يمكنك تعيين هذا الرقم ديناميكيًا من السيرفر
     const remainingHours = Math.max(0, goalHours - completedHours);
     const percentage = Math.min(100, (completedHours / goalHours) * 100).toFixed(1);
 
@@ -465,7 +494,7 @@
     });
     // بيانات التدريبات من السيرفر (Blade)
 const completedTrainings   = {{ $totalTrainings   ?? 0 }};
-const goalTrainings        = 6; 
+const goalTrainings        = {{ $training_goal  ??6}}; 
 const remainingTrainings   = Math.max(0, goalTrainings - completedTrainings);
 const percentageTrainings  = Math.min(100, (completedTrainings / goalTrainings) * 100).toFixed(1);
 

@@ -367,6 +367,7 @@
         </div>
 
 
+
 <script>
     function showTab(tabId) {
         // Hide all tab contents
@@ -390,6 +391,8 @@
         const section = document.getElementById(sectionId);
         section.classList.toggle('edit-mode');
     }
+    document.addEventListener('DOMContentLoaded', showToasts);
+
     
 </script>
 </body>

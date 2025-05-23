@@ -15,35 +15,17 @@
 </head>
 
 <body class="min-h-screen">
-    @if (session('success'))
-        <div class="toast bg-green-500 text-white p-4 rounded shadow-md">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    @if (session('info'))
-        <div class="toast bg-blue-500 text-white p-4 rounded shadow-md">
-            {{ session('info') }}
-        </div>
-    @endif
-
-    @if (session('error'))
-        <div class="toast bg-red-500 text-white p-4 rounded shadow-md">
-            {{ session('error') }}
-        </div>
-    @endif
-
+ 
 
     <!-- Sidebar goes here -->
     <div class="flex">
         <div class="hidden md:block w-64 bg-gray-100 min-h-screen">
              <!-- Sidebar Navigation -->
       <div class="sidebar">
-  <div class="sidebar-header">
-    <img src="https://static.thenounproject.com/png/3314643-200.png" alt="Logo" class="sidebar-logo">
-    <h1 class="sidebar-title">ScholarPath</h1>
+  <div class="sidebar-header items-center space-x-2">
+     <i class="fas fa-graduation-cap text-2xl text-indigo-400"></i>
+    <h1 class="sidebar-title text-xl font-bold">ScholarPath</h1>
   </div>
-  
   <div class="sidebar-user">
     <div class="user-avatar">
         <img src="{{ optional(auth()->user())->profile_picture  ? asset('storage/profile_images/' . optional(auth()->user())->profile_picture) : 'https://i.pravatar.cc/150?img=32' }}" alt="User avatar">
@@ -221,8 +203,34 @@
             </div>
         </div>
     </div>
+   @if (session('success'))
+        <div class="toast bg-green-500 text-white p-4 rounded shadow-md">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if (session('info'))
+        <div class="toast bg-blue-500 text-white p-4 rounded shadow-md">
+            {{ session('info') }}
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="toast bg-red-500 text-white p-4 rounded shadow-md">
+            {{ session('error') }}
+        </div>
+    @endif
 
     <script>
+            document.addEventListener('DOMContentLoaded', function () {
+        const toasts = document.querySelectorAll('.toast');
+        toasts.forEach((toast) => {
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 4000); // 4 ثواني ثم يختفي التوست
+        });
+    });
         function openModal(name, category, members, image, description, meetingDay = '', location = '') {
             document.getElementById('modalTitle').innerText = name;
             document.getElementById('modalCategory').innerText = category;

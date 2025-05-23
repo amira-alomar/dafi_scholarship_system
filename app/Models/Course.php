@@ -10,7 +10,15 @@ class Course extends Model
     use HasFactory;
 
     protected $primaryKey = 'courseID';
-    protected $fillable = ['code', 'course_name', 'grade', 'semester', 'image', 'idUser', 'idUni'];
+   protected $fillable = [
+    'semester',
+    'course_name',
+    'code',
+    'grade',
+    'image',
+    'idUser',
+    'idUni',
+];
     public $incrementing = true; // أو false لو مش incrementing
     protected $keyType = 'int';  // أو 'string' لو المفتاح نصي
 

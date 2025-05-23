@@ -252,3 +252,34 @@ tr:hover td {
   }
 
 }
+/* toast.css أو ملف الـ CSS العام */
+.toast {
+  visibility: hidden;
+  min-width: 200px;
+  color: #fff;
+  text-align: center;
+  padding: 12px 20px;
+  position: fixed;
+  z-index: 1000;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 6px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  transition: opacity 0.5s ease, visibility 0.5s;
+  opacity: 0;
+}
+
+/* فقط الألوان بدون تعارض */
+.toast-success {
+  background-color: #22c55e; /* Tailwind green-500 */
+}
+
+.toast-error {
+  background-color: #ef4444; /* Tailwind red-500 */
+}
+
+.toast.show {
+  visibility: visible;
+  opacity: 1;
+}
