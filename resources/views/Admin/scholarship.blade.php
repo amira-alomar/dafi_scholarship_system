@@ -184,9 +184,9 @@
                         <span class="text-2xl">🎓</span>
                         <span>Add New Scholarship</span>
                     </h3>
-                    <form method="POST" action="{{ route('scholarships.store') }}" class="space-y-6">
+                    <form method="POST" action="{{ route('scholarships.store') }}" enctype="multipart/form-data"
+                        class="space-y-6">
                         @csrf
-
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="form-group">
                                 <label for="scholarship-name"
@@ -281,6 +281,22 @@
                                     </div>
                                 @enderror
                             </div>
+                            <div class="form-group">
+                                <label for="picture"
+                                    class="block text-sm font-semibold text-gray-700 mb-2">Scholarship Image</label>
+                                <input type="file" name="picture" id="picture"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200" />
+                                @error('picture')
+                                    <div class="text-red-600 text-sm mt-1 flex items-center space-x-1">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                        <span>{{ $message }}</span>
+                                    </div>
+                                @enderror
+                            </div>
+
                         </div>
 
                         <button type="submit"
@@ -683,7 +699,6 @@
                                             <textarea id="desc-{{ $scholarship->scholarshipID }}" name="description" rows="3"
                                                 class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none">{{ $scholarship->description }}</textarea>
                                         </div>
-
                                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                                             <div class="form-group">
                                                 <label for="status-{{ $scholarship->scholarshipID }}"

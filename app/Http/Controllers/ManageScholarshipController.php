@@ -29,7 +29,16 @@ class ManageScholarshipController extends Controller
             'status' => 'required|in:open,closed',
             'target_group' => 'required|in:Bachelor,Master,PHD',
             'idUni' => 'required|exists:universities,universityID',
+            'picture' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
+
+        if ($request->hasFile('picture')) {
+            $file = $request->file('picture');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $path = $file->storeAs('scholarship_images', $filename, 'public');
+            $data['picture'] = $path;
+        }
+
 
         Scholarship::create($data);
         return back()->with('success', 'Scholarship added successfully!');

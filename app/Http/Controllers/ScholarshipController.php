@@ -199,7 +199,7 @@ class ScholarshipController extends Controller
         $exam = $application->exam;
         $scholarshipID = $application->idScholarship;
 
-        return view('supervisor.exam_details', compact('student', 'exam', 'stageProgress','scholarshipID'));
+        return view('supervisor.exam_details', compact('student', 'exam', 'stageProgress', 'scholarshipID'));
     }
 
     public function approveStudent($studentID)
@@ -275,46 +275,46 @@ class ScholarshipController extends Controller
 
 
     public function sendInvitation(Request $request, $applicationID)
-{
-    // 1) Validate the modal inputs
-    $v = $request->validate([
-        'exam_date'    => 'required|date',
-        'exam_subject' => 'required|string|max:255',
-        'exam_details' => 'nullable|string',
-    ]);
+    {
+        // 1) Validate the modal inputs
+        $v = $request->validate([
+            'exam_date'    => 'required|date',
+            'exam_subject' => 'required|string|max:255',
+            'exam_details' => 'nullable|string',
+        ]);
 
-    // 2) Fetch & check as you did before
-    $application = Application::with('user')->findOrFail($applicationID);
-    $examStage = ApplicationStage::where('idScholarship', $application->idScholarship)
-        ->where('name', 'Exam')
-        ->firstOrFail();
+        // 2) Fetch & check as you did before
+        $application = Application::with('user')->findOrFail($applicationID);
+        $examStage = ApplicationStage::where('idScholarship', $application->idScholarship)
+            ->where('name', 'Exam')
+            ->firstOrFail();
 
-    $alreadySent = ApplicationStageProgress::where('idApp', $application->applicationID)
-        ->where('idAppStage', $examStage->applicationStageID)
-        ->exists();
+        $alreadySent = ApplicationStageProgress::where('idApp', $application->applicationID)
+            ->where('idAppStage', $examStage->applicationStageID)
+            ->exists();
 
-    if ($alreadySent) {
-        return back()->with('info', 'Invitation has already been sent.');
+        if ($alreadySent) {
+            return back()->with('info', 'Invitation has already been sent.');
+        }
+
+        // 3) Create the normal Progress record
+        ApplicationStageProgress::create([
+            'idApp'      => $application->applicationID,
+            'idAppStage' => $examStage->applicationStageID,
+            'status'     => 'pending',
+        ]);
+
+        // 4) Send the mail, passing along our three new values
+        Mail::to($application->user->email)
+            ->send(new InvitatiobMail(
+                $application,
+                $v['exam_date'],
+                $v['exam_subject'],
+                $v['exam_details']
+            ));
+
+        return back()->with('success', 'Invitation sent successfully.');
     }
-
-    // 3) Create the normal Progress record
-    ApplicationStageProgress::create([
-        'idApp'      => $application->applicationID,
-        'idAppStage' => $examStage->applicationStageID,
-        'status'     => 'pending',
-    ]);
-
-    // 4) Send the mail, passing along our three new values
-    Mail::to($application->user->email)
-        ->send(new InvitatiobMail(
-            $application,
-            $v['exam_date'],
-            $v['exam_subject'],
-            $v['exam_details']
-        ));
-
-    return back()->with('success', 'Invitation sent successfully.');
-}
 
     public function manageScholarship($scholarshipID)
     {
@@ -334,7 +334,7 @@ class ScholarshipController extends Controller
         $pendingStudents = Application::where('idScholarship', $scholarshipID)
             ->where('status', 'pending')
             ->count();
-            
+
         return view('supervisor.manageScholarship', compact(
             'scholarshipID',
             'scholarship',
