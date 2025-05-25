@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id('courseID');
             $table->string('code');
             $table->string('course_name');
-            $table->string('grade');
+            $table->integer('grade');
+            $table->integer('credit');
             $table->string('semester');
             $table->string('image')->nullable();
             $table->foreignId('idUser')->constrained('all_users', 'id')->onDelete('cascade');
