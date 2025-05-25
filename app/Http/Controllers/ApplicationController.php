@@ -88,28 +88,29 @@ class ApplicationController extends Controller
 
    public function rejectApplication($scholarshipId, $applicationID)
 {
-    // 1) Grab the Form stage
+    // 1. Get the Form stage
     $formStage = ApplicationStage::where('idScholarship', $scholarshipId)
         ->where('name', 'Form')
         ->firstOrFail();
 
-    // 2) Make sure there’s a progress row
-    $progress = ApplicationStageProgress::where('idApp', $applicationID)
+    // 2. Update the specific Form stage status to "rejected"
+    $affected = ApplicationStageProgress::where('idApp', $applicationID)
         ->where('idAppStage', $formStage->applicationStageID)
-        ->firstOrFail();
+        ->update(['status' => 'rejected']);
 
-    // 3) Reject that single stage…
-    $progress->update(['status' => 'rejected']);
+    if ($affected === 0) {
+        return redirect()->back()->with('error', 'No matching ApplicationStageProgress found for rejection.');
+    }
 
-    // 4) …and reject the entire application, no second chances
+    // 3. Also update the main application status to "rejected"
     Application::where('applicationID', $applicationID)
         ->update(['status' => 'rejected']);
 
-    // 5) Victory lap
     return redirect()
         ->route('supervisor.application', ['scholarshipId' => $scholarshipId])
-        ->with('success', 'Applicant mercilessly rejected at Form stage—application status set to rejected.');
+        ->with('success', 'Application has been rejected in the Form stage, and status updated.');
 }
+
 
 
 public function endFormStage($scholarshipId)
