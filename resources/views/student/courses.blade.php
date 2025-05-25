@@ -15,9 +15,9 @@
 </head>
 
 <body class="page-courses">
-{{-- <<<<<<< HEAD
+<<<<<<< HEAD
     <!-- Sidebar goes here -->
-======= --}}
+=======
   @if ($errors->any())
     <div class="alert alert-danger">
         <ul>
@@ -29,7 +29,7 @@
 @endif
 
  <!-- Sidebar goes here -->
-
+>>>>>>> 084ccbee58f2eb229d39d6f028db0cdb175e9982
     <div class="flex">
         <div class="hidden md:block  bg-gray-100 min-h-screen">
             <!-- Sidebar Navigation -->
@@ -123,7 +123,7 @@
                         @endif
                     </h2>
 
-{{-- <<<<<<< HEAD
+<<<<<<< HEAD
                     <form id="courseForm"
                         action="{{ isset($editingCourse) ? route('courses.update', $editingCourse->courseID) : route('courses.store') }}"
                         method="POST" enctype="multipart/form-data">
@@ -138,7 +138,7 @@
                                 value="{{ old('semester', $editingCourse->semester ?? '') }}"
                                 placeholder="Enter semester " required>
                         </div>
-======= --}}
+=======
         <form id="courseForm"
           action="{{ isset($editingCourse)
                       ? route('courses.update', $editingCourse->courseID)
@@ -245,7 +245,7 @@
                   <i class="fas fa-edit"></i> Edit
                 </a>
               </td>
-
+>>>>>>> 084ccbee58f2eb229d39d6f028db0cdb175e9982
 
                         <div class="form-group">
                             <label for="courseCode">Course Code</label>
