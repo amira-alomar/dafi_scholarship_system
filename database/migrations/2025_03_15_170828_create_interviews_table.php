@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('interviews', function (Blueprint $table) {
             $table->id('interviewID');
             $table->date('interview_date');
-            $table->enum('status', ['scheduled', 'completed', 'canceled']);
+            $table->enum('performance_level', ['bad', 'good', 'excellent']);
+            $table->enum('recommendation', ['yes', 'no']);
+            $table->string('notes')->nullable();
             $table->timestamps();
         });
     }

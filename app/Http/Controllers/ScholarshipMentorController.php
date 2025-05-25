@@ -13,8 +13,8 @@ class ScholarshipMentorController extends Controller
     public function analyze(Request $request)
     {
         if ($request->isMethod('get')) {
-        return view('candidate.mentorAi');
-    }
+            return view('candidate.mentorAi');
+        }
         // 1. تأكد من وجود الـ API Key
         $apiKey = env('ROUTE_API_KEY'); // مفتاح OpenRouter
         if (! $apiKey) {
@@ -31,17 +31,18 @@ class ScholarshipMentorController extends Controller
         $matchingScholarships = Scholarship::with(['university', 'countries'])
             ->whereHas('countries', fn($q2) => $q2->where('country_name', $data['country']))
             ->orWhere('target_group', $data['target'])
-            ->orWhere('description', 'like', '%'.$data['field'].'%')
+            ->orWhere('description', 'like', '%' . $data['field'] . '%')
             ->limit(5)
             ->get();
 
         // 4. إعداد قائمة المنح للـ AI
-        $scholarshipList = $matchingScholarships->map(fn($s) => "- **{$s->name}**  
+        $scholarshipList = $matchingScholarships->map(
+            fn($s) => "- **{$s->name}**  
   • Org: {$s->funding_organization}  
   • Uni: {$s->university->name} ({$s->university->location})  
   • Group: {$s->target_group}  
-  • To: ".$s->countries->pluck('country_name')->join(', ')."  
-  • Desc: ".str_replace("\n", ' ', $s->description)."\n"
+  • To: " . $s->countries->pluck('country_name')->join(', ') . "  
+  • Desc: " . str_replace("\n", ' ', $s->description) . "\n"
         )->implode("\n");
 
         // 5. بناء الرسائل مع System + User
@@ -69,10 +70,10 @@ Please:
         try {
             // 6. إرسال الطلب لـ OpenRouter
             $response = Http::withHeaders([
-                    'Authorization' => 'Bearer ' . $apiKey,
-                    'HTTP-Referer' => 'https://yourwebsite.com', // غيّريه لرابطك أو GitHub
-                    'X-Title' => 'Scholarship Mentor',
-                ])
+                'Authorization' => 'Bearer ' . $apiKey,
+                'HTTP-Referer' => 'https://yourwebsite.com', // غيّريه لرابطك أو GitHub
+                'X-Title' => 'Scholarship Mentor',
+            ])
                 ->timeout(30)
                 ->post('https://openrouter.ai/api/v1/chat/completions', [
                     'model'    => 'openai/gpt-3.5-turbo',
@@ -80,7 +81,7 @@ Please:
                 ]);
 
             // 7. سجل الرد الخام
-            Log::info('OpenRouter response status '.$response->status(), [
+            Log::info('OpenRouter response status ' . $response->status(), [
                 'body' => $response->body(),
             ]);
 
@@ -94,7 +95,6 @@ Please:
                 Log::error('OpenRouter returned no content', $body);
                 $advice = 'Sorry, no advice could be generated.';
             }
-
         } catch (RequestException $e) {
             // HTTP 4xx/5xx
             $res = $e->response;
@@ -103,7 +103,6 @@ Please:
                 'body'   => $res?->body(),
             ]);
             $advice = 'Error: ' . $res?->body();
-
         } catch (\Exception $e) {
             // خطأ عام
             Log::error('Unexpected error in ScholarshipMentorController', [
@@ -112,8 +111,9 @@ Please:
             ]);
             $advice = 'An unexpected error occurred. Please try again later.';
         }
-
-        // 10. عرض النتيجة
-        return view('candidate.mentorAi', ['advice' => $advice]);
+        if ($request->ajax()) {
+    return response()->json(['advice' => $advice]);
+}
+return view('candidate.mentorAi', ['advice' => $advice]);
     }
 }

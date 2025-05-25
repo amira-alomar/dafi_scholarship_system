@@ -10,7 +10,12 @@ class Interview extends Model
     use HasFactory;
 
     protected $primaryKey = 'interviewID';
-    protected $fillable = ['interview_date', 'status', 'interview_result'];
+    protected $fillable = [
+        'interview_date',
+        'performance_level',
+        'recommendation',
+        'notes',
+    ];
 
     public function application()
     {

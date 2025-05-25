@@ -156,6 +156,7 @@
 </head>
 
 <body class="min-h-screen">
+
     <div class="flex h-screen">
         <!-- Sidebar -->
         <aside class="w-64 bg-gray-900 text-white p-6 overflow-y-auto">
@@ -188,8 +189,133 @@
             <!-- Statistics Cards -->
             <!-- Supervisor Dashboard: Grouped & Ordered -->
             <div class="space-y-8">
-
                 <section>
+                    @include('include.dash')
+                    <div class="workflow-container">
+                        <div class="workflow-title">
+                            <h2>Admission Workflow</h2>
+                            <p>Track and manage each step of the admission process</p>
+                        </div>
+
+                        <div class="workflow-chain">
+                            <div class="connection-line">
+                                <div class="connection-progress" id="progressLine"></div>
+                            </div>
+
+                            <div class="workflow-step completed" data-step="1">
+                                <div class="step-circle completed">
+                                    <div class="step-number">✓</div>
+                                </div>
+                                <div class="step-content">
+                                    <div class="step-label">Form Setup</div>
+                                    <div class="step-helper">Questions configured ✨</div>
+                                </div>
+                            </div>
+
+                            <div class="workflow-step completed" data-step="2">
+                                <div class="step-circle completed">
+                                    <div class="step-number">✓</div>
+                                </div>
+                                <div class="step-content">
+                                    <div class="step-label">Applications</div>
+                                    <div class="step-helper">Reviews completed 📋</div>
+                                </div>
+                            </div>
+
+                            <div class="workflow-step active" data-step="3">
+                                <div class="step-circle active">
+                                    <div class="step-number">3</div>
+                                </div>
+                                <div class="step-content">
+                                    <div class="step-label">Exam</div>
+                                    <div class="step-helper">Send invitations now →</div>
+                                </div>
+                            </div>
+
+                            <div class="workflow-step pending" data-step="4">
+                                <div class="step-circle pending">
+                                    <div class="step-number">4</div>
+                                </div>
+                                <div class="step-content">
+                                    <div class="step-label">Interview</div>
+                                    <div class="step-helper">Schedule when ready</div>
+                                </div>
+                            </div>
+
+                            <div class="workflow-step pending" data-step="5">
+                                <div class="step-circle pending">
+                                    <div class="step-number">5</div>
+                                </div>
+                                <div class="step-content">
+                                    <div class="step-label">Results</div>
+                                    <div class="step-helper">Publish outcomes</div>
+                                </div>
+                            </div>
+
+                            <div class="workflow-step pending" data-step="6">
+                                <div class="step-circle pending">
+                                    <div class="step-number">6</div>
+                                </div>
+                                <div class="step-content">
+                                    <div class="step-label">Final Selection</div>
+                                    <div class="step-helper">Complete the journey</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="management-section">
+                        <div class="management-title">
+                            <h2>General Management</h2>
+                            <p>Platform-wide actions and oversight tools</p>
+                        </div>
+
+                        <div class="management-grid">
+                            <div class="management-card">
+                                <div class="card-icon">👥</div>
+                                <div class="card-title">Manage Users</div>
+                                <div class="card-description">Add, edit, or remove supervisors, reviewers, and
+                                    administrators from the platform</div>
+                            </div>
+
+                            <div class="management-card">
+                                <div class="card-icon">🎓</div>
+                                <div class="card-title">View Accepted Students</div>
+                                <div class="card-description">Browse the complete list of students who have been
+                                    accepted into the program</div>
+                            </div>
+
+                            <div class="management-card">
+                                <div class="card-icon">📚</div>
+                                <div class="card-title">View Courses</div>
+                                <div class="card-description">Manage course offerings, schedules, and curriculum
+                                    requirements</div>
+                            </div>
+
+                            <div class="management-card">
+                                <div class="card-icon">📊</div>
+                                <div class="card-title">Analytics & Reports</div>
+                                <div class="card-description">Generate insights on application trends, success rates,
+                                    and process efficiency</div>
+                            </div>
+
+                            <div class="management-card">
+                                <div class="card-icon">⚙️</div>
+                                <div class="card-title">System Settings</div>
+                                <div class="card-description">Configure platform preferences, notifications, and
+                                    workflow customizations</div>
+                            </div>
+
+                            <div class="management-card">
+                                <div class="card-icon">💬</div>
+                                <div class="card-title">Communication Hub</div>
+                                <div class="card-description">Send announcements, manage templates, and track message
+                                    delivery</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                {{-- <section>
                     <h2 class="text-xl font-semibold mb-4">🔧 Pre‑Setup</h2>
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         <!-- Questions must be defined before any admission step -->
@@ -202,10 +328,10 @@
                             <p class="text-2xl font-bold mt-2">2,430</p>
                         </div>
                     </div>
-                </section>
+                </section> --}}
 
                 <!-- 2. Admission Workflow -->
-                <section>
+                {{-- <section>
                     <h2 class="text-xl font-semibold mb-4">🎓 Admission Steps</h2>
                     <div class="bg-white rounded-lg shadow overflow-hidden">
                         <div class="flex flex-col sm:flex-row items-stretch">
@@ -259,7 +385,8 @@
                                             <span class="text-indigo-600 font-medium">3</span>
                                         </div>
                                         <div class="ml-4">
-                                            <h3 class="text-gray-600 group-hover:text-indigo-600 transition">Manage Exam
+                                            <h3 class="text-gray-600 group-hover:text-indigo-600 transition">Manage
+                                                Exam
                                             </h3>
                                             <p class="text-2xl font-bold mt-1">2,430</p>
                                         </div>
@@ -361,7 +488,7 @@
                             <p class="text-2xl font-bold mt-2">2,430</p>
                         </div>
                     </div>
-                </section>
+                </section> --}}
 
             </div>
             <hr><br><br>

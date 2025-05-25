@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use App\Models\Scholarship;
 use App\Models\Partner;
@@ -56,8 +57,8 @@ class ManageScholarshipController extends Controller
         ]);
         $scholarship->update($data);
         return redirect()
-        ->to(route('scholarships.index') . '#modal-' . $id)
-        ->with('success','Scholarship updated successfully!');
+            ->to(route('scholarships.index') . '#modal-' . $id)
+            ->with('success', 'Scholarship updated successfully!');
     }
 
     // ------------------- CRITERIA -------------------
@@ -117,24 +118,39 @@ class ManageScholarshipController extends Controller
     public function AddStage(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name'        => 'required|string|in:Form,Exam,Interview',
             'description' => 'required|string',
-            'order' => 'required|integer',
-            'start_date' => 'required|date',
-            'end_date' => 'nullable|date|after_or_equal:start_date',
+            'start_date'  => 'required|date',
+            'end_date'    => 'nullable|date|after_or_equal:start_date',
         ]);
+
+        $orderMap = [
+            'Form'      => 1,
+            'Exam'      => 2,
+            'Interview' => 3,
+        ];
+
+        // تحقق إذا الستيج موجود أصلاً
+        $exists = ApplicationStage::where('idScholarship', $id)
+            ->where('name', $request->name)
+            ->exists();
+
+        if ($exists) {
+            return back()->with('error', 'This stage has already been added.');
+        }
 
         $stage = new ApplicationStage();
         $stage->idScholarship = $id;
-        $stage->name = $request->name;
-        $stage->description = $request->description;
-        $stage->order = $request->order;
-        $stage->start_date = $request->start_date;
-        $stage->end_date = $request->end_date;
+        $stage->name          = $request->name;
+        $stage->description   = $request->description;
+        $stage->order         = $orderMap[$request->name];
+        $stage->start_date    = $request->start_date;
+        $stage->end_date      = $request->end_date;
         $stage->save();
 
-        return back()->with('success', 'Stage added successfully!');
+        return back()->with('success', 'Stage “' . $request->name . '” added successfully.');
     }
+
 
     public function DeleteStage($id)
     {

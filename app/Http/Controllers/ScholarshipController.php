@@ -97,15 +97,37 @@ class ScholarshipController extends Controller
     {
         $scholarship = Scholarship::findOrFail($scholarshipID);
 
+        // 1) Grab the Form stage
+        $formStage = $scholarship->applicationStages()
+            ->where('name', 'Form')
+            ->first();
+
+        if (!$formStage) {
+            // If there is no Form stage, nothing to do
+            $message = 'Form stage not configured.';
+            return view('supervisor.exam', compact('scholarshipID', 'message'))
+                ->with('formClosed', false);
+        }
+
+        // 2) Check if any applicants are STILL pending in the Form stage
+        $pendingCount = ApplicationStageProgress::where('idAppStage', $formStage->applicationStageID)
+            ->where('status', 'pending')
+            ->count();
+
+        // If nobody is pending, we can start the Exam stage
+        $formClosed = $pendingCount === 0;
+
+        // 3) Now find the Exam stage itself
         $examStage = $scholarship->applicationStages()
             ->where('name', 'Exam')
             ->first();
 
         if (!$examStage) {
             $message = 'This stage is not available now.';
-            return view('supervisor.exam', compact('scholarshipID', 'message'));
+            return view('supervisor.exam', compact('scholarshipID', 'message', 'formClosed'));
         }
 
+        // 4) Grab the stage immediately before Exam (should be Form)
         $previousStage = $scholarship->applicationStages()
             ->where('order', '<', $examStage->order)
             ->orderByDesc('order')
@@ -113,21 +135,30 @@ class ScholarshipController extends Controller
 
         if (!$previousStage) {
             $message = 'Previous stage not found.';
-            return view('supervisor.exam', compact('scholarshipID', 'message'));
+            return view('supervisor.exam', compact('scholarshipID', 'message', 'formClosed'));
         }
 
-        $eligibleApplications = ApplicationStageProgress::where('idAppStage', $previousStage->applicationStageID)
-            ->where('status', 'accepted')
-            ->with([
-                'application.user',
-                'application.stageProgress' => function ($query) use ($examStage) {
-                    $query->where('idAppStage', $examStage->applicationStageID);
-                }
-            ])
-            ->get();
+        // 5) Only pull in accepted apps from the previous stage if Form is closed
+        $eligibleApplications = collect();
+        if ($formClosed) {
+            $eligibleApplications = ApplicationStageProgress::where('idAppStage', $previousStage->applicationStageID)
+                ->where('status', 'accepted')
+                ->with([
+                    'application.user',
+                    'application.stageProgress' => function ($query) use ($examStage) {
+                        $query->where('idAppStage', $examStage->applicationStageID);
+                    }
+                ])
+                ->get();
+        }
 
-        return view('supervisor.exam', compact('eligibleApplications', 'scholarshipID'));
+        return view('supervisor.exam', compact(
+            'eligibleApplications',
+            'scholarshipID',
+            'formClosed'
+        ));
     }
+
 
 
     public function showExamDetails($studentID)
@@ -204,23 +235,24 @@ class ScholarshipController extends Controller
 
     public function rejectStudent($studentID)
     {
-        // تأكد من وجود المستخدم
+        // Ensure the user exists
         $student = AllUser::findOrFail($studentID);
 
-        // جلب الأبليكشن المرتبط بالمستخدم (أول أبليكشن)
-        $application = Application::where('idUser', $studentID)->firstOrFail();
+        // Retrieve the first application linked to that user
+        $application = Application::where('idUser', $studentID)
+            ->firstOrFail();
 
-        // جلب مرحلة الامتحان الخاصة بالمنحة
+        // Fetch the “Exam” stage for this scholarship
         $examStage = ApplicationStage::where('idScholarship', $application->idScholarship)
             ->where('name', 'Exam')
             ->firstOrFail();
 
-        // حاول تحديث الـ progress الموجود
+        // Try to update an existing progress record to “rejected”
         $affected = ApplicationStageProgress::where('idApp', $application->applicationID)
             ->where('idAppStage', $examStage->applicationStageID)
             ->update(['status' => 'rejected']);
 
-        // إذا لم يحدث أي صف، قم بإنشاء سجل جديد
+        // If no progress row existed, create one marked “rejected”
         if ($affected === 0) {
             ApplicationStageProgress::create([
                 'idApp'      => $application->applicationID,
@@ -229,42 +261,59 @@ class ScholarshipController extends Controller
             ]);
         }
 
-        return back()->with('success', 'Student rejected successfully in the Exam stage.');
+        // Finally, reject the entire application—no partial credits here
+        Application::where('applicationID', $application->applicationID)
+            ->update(['status' => 'rejected']);
+
+        // Send them back with a triumphant message
+        return back()
+            ->with('success', 'Student mercilessly rejected in the Exam stage—application status now REJECTED.');
     }
 
 
 
-    public function sendInvitation($applicationID)
-    {
 
-        $application = Application::with('user')->findOrFail($applicationID);
-        $examStage = ApplicationStage::where('idScholarship', $application->idScholarship)
-            ->where('name', 'Exam')
-            ->first();
+    public function sendInvitation(Request $request, $applicationID)
+{
+    // 1) Validate the modal inputs
+    $v = $request->validate([
+        'exam_date'    => 'required|date',
+        'exam_subject' => 'required|string|max:255',
+        'exam_details' => 'nullable|string',
+    ]);
 
-        if (!$examStage) {
-            return back()->with('error', 'Exam stage not found.');
-        }
+    // 2) Fetch & check as you did before
+    $application = Application::with('user')->findOrFail($applicationID);
+    $examStage = ApplicationStage::where('idScholarship', $application->idScholarship)
+        ->where('name', 'Exam')
+        ->firstOrFail();
 
-        // Check if already sent
-        $alreadySent = ApplicationStageProgress::where('idApp', $application->applicationID)
-            ->where('idAppStage', $examStage->applicationStageID)
-            ->exists();
+    $alreadySent = ApplicationStageProgress::where('idApp', $application->applicationID)
+        ->where('idAppStage', $examStage->applicationStageID)
+        ->exists();
 
-        if ($alreadySent) {
-            return back()->with('info', 'Invitation has already been sent.');
-        }
-
-        // Send the invitation
-        ApplicationStageProgress::create([
-            'idApp' => $application->applicationID,
-            'idAppStage' => $examStage->applicationStageID,
-            'status' => 'pending',
-        ]);
-        $studentEmail = $application->user->email;
-        Mail::to($studentEmail)->send(new InvitatiobMail());
-        return back()->with('success', 'Invitation sent successfully.');
+    if ($alreadySent) {
+        return back()->with('info', 'Invitation has already been sent.');
     }
+
+    // 3) Create the normal Progress record
+    ApplicationStageProgress::create([
+        'idApp'      => $application->applicationID,
+        'idAppStage' => $examStage->applicationStageID,
+        'status'     => 'pending',
+    ]);
+
+    // 4) Send the mail, passing along our three new values
+    Mail::to($application->user->email)
+        ->send(new InvitatiobMail(
+            $application,
+            $v['exam_date'],
+            $v['exam_subject'],
+            $v['exam_details']
+        ));
+
+    return back()->with('success', 'Invitation sent successfully.');
+}
 
     public function manageScholarship($scholarshipID)
     {
