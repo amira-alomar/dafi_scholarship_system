@@ -15,7 +15,21 @@
 </head>
 
 <body class="page-courses">
+{{-- <<<<<<< HEAD
     <!-- Sidebar goes here -->
+======= --}}
+  @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
+ <!-- Sidebar goes here -->
+
     <div class="flex">
         <div class="hidden md:block  bg-gray-100 min-h-screen">
             <!-- Sidebar Navigation -->
@@ -109,6 +123,7 @@
                         @endif
                     </h2>
 
+{{-- <<<<<<< HEAD
                     <form id="courseForm"
                         action="{{ isset($editingCourse) ? route('courses.update', $editingCourse->courseID) : route('courses.store') }}"
                         method="POST" enctype="multipart/form-data">
@@ -123,6 +138,114 @@
                                 value="{{ old('semester', $editingCourse->semester ?? '') }}"
                                 placeholder="Enter semester " required>
                         </div>
+======= --}}
+        <form id="courseForm"
+          action="{{ isset($editingCourse)
+                      ? route('courses.update', $editingCourse->courseID)
+                      : route('courses.store') }}"
+          method="POST"
+          enctype="multipart/form-data">
+          @csrf
+          @if(isset($editingCourse))
+            @method('PUT')
+          @endif
+       
+        <div class="form-group">
+          <label for="semester">Semester</label>
+          <input type="text" id="semester" name="semester"
+          value="{{ old('semester', $editingCourse->semester ?? '') }}"
+          placeholder="Enter semester " required>
+        </div>
+      
+          <div class="form-group">
+          <label for="courseCode">Course Code</label>
+          <input type="text" id="code" name="code"
+          value="{{ old('code', $editingCourse->code ?? '') }}"
+          placeholder="Enter course code " required>
+        </div>
+          <div class="form-group">
+          <label for="courseName">Course Name</label>
+             <input type="text" id="courseName" name="course_name"
+          value="{{ old('course_name', $editingCourse->course_name ?? '') }}"
+          placeholder="Enter course_name " required>
+        </div>
+        <div class="form-group">
+          <label for="grade">Grade</label>
+          <input type="text" id="grade" name="grade"
+          value="{{ old('grade', $editingCourse->grade ?? '') }}"
+          placeholder="Enter grade ">
+        </div>
+         <div class="form-group">
+          <label for="grade">Credit</label>
+          <input type="text" id="credit" name="credit"
+          value="{{ old('credit', $editingCourse->credit ?? '') }}"
+          placeholder="Enter credit ">
+        </div>
+        <div class="form-group">
+          <label for="registrationImage">Upload Registration Image</label>
+     <input type="file" id="registrationImage" name="registration_image"
+          placeholder="Enter registration_image "  accept="image/*">
+        </div>
+        @if(isset($editingCourse) && $editingCourse->image)
+  <div class="form-group">
+    <label>Current Registration Image:</label><br>
+    <img src="{{ asset('course_images/' . $editingCourse->image) }}" alt="Current image" style="max-height: 150px;">
+  </div>
+@endif
+    @if(isset($editingCourse))
+  <a href="{{ route('courses.index') }}" class="btn btn-secondary">
+    <i class="fas fa-times"></i> Cancel
+  </a>
+@endif
+<button type="submit" class="btn">
+  <i class="fas fa-save"></i>
+  {{ isset($editingCourse) ? 'Update Course' : 'Save Course' }}
+</button>
+      </form>
+    </div>
+
+    <!-- Table displaying the added courses -->
+    <div class="form-card">
+      <h2><i class="fas fa-list-alt"></i>Registered Courses</h2>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Semester</th>
+              <th>Course Name</th>
+               <th>Course Code</th>
+              <th>Grade</th>
+               <th>Credit</th>
+              <th>Registration Image</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="coursesTableBody">
+            <!-- Example row -->
+              @forelse($courses as $course)
+            <tr>
+              <td>{{ $course->semester }}</td>
+              <td>{{ $course->course_name }}</td>
+              <td>{{ $course->code }}</td>
+              <td>{{ $course->grade }}</td>
+              <td>{{ $course->credit }}</td>
+              <td>
+                @if($course->image)
+                  <a href="{{ asset('course_images/' . $course->image) }}" target="_blank">View Image</a>
+                @else
+                  —
+                @endif
+              </td>
+             
+    
+                    <!-- @method('edit') مثلاً -->
+                    <td>
+                <a href="{{ route('courses.edit', $course->courseID) }}"
+                  class="action-btn edit-btn">
+                  <i class="fas fa-edit"></i> Edit
+                </a>
+              </td>
+
 
                         <div class="form-group">
                             <label for="courseCode">Course Code</label>

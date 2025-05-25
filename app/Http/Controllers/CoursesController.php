@@ -33,11 +33,12 @@ class CoursesController extends Controller
             'semester' => 'required|string|max:10',
             'course_name' => 'required|string|max:255',
             'code' => 'required|string|max:255',
-            'grade' => 'nullable|string|max:10',
+            'grade' => 'nullable|integer|max:10',
+            'credit' => 'required|integer|max:10',
             'registration_image' => 'nullable|image|max:2048', // صورة التسجيل
         ]);
 
-        $data = $request->only(['semester', 'course_name', 'grade','code']);
+        $data = $request->only(['semester','credit', 'course_name', 'grade','code']);
         $data['idUser'] = Auth::id();
         // إذا لديك idUni في studentInfo:
         $data['idUni'] = Auth::user()->studentInfo->idUni ?? null;
@@ -66,11 +67,12 @@ public function update(Request $request, Course $course)
         'semester' => 'required|string|max:10',
         'course_name' => 'required|string|max:255',
         'code' => 'required|string|max:255',
-        'grade' => 'nullable|string|max:10',
+        'grade' => 'nullable|string|max:100',
+        'credit' => 'required|integer|max:10',
         'registration_image' => 'nullable|image|max:2048',
     ]);
 
-    $data = $request->only(['semester', 'course_name', 'code', 'grade']);
+    $data = $request->only(['semester','credit', 'course_name', 'code', 'grade']);
 
     if ($request->hasFile('registration_image')) {
         $filename = time() . '_' . $request->file('registration_image')->getClientOriginalName();
