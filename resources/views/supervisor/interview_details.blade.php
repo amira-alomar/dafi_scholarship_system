@@ -31,70 +31,56 @@
       .value { @apply text-lg font-semibold; }
       .input { @apply w-full border border-[var(--border)] rounded-[var(--radius)] px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent; }
     }
+    .layout {
+            display: flex;
+            height: 100vh;
+            /* Full height of viewport */
+            overflow: hidden;
+        }
   </style>
 </head>
 
 <body class="min-h-screen font-sans">
-  <!-- Navbar -->
-  <header class="bg-white shadow">
-    <div class="max-w-4xl mx-auto px-6 py-4 flex justify-between items-center">
-      <h1 class="text-2xl font-bold">Interview Management</h1>
-    </div>
-  </header>
+   <div class="layout">
+
+        <div class="sidebar">
+            @include('include.sidebar', ['scholarshipID' => $scholarshipID])
+        </div>
 
   <!-- Main Content -->
-  <main class="max-w-4xl mx-auto mt-8 space-y-8 px-6">
+  <main class="w-full mt-8 space-y-8 px-6">
+
 
     <!-- Interview Info Card -->
     <section class="card">
-      <h2 class="text-2xl font-bold mb-4">Interview Details</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div>
-          <p class="label">Candidate</p>
-          <p class="value">{{ $student->fname }} {{ $student->lname }}</p>
-        </div>
-        @if($interview)
-          <div>
-            <p class="label">Date & Time</p>
-            <p class="value">{{ date('F j, Y \a\t g:i A', strtotime($interview->interview_date)) }}</p>
-          </div>
-          <div>
-            <p class="label">Status</p>
-            <span class="inline-block px-3 py-1 rounded-full text-sm font-semibold
-              {{ $interview->status === 'accepted' ? 'bg-green-100 text-green-800' : ($interview->status === 'rejected' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800') }}">
-              {{ ucfirst($interview->status) }}
-            </span>
-          </div>
-        @else
-          <div class="md:col-span-2">
-            <p class="text-gray-500 italic">No interview scheduled for this student.</p>
-          </div>
-        @endif
+  <h2 class="text-2xl font-bold mb-4">Interview Details</h2>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div>
+      <p class="label">Candidate</p>
+      <p class="value">{{ $student->fname }} {{ $student->lname }}</p>
+    </div>
+
+    @if($interview)
+      <div>
+        <p class="label">Interview Date</p>
+        <p class="value">{{ date('F j, Y', strtotime($interview->interview_date)) }}</p>
       </div>
-    </section>
 
-    <!-- Schedule / Update Interview Form -->
-    <section class="card">
-      <h3 class="text-xl font-semibold mb-4">Schedule / Update Interview</h3>
-      <form action="{{ route('interview.update', ['studentID' => $student->id]) }}" method="POST" class="space-y-4">
-        @csrf
-        <div>
-          <label class="label" for="interview_date">Interview Date & Time</label>
-          <input type="datetime-local" name="interview_date" id="interview_date" value="{{ old('interview_date', optional($interview)->interview_date) }}" class="input" required>
-        </div>
-        <div>
-          <label class="label" for="status">Status</label>
-          <select name="status" id="status" class="input">
-            <option value="pending" {{ (old('status', optional($interview)->status)=='pending')?'selected':'' }}>Pending</option>
-            <option value="accepted" {{ (old('status', optional($interview)->status)=='accepted')?'selected':'' }}>Accepted</option>
-            <option value="rejected" {{ (old('status', optional($interview)->status)=='rejected')?'selected':'' }}>Rejected</option>
-          </select>
-        </div>
-        <button type="submit" class="btn-primary w-full text-center">Save Interview</button>
-      </form>
-    </section>
+      <div>
+        <p class="label">Performance Level</p>
+        <p class="value">{{ ucfirst($interview->performance_level) }}</p>
+      </div>
 
-    <!-- Actions Card -->
+      <div>
+        <p class="label">Recommendation</p>
+        <p class="value">{{ ucfirst($interview->recommendation) }}</p>
+      </div>
+
+      <div class="md:col-span-2">
+        <p class="label">Notes</p>
+        <p class="value">{{ $interview->notes ?? '—' }}</p>
+      </div>
+       <!-- Actions Card -->
     <section class="card">
       <h3 class="text-xl font-semibold mb-4">Immediate Actions</h3>
       @if($stageProgress->status === 'pending')
@@ -125,8 +111,21 @@
         </div>
       @endif
     </section>
+    @else
+      <div class="md:col-span-2">
+        <p class="text-gray-500 italic">No interview scheduled for this student.</p>
+      </div>
+    @endif
+  </div>
+</section>
+
+
+   
+
+   
 
   </main>
+  </div>
 </body>
 
 </html>

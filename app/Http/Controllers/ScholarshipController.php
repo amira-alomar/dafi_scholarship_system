@@ -273,37 +273,47 @@ class ScholarshipController extends Controller
 
 
 
-    public function sendInvitation($applicationID)
-    {
+    public function sendInvitation(Request $request, $applicationID)
+{
+    // 1) Validate the modal inputs
+    $v = $request->validate([
+        'exam_date'    => 'required|date',
+        'exam_subject' => 'required|string|max:255',
+        'exam_details' => 'nullable|string',
+    ]);
 
-        $application = Application::with('user')->findOrFail($applicationID);
-        $examStage = ApplicationStage::where('idScholarship', $application->idScholarship)
-            ->where('name', 'Exam')
-            ->first();
+    // 2) Fetch & check as you did before
+    $application = Application::with('user')->findOrFail($applicationID);
+    $examStage = ApplicationStage::where('idScholarship', $application->idScholarship)
+        ->where('name', 'Exam')
+        ->firstOrFail();
 
-        if (!$examStage) {
-            return back()->with('error', 'Exam stage not found.');
-        }
+    $alreadySent = ApplicationStageProgress::where('idApp', $application->applicationID)
+        ->where('idAppStage', $examStage->applicationStageID)
+        ->exists();
 
-        // Check if already sent
-        $alreadySent = ApplicationStageProgress::where('idApp', $application->applicationID)
-            ->where('idAppStage', $examStage->applicationStageID)
-            ->exists();
-
-        if ($alreadySent) {
-            return back()->with('info', 'Invitation has already been sent.');
-        }
-
-        // Send the invitation
-        ApplicationStageProgress::create([
-            'idApp' => $application->applicationID,
-            'idAppStage' => $examStage->applicationStageID,
-            'status' => 'pending',
-        ]);
-        $studentEmail = $application->user->email;
-        Mail::to($studentEmail)->send(new InvitatiobMail());
-        return back()->with('success', 'Invitation sent successfully.');
+    if ($alreadySent) {
+        return back()->with('info', 'Invitation has already been sent.');
     }
+
+    // 3) Create the normal Progress record
+    ApplicationStageProgress::create([
+        'idApp'      => $application->applicationID,
+        'idAppStage' => $examStage->applicationStageID,
+        'status'     => 'pending',
+    ]);
+
+    // 4) Send the mail, passing along our three new values
+    Mail::to($application->user->email)
+        ->send(new InvitatiobMail(
+            $application,
+            $v['exam_date'],
+            $v['exam_subject'],
+            $v['exam_details']
+        ));
+
+    return back()->with('success', 'Invitation sent successfully.');
+}
 
     public function manageScholarship($scholarshipID)
     {

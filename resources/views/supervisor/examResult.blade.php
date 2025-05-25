@@ -21,10 +21,10 @@
     <section class="content">
         @if (isset($message))
             <div class="bg-light-gray rounded-lg p-8 text-center">
-            <i class="fas fa-exclamation-triangle text-red-500 text-4xl mb-4"></i>
-            <h3 class="text-xl font-semibold text-gray-800">Not available</h3>
-            <p class="text-gray-600 mt-2">{{ $message }}</p>
-        </div>
+                <i class="fas fa-exclamation-triangle text-red-500 text-4xl mb-4"></i>
+                <h3 class="text-xl font-semibold text-gray-800">Not available</h3>
+                <p class="text-gray-600 mt-2">{{ $message }}</p>
+            </div>
         @else
             <div class="container">
                 <h2>Exam Result for Scholarship ID: {{ $scholarshipID }}</h2>
@@ -34,8 +34,35 @@
                         <span>✓</span> {{ session('success') }}
                     </div>
                 @endif
+                @if (session('warnings'))
+                    <div class="alert-warning mt-4 p-4 bg-yellow-100 text-yellow-800 rounded">
+                        <strong>Warnings:</strong>
+                        <ul class="list-disc ml-6">
+                            @foreach (session('warnings') as $warn)
+                                <li>{{ $warn }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
 
                 <button id="toggleForm" class="btn-primary">Add Exam Result</button>
+                <hr class="my-6">
+
+                {{-- Excel Import Form --}}
+                <form action="{{ route('examResult.importExcel', ['scholarshipID' => $scholarshipID]) }}" method="POST"
+                    enctype="multipart/form-data" class="mb-6">
+                    @csrf
+                    <div class="form-group">
+                        <label for="excel_file" class="font-semibold">📑 Upload Excel (student_id, course, score,
+                            status, exam_date):</label>
+                        <input type="file" name="file" id="excel_file" accept=".xlsx,.xls" required
+                            class="block mt-1">
+                        @error('file')
+                            <div class="text-red-600 mt-1">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <button type="submit" class="btn-primary mt-2">Import from Excel</button>
+                </form>
 
                 @if ($eligibleApplications->isEmpty())
                     <div class="alert-info">

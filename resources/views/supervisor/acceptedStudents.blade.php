@@ -95,15 +95,23 @@
                                         <p class="font-medium">{{ $application->user->studentInfo->gpa ?? 'N/A'}}</p>
                                     </div>
                                     <div>
+                                        <p class="text-sm text-[#64748b]">University ID</p>
+                                        <p class="font-medium">{{ $application->user->studentInfo->universityID ?? 'N/A'}}</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-[#64748b]">Expected graduate date</p>
+                                        <p class="font-medium">{{ $application->user->studentInfo->expected_graduation ?? 'N/A'}}</p>
+                                    </div>
+                                    <div>
                                         <p class="text-sm text-[#64748b]">Trainings</p>
-                                        <p class="font-medium">{{ $application->user->studentInfo->number_of_training ?? 'N/A'}}</p>
+                                        <p class="font-medium">{{ $application->user->studentInfo->trainings->count()  ?? 'N/A'}}</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="space-y-4">
                                 <div>
                                     <p class="text-sm text-[#64748b]">Volunteering Hours</p>
-                                    <p class="font-medium">{{ $application->user->studentInfo->number_of_volunteering ?? 'N/A'}} hours</p>
+                                    <p class="font-medium">{{ $application->user->studentInfo->volunteerings->sum('total_hours') ?? 'N/A'}} hours</p>
                                 </div>
                                 <div class="flex justify-between items-center">
                                     <div class="bg-[#f1f5f9] text-[#16a3b8] px-3 py-1 rounded-full text-sm font-medium">

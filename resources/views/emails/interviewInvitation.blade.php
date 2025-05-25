@@ -1,27 +1,53 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Interview Invitation</title>
 </head>
-<body style="font-family: Arial, sans-serif; color: #333;">
-    <h2 style="color: #2c3e50;">You're Invited to Take the Scholarship Interview 🎓</h2>
 
-    <p>Dear Applicant,</p>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0;">
+    <table width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+            <td align="center" style="padding: 40px 10px;">
+                <table width="600" cellpadding="0" cellspacing="0"
+                    style="background-color: #ffffff; border-radius: 10px; padding: 30px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+                    <tr>
+                        <td align="center" style="padding-bottom: 20px;">
+                            <h1 style="color: #2c3e50;">Hello {{ $applicant->fname }},</h1>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="color: #333333; font-size: 16px; line-height: 1.6;">
+                            <p>Your interview has been scheduled for
+                                <strong
+                                    style="color: #2980b9;">{{ date('F j, Y \a\t g:i A', strtotime($date)) }}</strong>
+                                at <strong style="color: #2980b9;">{{ $location }}</strong>.
+                            </p>
 
-    <p>We are pleased to inform you that you have been invited to take the **Interview stage** for the scholarship you applied to.</p>
+                            @if ($details)
+                                <p style="margin-top: 15px;">
+                                    <strong style="color: #2c3e50;">Details:</strong><br>
+                                    <span style="white-space: pre-line;">{!! nl2br(e($details)) !!}</span>
+                                </p>
+                            @endif
 
-    <p><strong>Next Steps:</strong></p>
-    <ul>
-        <li>Check your profile for the Interview schedule.</li>
-        <li>Prepare your documents and be ready.</li>
-        <li>Make sure you are available during the specified date.</li>
-    </ul>
-
-    <p>If you have any questions, feel free to contact us.</p>
-
-    <br>
-    <p>Best regards,</p>
-    <p><strong>ScholarPath Team</strong></p>
+                            <p style="margin-top: 30px;">
+                                Wishing you the best of luck!<br>
+                                <strong style="color: #27ae60;">See you then!</strong>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" style="padding-top: 30px;">
+                            <p style="font-size: 12px; color: #999999;">This is an automated message. Please do not
+                                reply.</p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
 </body>
+
 </html>

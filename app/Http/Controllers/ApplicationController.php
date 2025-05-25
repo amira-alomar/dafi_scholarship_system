@@ -270,7 +270,9 @@ public function endFormStage($scholarshipId)
     {
         $applications = Application::with([
             'user.studentInfo',
-            'scholarship'
+            'scholarship',
+            'user.studentInfo.volunteerings',
+            'user.studentInfo.trainings',
         ])
             ->where('idScholarship', $scholarshipID)
             ->where('status', 'approved')

@@ -145,6 +145,13 @@ Route::middleware([AdminMiddleware::class])->group(function () {
     // List all clubs (and optionally filter by club_id if passed)
     Route::get('/admin/clubs', [ClubController::class, 'listClubs'])
         ->name('admin.clubs.list');
+    //
+    Route::post('exams/importExcel/{scholarshipID}', [ExamController::class, 'importExcel'])
+        ->name('examResult.importExcel');
+    //
+    Route::post('interviews/importExcel/{scholarshipID}', 
+    [InterviewController::class, 'importExcel'])
+    ->name('interviewResult.importExcel');
 
     // Show create‐club form is part of the same view; submission:
     Route::post('/admin/clubs', [ClubController::class, 'storeClub'])
@@ -185,6 +192,10 @@ Route::middleware([AdminMiddleware::class])->group(function () {
     //supervisor
     Route::get('/supervisor/scholarship/{scholarshipID}/users', [AllUserController::class, 'manageUsers'])
         ->name('supervisor.manageUsers');
+
+    //
+    // Route::post('/interview/update/{studentID}', [InterviewController::class, 'showInterviewDetails'])
+    // ->name('interview.update');
 
     // Route::get('/supervisor/scholarships', function () {
     //     return view('supervisor.manageScholarship');
@@ -287,22 +298,22 @@ Route::middleware([AdminMiddleware::class])->group(function () {
     // Approve and reject routes with scholarshipId
     Route::post('/supervisor/{scholarshipId}/application/approve/{applicationID}', [ApplicationController::class, 'approveApplication'])
         ->name('application.approve');
-// routes/web.php
-Route::post(
-    '/supervisor/scholarship/{scholarshipId}/end-form',
-    [ApplicationController::class, 'endFormStage']
-)->name('supervisor.endFormStage');
-//
-Route::post(
-    '/supervisor/scholarship/{scholarshipID}/end-interview',
-    [InterviewController::class, 'endInterviewStage']
-)->name('supervisor.endInterviewStage');
-//
-Route::post(
-    '/supervisor/scholarship/{scholarshipID}/end-exam',
-    [ExamController::class, 'endExamStage']
-)->name('supervisor.endExamStage');
-//
+    // routes/web.php
+    Route::post(
+        '/supervisor/scholarship/{scholarshipId}/end-form',
+        [ApplicationController::class, 'endFormStage']
+    )->name('supervisor.endFormStage');
+    //
+    Route::post(
+        '/supervisor/scholarship/{scholarshipID}/end-interview',
+        [InterviewController::class, 'endInterviewStage']
+    )->name('supervisor.endInterviewStage');
+    //
+    Route::post(
+        '/supervisor/scholarship/{scholarshipID}/end-exam',
+        [ExamController::class, 'endExamStage']
+    )->name('supervisor.endExamStage');
+    //
     Route::post('/supervisor/{scholarshipId}/application/reject/{applicationID}', [ApplicationController::class, 'rejectApplication'])
         ->name('application.reject');
     //exam result
@@ -347,7 +358,7 @@ Route::middleware(['auth', 'role:Student'])->group(function () {
     Route::post('/applications', [UserOpportunityController::class, 'store'])->name('applications.store');
     Route::get('/student/dashboard', [StudentDashboardController::class, 'index'])->name('student.dashboard');
     Route::post('/dashboard/{id}/save', [StudentDashboardController::class, 'saveJob'])->name('dashboard.save');
-Route::post('/dashboard/update', [StudentDashboardController::class, 'updateTarget'])->name('dashboard.updateTarget');
+    Route::post('/dashboard/update', [StudentDashboardController::class, 'updateTarget'])->name('dashboard.updateTarget');
 
     Route::get('/student/clubs', [ClubController::class, 'index'])->name('student.clubs');
     Route::get('/student/clubs/{club}', [ClubController::class, 'show'])
