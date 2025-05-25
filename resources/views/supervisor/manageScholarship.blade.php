@@ -202,9 +202,10 @@
                                 <div class="connection-progress" id="progressLine"></div>
                             </div>
 
-                            <div class="workflow-step completed" data-step="1">
-                                <div class="step-circle completed">
-                                    <div class="step-number">✓</div>
+                            <!-- First step: Active -->
+                            <div class="workflow-step active" data-step="1">
+                                <div class="step-circle active">
+                                    <div class="step-number">1</div>
                                 </div>
                                 <div class="step-content">
                                     <div class="step-label">Form Setup</div>
@@ -212,9 +213,10 @@
                                 </div>
                             </div>
 
-                            <div class="workflow-step completed" data-step="2">
-                                <div class="step-circle completed">
-                                    <div class="step-number">✓</div>
+                            <!-- Middle steps: Pending (no icons) -->
+                            <div class="workflow-step pending" data-step="2">
+                                <div class="step-circle pending">
+                                    <div class="step-number">2</div>
                                 </div>
                                 <div class="step-content">
                                     <div class="step-label">Applications</div>
@@ -222,8 +224,8 @@
                                 </div>
                             </div>
 
-                            <div class="workflow-step active" data-step="3">
-                                <div class="step-circle active">
+                            <div class="workflow-step pending" data-step="3">
+                                <div class="step-circle pending">
                                     <div class="step-number">3</div>
                                 </div>
                                 <div class="step-content">
@@ -252,9 +254,10 @@
                                 </div>
                             </div>
 
-                            <div class="workflow-step pending" data-step="6">
-                                <div class="step-circle pending">
-                                    <div class="step-number">6</div>
+                            <!-- Last step: Completed with check -->
+                            <div class="workflow-step completed" data-step="6">
+                                <div class="step-circle completed">
+                                    <div class="step-number">✓</div>
                                 </div>
                                 <div class="step-content">
                                     <div class="step-label">Final Selection</div>
@@ -263,7 +266,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="management-section">
                         <div class="management-title">
                             <h2>General Management</h2>
@@ -564,7 +566,10 @@
                 <div class="bg-white rounded-lg shadow p-6">
                     <div class="bg-white rounded-lg shadow p-6">
                         <h3 class="text-lg font-semibold mb-4">Application Status Overview</h3>
-                        <canvas id="statusChart"></canvas>
+                        <!-- Larger fixed-size wrapper -->
+                        <div style="width: 300px; height: 300px; margin: 0 auto;">
+                            <canvas id="statusChart" style="width: 100%; height: 100%;"></canvas>
+                        </div>
                     </div>
 
                     <!-- Chart.js CDN -->
@@ -585,6 +590,7 @@
                             },
                             options: {
                                 responsive: true,
+                                maintainAspectRatio: false, // now obeys the 300×300 wrapper
                                 plugins: {
                                     legend: {
                                         position: 'bottom'
@@ -598,7 +604,6 @@
                         });
                     </script>
                 </div>
-
                 <div class="bg-white rounded-lg shadow p-6">
                     <h3 class="text-lg font-semibold mb-4">Quick Actions</h3>
                     <div class="grid grid-cols-2 gap-4">
@@ -758,6 +763,7 @@
             });
         });
     </script>
+
 </body>
 
 </html>

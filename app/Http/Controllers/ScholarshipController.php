@@ -197,8 +197,9 @@ class ScholarshipController extends Controller
 
 
         $exam = $application->exam;
+        $scholarshipID = $application->idScholarship;
 
-        return view('supervisor.exam_details', compact('student', 'exam', 'stageProgress'));
+        return view('supervisor.exam_details', compact('student', 'exam', 'stageProgress','scholarshipID'));
     }
 
     public function approveStudent($studentID)
@@ -333,7 +334,7 @@ class ScholarshipController extends Controller
         $pendingStudents = Application::where('idScholarship', $scholarshipID)
             ->where('status', 'pending')
             ->count();
-
+            
         return view('supervisor.manageScholarship', compact(
             'scholarshipID',
             'scholarship',
