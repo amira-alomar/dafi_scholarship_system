@@ -33,8 +33,8 @@ class CoursesController extends Controller
             'semester' => 'required|string|max:10',
             'course_name' => 'required|string|max:255',
             'code' => 'required|string|max:255',
-            'grade' => 'nullable|integer|max:10',
-            'credit' => 'required|integer|max:10',
+              'grade' => 'nullable|string|max:255',
+        'credit' => 'required|integer|max:10',
             'registration_image' => 'nullable|image|max:2048', // صورة التسجيل
         ]);
 
@@ -67,7 +67,7 @@ public function update(Request $request, Course $course)
         'semester' => 'required|string|max:10',
         'course_name' => 'required|string|max:255',
         'code' => 'required|string|max:255',
-        'grade' => 'nullable|string|max:100',
+        'grade' => 'nullable|string|max:255',
         'credit' => 'required|integer|max:10',
         'registration_image' => 'nullable|image|max:2048',
     ]);
