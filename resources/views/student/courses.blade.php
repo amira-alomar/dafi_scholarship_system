@@ -13,6 +13,16 @@
   
 </head>
 <body class="page-courses">
+  @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
  <!-- Sidebar goes here -->
     <div class="flex">
         <div class="hidden md:block  bg-gray-100 min-h-screen">
@@ -136,6 +146,12 @@
           value="{{ old('grade', $editingCourse->grade ?? '') }}"
           placeholder="Enter grade ">
         </div>
+         <div class="form-group">
+          <label for="grade">Credit</label>
+          <input type="text" id="credit" name="credit"
+          value="{{ old('credit', $editingCourse->credit ?? '') }}"
+          placeholder="Enter credit ">
+        </div>
         <div class="form-group">
           <label for="registrationImage">Upload Registration Image</label>
      <input type="file" id="registrationImage" name="registration_image"
@@ -170,6 +186,7 @@
               <th>Course Name</th>
                <th>Course Code</th>
               <th>Grade</th>
+               <th>Credit</th>
               <th>Registration Image</th>
               <th>Action</th>
             </tr>
@@ -182,6 +199,7 @@
               <td>{{ $course->course_name }}</td>
               <td>{{ $course->code }}</td>
               <td>{{ $course->grade }}</td>
+              <td>{{ $course->credit }}</td>
               <td>
                 @if($course->image)
                   <a href="{{ asset('course_images/' . $course->image) }}" target="_blank">View Image</a>

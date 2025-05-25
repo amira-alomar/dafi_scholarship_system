@@ -15,6 +15,7 @@ class Course extends Model
     'course_name',
     'code',
     'grade',
+    'credit',
     'image',
     'idUser',
     'idUni',
