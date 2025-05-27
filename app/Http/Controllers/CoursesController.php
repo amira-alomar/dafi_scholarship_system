@@ -29,19 +29,14 @@ class CoursesController extends Controller
     {
 
         
-        $request->validate([
-            'semester' => 'required|string|max:10',
-            'course_name' => 'required|string|max:255',
-            'code' => 'required|string|max:255',
-              'grade' => 'nullable|string|max:255',
-<<<<<<< HEAD
-        'credit' => 'required|integer|max:10',
-            'registration_image' => 'nullable|image|max:2048', // صورة التسجيل
-=======
-              'credit' => 'required|integer|max:10',
-              'registration_image' => 'nullable|image|max:2048', // صورة التسجيل
->>>>>>> 69f923898ffe61c0f84fac63ccaa26dc47e7b3f5
-        ]);
+        // $request->validate([
+        //     'semester' => 'required|string|max:10',
+        //     'course_name' => 'required|string|max:255',
+        //     'code' => 'required|string|max:255',
+        //       'grade' => 'nullable|string|max:255',
+        //      'credit' => 'required|integer|max:10',
+        //     'registration_image' => 'nullable|image|max:2048', // صورة التسجيل
+        // ]);
 
         $data = $request->only(['semester','credit', 'course_name', 'grade','code']);
         $data['idUser'] = Auth::id();
