@@ -1,5 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+<<<<<<< HEAD
+=======
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Course Enrollment - DAFI Scholarship</title>
+   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+      <link rel="stylesheet" href="{{ asset('css/sidebarstudent.css') }}">
+      <link rel="stylesheet" href="{{ asset('css/studentCourses.css') }}">
+    
+       <script src="https://cdn.tailwindcss.com"></script>
+  
+</head>
+<body class="page-courses">
+ 
+>>>>>>> 69f923898ffe61c0f84fac63ccaa26dc47e7b3f5
 
 <head>
     <meta charset="UTF-8" />

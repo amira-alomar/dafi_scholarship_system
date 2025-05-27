@@ -71,7 +71,6 @@ class StudentProfileController extends Controller
             'major' => optional($studentInfo)->major,
             'gpa' => optional($studentInfo)->gpa,
             'year' => optional($studentInfo)->year,
-            // 'image' => optional($studentInfo)->image,
             'universityID' => optional($studentInfo)->universityID,
             'expected_graduation' => optional($studentInfo)->expected_graduation,
             'university'   => data_get($studentInfo, 'university.name', 'Not Set'),
