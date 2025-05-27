@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Scholarships Dashboard - DAFI Scholarship System" />
-    <title>Scholarships Dashboard - DAFI Scholarship</title>
+    <meta name="description" content="Scholarships Dashboard - ScholarPath  System" />
+    <title>Scholarships Dashboard - ScholarPath </title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet" />
@@ -298,7 +298,7 @@
                 <div class="flex items-center">
                     <div class="flex-shrink-0 flex items-center group">
                         <span
-                            class="text-xl font-bold text-[var(--primary)] transition-all duration-300 group-hover:scale-110">DAFI</span>
+                            class="text-xl font-bold text-[var(--primary)] transition-all duration-300 group-hover:scale-110">ScholarPath</span>
                         <span
                             class="text-xl font-bold text-[var(--secondary)] ml-1 transition-all duration-300 group-hover:scale-110">Scholarship</span>
                     </div>
@@ -570,9 +570,9 @@
     <footer class="bg-white/95 backdrop-blur-md py-8 border-t border-white/20 mt-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <p class="text-sm text-[var(--muted-foreground)] font-medium">
-                &copy; 2025 DAFI Scholarship. All rights reserved. |
-                <a href="mailto:info@dafischolarship.org"
-                    class="text-[var(--primary)] hover:text-[var(--destructive)] transition-colors duration-300 font-semibold hover:underline">info@dafischolarship.org</a>
+                &copy; 2025 ScholarPath Scholarship. All rights reserved. |
+                <a href="mailto:info@ScholarPathscholarship.org"
+                    class="text-[var(--primary)] hover:text-[var(--destructive)] transition-colors duration-300 font-semibold hover:underline">info@ScholarPathscholarship.org</a>
             </p>
         </div>
     </footer>

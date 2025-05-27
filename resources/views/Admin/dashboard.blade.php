@@ -184,11 +184,8 @@
                             <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
                         </button>
                     </div>
-
                     <div class="dropdown relative">
                         <button class="flex items-center space-x-2">
-                            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User"
-                                class="w-8 h-8 rounded-full">
                             <span class="hidden md:inline">Admin User</span>
                             <i class="fas fa-chevron-down text-xs"></i>
                         </button>

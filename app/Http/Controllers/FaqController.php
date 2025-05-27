@@ -9,8 +9,10 @@ class FaqController extends Controller
 {
     public function create()
     {
-        return view('admin.faq');
+        $faqs = Faq::all();
+        return view('admin.faq', compact('faqs'));
     }
+
 
     public function store(Request $request)
     {

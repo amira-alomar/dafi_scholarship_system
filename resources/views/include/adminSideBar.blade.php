@@ -10,7 +10,7 @@
     <div class="flex items-center justify-between p-4 border-b border-color">
         <div class="flex items-center space-x-2">
             <i class="fas fa-graduation-cap text-2xl" style="color: var(--primary);"></i>
-            <span class="text-xl font-bold">ScholarshipHub</span>
+            <span class="text-xl font-bold">ScholarshipPath</span>
         </div>
         <button id="sidebarToggle" class="text-gray-500 hover:text-gray-700">
             <i class="fas fa-bars"></i>

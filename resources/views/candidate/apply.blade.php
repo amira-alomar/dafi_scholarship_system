@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Apply for Scholarship - DAFI Scholarship System</title>
+    <title>Apply for Scholarship - ScholarPath  System</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('css/apply.css') }}" />
 </head>
 <body>
     <!-- Header -->
     <header>
-        <div class="logo"><span>DAFI</span> Scholarship</div>
+        <div class="logo"><span>ScholarPath</span> 
+        </div>
         <nav>
             <a href="{{ route('candidate.dashboard') }}">Home</a>
             <a href="">Scholarships</a>

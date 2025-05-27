@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Track Your Scholarship Application Status - DAFI Scholarship System" />
-    <title>Track Application Status - DAFI Scholarship System</title>
+    <meta name="description" content="Track Your Scholarship Application Status - ScholarPath Scholarship System" />
+    <title>Track Application Status - ScholarPath Scholarship System</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         :root {
@@ -69,7 +69,7 @@
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
                     <div class="flex-shrink-0 flex items-center">
-                        <span class="text-xl font-bold text-primary">DAFI Scholarship</span>
+                        <span class="text-xl font-bold text-primary">ScholarPath Scholarship</span>
                     </div>
                 </div>
                 <div class="hidden sm:ml-6 sm:flex sm:items-center space-x-4">
@@ -240,9 +240,9 @@
     <!-- Footer -->
     <footer class="bg-white py-4 border-t">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-muted-foreground">
-            &copy; 2025 DAFI Scholarship. All rights reserved. |
-            <a href="mailto:info@dafischolarship.org"
-                class="text-primary hover:text-secondary">info@dafischolarship.org</a>
+            &copy; 2025 ScholarPath . All rights reserved. |
+            <a href="mailto:info@ScholarPathscholarship.org"
+                class="text-primary hover:text-secondary">info@ScholarPathscholarship.org</a>
         </div>
     </footer>
 </body>
