@@ -47,17 +47,17 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('supervisor.application', ['scholarshipId' => $scholarshipID]) }}"
-                        class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
-                        <i class="fas fa-file-signature"></i>
-                        <span>Forms Application</span>
-                    </a>
-                </li>
-                <li>
                     <a href="{{ route('supervisor.questions', ['scholarshipId' => $scholarshipID]) }}"
                         class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
                         <i class="fas fa-question-circle"></i>
                         <span>Questions</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('supervisor.application', ['scholarshipId' => $scholarshipID]) }}"
+                        class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
+                        <i class="fas fa-file-signature"></i>
+                        <span>Forms Application</span>
                     </a>
                 </li>
                 <li>

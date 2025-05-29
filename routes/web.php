@@ -288,9 +288,9 @@ Route::middleware([AdminMiddleware::class])->group(function () {
         ->name('supervisor.exam');
     Route::get('/exam-details/{studentID}', [ScholarshipController::class, 'showExamDetails'])
         ->name('exam.details');
-    Route::post('/exam/{studentID}/approve', [ScholarshipController::class, 'approveStudent'])
+    Route::post('/approve-student/{studentID}/{scholarshipID}', [ScholarshipController::class, 'approveStudent'])
         ->name('exam.approve');
-    Route::post('/exam/{studentID}/reject', [ScholarshipController::class, 'rejectStudent'])
+    Route::post('/reject-student/{studentID}/{scholarshipID}', [ScholarshipController::class, 'rejectStudent'])
         ->name('exam.reject');
     Route::post('/exam/send-invitation/{applicationID}', [ScholarshipController::class, 'sendInvitation'])
         ->name('exam.sendInvitation');

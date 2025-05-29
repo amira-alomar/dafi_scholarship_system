@@ -21,10 +21,21 @@ class ApplicationController extends Controller
 {
     public function index($scholarshipId)
     {
+        $formStage = ApplicationStage::where('idScholarship', $scholarshipId)
+            ->where('name', 'Form')
+            ->firstOrFail();
+
         $applications = Application::where('idScholarship', $scholarshipId)
-            ->with(['user', 'scholarship'])
+            ->with(['user', 'scholarship', 'stageProgress'])
             ->get();
-        return view('supervisor.application', compact('applications', 'scholarshipId'));
+
+        // أضيفي formProgress لكل application إذا موجود
+        foreach ($applications as $application) {
+            $application->formProgress = $application->stageProgress
+                ->firstWhere('idAppStage', $formStage->applicationStageID);
+        }
+
+        return view('supervisor.application', compact('applications', 'scholarshipId', 'formStage'));
     }
     public function showApplicationDetails($scholarshipId, $applicationID)
     {
@@ -55,7 +66,10 @@ class ApplicationController extends Controller
 
         $requiredDocuments = \App\Models\RequiredDocument::with(['documents' => function ($query) use ($application) {
             $query->where('idApp', $application->applicationID);
-        }])->get();
+        }])
+            ->where('idScholarship', $scholarshipId) 
+            ->get();
+
 
         return view('supervisor.applicationDetails', compact(
             'application',
@@ -86,63 +100,63 @@ class ApplicationController extends Controller
             ->with('success', 'Application has been approved in the Form stage.');
     }
 
-   public function rejectApplication($scholarshipId, $applicationID)
-{
-    // 1. Get the Form stage
-    $formStage = ApplicationStage::where('idScholarship', $scholarshipId)
-        ->where('name', 'Form')
-        ->firstOrFail();
+    public function rejectApplication($scholarshipId, $applicationID)
+    {
+        // 1. Get the Form stage
+        $formStage = ApplicationStage::where('idScholarship', $scholarshipId)
+            ->where('name', 'Form')
+            ->firstOrFail();
 
-    // 2. Update the specific Form stage status to "rejected"
-    $affected = ApplicationStageProgress::where('idApp', $applicationID)
-        ->where('idAppStage', $formStage->applicationStageID)
-        ->update(['status' => 'rejected']);
+        // 2. Update the specific Form stage status to "rejected"
+        $affected = ApplicationStageProgress::where('idApp', $applicationID)
+            ->where('idAppStage', $formStage->applicationStageID)
+            ->update(['status' => 'rejected']);
 
-    if ($affected === 0) {
-        return redirect()->back()->with('error', 'No matching ApplicationStageProgress found for rejection.');
+        if ($affected === 0) {
+            return redirect()->back()->with('error', 'No matching ApplicationStageProgress found for rejection.');
+        }
+
+        // 3. Also update the main application status to "rejected"
+        Application::where('applicationID', $applicationID)
+            ->update(['status' => 'rejected']);
+
+        return redirect()
+            ->route('supervisor.application', ['scholarshipId' => $scholarshipId])
+            ->with('success', 'Application has been rejected in the Form stage, and status updated.');
     }
 
-    // 3. Also update the main application status to "rejected"
-    Application::where('applicationID', $applicationID)
-        ->update(['status' => 'rejected']);
-
-    return redirect()
-        ->route('supervisor.application', ['scholarshipId' => $scholarshipId])
-        ->with('success', 'Application has been rejected in the Form stage, and status updated.');
-}
 
 
+    public function endFormStage($scholarshipId)
+    {
+        // Fetch that glorious “Form” stage
+        $formStage = ApplicationStage::where('idScholarship', $scholarshipId)
+            ->where('name', 'Form')
+            ->firstOrFail();
 
-public function endFormStage($scholarshipId)
-{
-    // Fetch that glorious “Form” stage
-    $formStage = ApplicationStage::where('idScholarship', $scholarshipId)
-        ->where('name', 'Form')
-        ->firstOrFail();
+        // Bulk–reject every poor sod still “pending”
+        $affectedProgress = ApplicationStageProgress::where('idAppStage', $formStage->applicationStageID)
+            ->where('status', 'pending')
+            ->update(['status' => 'rejected']);
 
-    // Bulk–reject every poor sod still “pending”
-    $affectedProgress = ApplicationStageProgress::where('idAppStage', $formStage->applicationStageID)
-        ->where('status', 'pending')
-        ->update(['status' => 'rejected']);
+        if ($affectedProgress === 0) {
+            return redirect()->back()
+                ->with('error', 'There were no pending applicants to reject. Either they’re all perfect, or nobody showed up.');
+        }
 
-    if ($affectedProgress === 0) {
+        // Now drag their parent Applications into the abyss
+        $applicationIds = ApplicationStageProgress::where('idAppStage', $formStage->applicationStageID)
+            ->where('status', 'rejected')
+            ->pluck('idApp')
+            ->unique()
+            ->toArray();
+
+        Application::whereIn('applicationID', $applicationIds)
+            ->update(['status' => 'rejected']);
+
         return redirect()->back()
-            ->with('error', 'There were no pending applicants to reject. Either they’re all perfect, or nobody showed up.');
+            ->with('success', "Form stage closed! {$affectedProgress} applicant(s) mercilessly rejected.");
     }
-
-    // Now drag their parent Applications into the abyss
-    $applicationIds = ApplicationStageProgress::where('idAppStage', $formStage->applicationStageID)
-        ->where('status', 'rejected')
-        ->pluck('idApp')
-        ->unique()
-        ->toArray();
-
-    Application::whereIn('applicationID', $applicationIds)
-        ->update(['status' => 'rejected']);
-
-    return redirect()->back()
-        ->with('success', "Form stage closed! {$affectedProgress} applicant(s) mercilessly rejected.");
-}
 
     public function apply(Request $request, $scholarshipId)
     {

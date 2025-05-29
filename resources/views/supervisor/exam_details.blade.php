@@ -163,7 +163,7 @@
 
                                 @if ($stageProgress->status === 'pending')
                                     <div class="space-y-3">
-                                        <form action="{{ route('exam.approve', ['studentID' => $student->id]) }}"
+                                        <form action="{{ route('exam.approve', ['studentID' => $student->id, 'scholarshipID' => $scholarshipID]) }}"
                                             method="POST">
                                             @csrf
                                             <button type="submit"
@@ -177,7 +177,7 @@
                                             </button>
                                         </form>
 
-                                        <form action="{{ route('exam.reject', ['studentID' => $student->id]) }}"
+                                        <form action="{{ route('exam.reject', ['studentID' => $student->id, 'scholarshipID' => $scholarshipID]) }}" 
                                             method="POST">
                                             @csrf
                                             <button type="submit"
