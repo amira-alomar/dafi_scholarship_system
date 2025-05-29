@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <link rel="stylesheet" href="{{ asset('css/opp.css') }}">
     <link rel="stylesheet" href="{{ asset('css/adminSideBar.css') }}">
 </head>
+
 <body>
     <div class="layout">
         @include('include.adminSideBar')
@@ -20,52 +22,56 @@
                     <button id="toggleAddForm" class="btn">Add</button>
                 </div>
                 <div class="card-body">
-                    <form id="opportunityForm" method="POST" action="{{ route('opportunities.store') }}" enctype="multipart/form-data">
+                    <!-- inside your existing <div class="card-body"> -->
+                    <form id="opportunityForm" method="POST" action="{{ route('opportunities.store') }}"
+                        enctype="multipart/form-data">
                         @csrf
-                        <div class="form-group">
-                            <label for="title">Title</label>
-                            <input type="text" id="title" name="title" required>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="title">Title</label>
+                                <input type="text" id="title" name="title" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="type">Type</label>
+                                <select id="type" name="type">
+                                    <option value="Event">Event</option>
+                                    <option value="Volunteer">Volunteer</option>
+                                    <option value="Training">Training</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="status">Status</label>
+                                <select id="status" name="status">
+                                    <option value="Open">Open</option>
+                                    <option value="Closed">Closed</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="date">Date</label>
+                                <input type="date" id="date" name="date" required>
+                            </div>
+                            <div class="form-group" style="grid-column: span 2;">
+                                <label for="description">Description</label>
+                                <input type="text" id="description" name="description" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="scholarships">Scholarships</label>
+                                <select name="scholarships[]" id="scholarships" multiple required>
+                                    @foreach ($scholarships as $sch)
+                                        <option value="{{ $sch->scholarshipID }}">{{ $sch->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="location">Location</label>
+                                <input type="text" id="location" name="location" required>
+                            </div>
+                            <div class="form-group" style="grid-column: span 2;">
+                                <label for="photo">Photo</label>
+                                <input type="file" id="photo" name="photo" accept="image/*">
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="type">Type</label>
-                            <select id="type" name="type">
-                                <option value="Event">Event</option>
-                                <option value="Volunteer">Volunteer</option>
-                                <option value="Training">Training</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="status">Status</label>
-                            <select id="status" name="status">
-                                <option value="Open">Open</option>
-                                <option value="Closed">Closed</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="date">Date</label>
-                            <input type="date" id="date" name="date" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="description">Description</label>
-                            <input type="text" name="description" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="scholarships">Scholarships</label>
-                            <select name="scholarships[]" id="scholarships" multiple required>
-                                @foreach ($scholarships as $sch)
-                                    <option value="{{ $sch->scholarshipID }}">{{ $sch->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="location">Location</label>
-                            <input type="text" name="location" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="photo">Photo</label>
-                            <input type="file" id="photo" name="photo" accept="image/*">
-                        </div>
-                        <button type="submit" class="btn">Submit</button>
+                        <button type="submit" class="btn btn-submit">Submit</button>
                     </form>
                 </div>
             </div>
@@ -97,15 +103,21 @@
                                     <td>{{ $opp->location }}</td>
                                     <td>
                                         @foreach ($opp->scholarships as $sch)
-                                            <span>{{ $sch->name }}</span>@if (! $loop->last), @endif
+                                            <span>{{ $sch->name }}</span>
+                                            @if (!$loop->last)
+                                                ,
+                                            @endif
                                         @endforeach
                                     </td>
                                     <td class="actions">
                                         <button class="btn" onclick="openEditForm(...)">Edit</button>
-                                        <form method="POST" action="{{ route('opportunities.destroy', $opp->opportunityID) }}" style="display:inline;">
+                                        <form method="POST"
+                                            action="{{ route('opportunities.destroy', $opp->opportunityID) }}"
+                                            style="display:inline;">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn" onclick="return confirm('Delete?')">Delete</button>
+                                            <button type="submit" class="btn"
+                                                onclick="return confirm('Delete?')">Delete</button>
                                         </form>
                                     </td>
                                 </tr>
@@ -121,6 +133,7 @@
             const form = document.getElementById('opportunityForm');
             form.style.display = form.style.display === 'block' ? 'none' : 'block';
         });
+
         function openEditForm(id, title, type, status, date, location, description, scholarshipIds) {
             const form = document.getElementById('editForm');
             form.action = '/opportunities/' + id;
@@ -150,6 +163,9 @@
             document.getElementById('overlay').style.display = 'none';
             document.getElementById('editFormContainer').style.display = 'none';
         }
+        document.getElementById('toggleAddForm').addEventListener('click', () => {
+            document.getElementById('opportunityForm').classList.toggle('show');
+        });
     </script>
 
 </body>

@@ -89,27 +89,10 @@
 
                 <div class="mb-6">
                     <button id="toggleForm" class="btn-primary px-6 py-2.5 rounded-md text-sm">
-                        Schedule New Interview
+                        Add  Interview Result
                     </button>
                 </div>
 
-                <div class="card rounded-lg mb-6">
-                    <div class="section-header px-6 py-4">
-                        <h3 class="text-lg font-medium text-gray-900">Import Interview Results</h3>
-                    </div>
-                    <div class="p-6">
-                        <form action="{{ route('interviewResult.importExcel', ['scholarshipID' => $scholarshipID]) }}" method="POST" enctype="multipart/form-data" class="flex flex-wrap gap-4 items-end">
-                            @csrf
-                            <div class="flex-1 min-w-80">
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Excel File</label>
-                                <p class="text-xs text-gray-500 mb-2">Required columns: student_id, interview_date, performance_level, recommendation, notes</p>
-                                <input type="file" name="file" accept=".xlsx,.xls" required class="form-input w-full py-2.5 px-3 rounded-md">
-                                @error('file')<div class="text-red-600 text-xs mt-1">{{ $message }}</div>@enderror
-                            </div>
-                            <button type="submit" class="btn-primary px-6 py-2.5 rounded-md text-sm">Import Data</button>
-                        </form>
-                    </div>
-                </div>
 
                 @if (session('warnings'))
                     <div class="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6">
@@ -185,7 +168,23 @@
                         </div>
                     </div>
                 @endif
-
+ <div class="card rounded-lg mb-6">
+                    <div class="section-header px-6 py-4">
+                        <h3 class="text-lg font-medium text-gray-900">Import Interview Results</h3>
+                    </div>
+                    <div class="p-6">
+                        <form action="{{ route('interviewResult.importExcel', ['scholarshipID' => $scholarshipID]) }}" method="POST" enctype="multipart/form-data" class="flex flex-wrap gap-4 items-end">
+                            @csrf
+                            <div class="flex-1 min-w-80">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Excel File</label>
+                                <p class="text-xs text-gray-500 mb-2">Required columns: student_id, interview_date, performance_level, recommendation, notes</p>
+                                <input type="file" name="file" accept=".xlsx,.xls" required class="form-input w-full py-2.5 px-3 rounded-md">
+                                @error('file')<div class="text-red-600 text-xs mt-1">{{ $message }}</div>@enderror
+                            </div>
+                            <button type="submit" class="btn-primary px-6 py-2.5 rounded-md text-sm">Import Data</button>
+                        </form>
+                    </div>
+                </div>
                 <div class="card rounded-lg overflow-hidden">
                     <div class="section-header px-6 py-4">
                         <h3 class="text-lg font-medium text-gray-900">Interview Records</h3>

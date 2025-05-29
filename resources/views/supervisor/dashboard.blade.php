@@ -6,25 +6,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Welcome – Scholarship Supervisor</title>
     <script src="https://cdn.tailwindcss.com"></script>
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --background: #f5f5f5;
-            --foreground: #0f172a;
+            --background: #F9FAFB;
+            /* light-bg */
+            --foreground: #111827;
+            /* text-color */
             --card: #ffffff;
-            --card-foreground: #0f172a;
-            --primary: #e05252;
-            --primary-foreground: #f8fafc;
-            --secondary: #313e53;
-            --secondary-foreground: #f8fafc;
-            --muted: #f1f5f9;
-            --muted-foreground: #64748b;
-            --accent: #16a3b8;
-            --accent-foreground: #f8fafc;
-            --destructive: #ef4444;
-            --destructive-foreground: #f8fafc;
-            --border: #e2e8f0;
-            --input: #e2e8f0;
+            --card-foreground: #111827;
+            /* text-color */
+            --primary: #4F46E5;
+            /* primary-color */
+            --primary-foreground: #ffffff;
+            --secondary: #10B981;
+            /* secondary-color */
+            --secondary-foreground: #ffffff;
+            --muted: #F3F4F6;
+            /* قريب من light-bg */
+            --muted-foreground: #6B7280;
+            /* muted-text */
+            --accent: #F59E0B;
+            /* accent-color */
+            --accent-foreground: #ffffff;
+            --destructive: #DC2626;
+            /* darker red */
+            --destructive-foreground: #ffffff;
+            --border: #E5E7EB;
+            /* light border */
+            --input: #E5E7EB;
             --radius: 0.5rem;
             --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
         }
@@ -91,16 +101,18 @@
         }
 
         .focus-ring {
-            box-shadow: 0 0 0 3px rgba(224, 82, 82, 0.5);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.5);
+            /* primary-colored glow */
             outline: none;
         }
 
-       .new h2 {
-  text-shadow: 0 0 8px rgba(239, 68, 68, 0.8);
-}
-
-
+        .new h2 {
+            text-shadow: 0 0 8px rgba(79, 70, 229, 0.8);
+            /* primary shadow */
+        }
     </style>
+
+
 </head>
 
 <body class="h-full flex flex-col">
@@ -109,9 +121,10 @@
     <header class="sticky top-0 z-20 bg-card border-b border-default">
         <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <i class="fas fa-graduation-cap text-3xl text-primary"></i>
-                <h1 class="text-2xl font-extrabold text-card-foreground">ScolarPath</h1>
+                <i class="fas fa-graduation-cap text-3xl text-card-foreground"></i>
+                <h1 class="text-2xl font-extrabold text-card-foreground">Dafi Scholarship</h1>
             </div>
+
             <div class="flex items-center space-x-6">
                 <div class="relative">
                     <input type="text" placeholder="Search scholarships…"

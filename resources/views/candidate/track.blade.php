@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Track Your Scholarship Application Status - DAFI Scholarship Scholarship System" />
-    <title>Track Application Status - DAFI Scholarship  System</title>
+    <title>Track Application Status - DAFI Scholarship System</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         :root {
@@ -64,21 +64,27 @@
 
 <body class="min-h-screen flex flex-col">
     <!-- Modern Navbar -->
-    <nav class="bg-white shadow-sm">
+    <nav class="bg-white/95 backdrop-blur-md shadow-lg sticky top-0 z-50 border-b border-white/20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
-                    <div class="flex-shrink-0 flex items-center">
-                        <span class="text-xl font-bold text-primary">DAFI Scholarship</span>
+                    <div class="flex-shrink-0 flex items-center group">
+                        <span
+                            class="text-xl font-bold text-[var(--primary)] transition-all duration-300 group-hover:scale-110">DAFI </span>
+                        <span
+                            class="text-xl font-bold text-[var(--secondary)] ml-1 transition-all duration-300 group-hover:scale-110">Scholarship</span>
                     </div>
                 </div>
-                <div class="hidden sm:ml-6 sm:flex sm:items-center space-x-4">
+                <div class="hidden sm:ml-6 sm:flex sm:items-center sm:space-x-2">
                     <a href="{{ route('candidate.dashboard') }}"
-                        class="px-3 py-2 rounded-md text-sm font-medium text-secondary hover:bg-gray-50">Dashboard</a>
+                        class="nav-link px-4 py-2 rounded-lg text-sm font-medium text-[var(--secondary)] hover:text-[var(--primary)] hover:bg-gray-50/80 transition-all duration-300">Dashboard</a>
+                    <a href="{{ route('track_your_application') }}"
+                        class="nav-link px-4 py-2 rounded-lg text-sm font-medium text-[var(--secondary)] hover:text-[var(--primary)] hover:bg-gray-50/80 transition-all duration-300">Track
+                        Application</a>
                     <a href="{{ route('profile.show') }}"
-                        class="px-3 py-2 rounded-md text-sm font-medium text-secondary hover:bg-gray-50">Profile</a>
+                        class="nav-link px-4 py-2 rounded-lg text-sm font-medium text-[var(--secondary)] hover:text-[var(--primary)] hover:bg-gray-50/80 transition-all duration-300">Profile</a>
                     <a href="{{ route('logout') }}"
-                        class="px-3 py-2 rounded-md text-sm font-medium text-red-600 hover:bg-gray-50">Logout</a>
+                        class="btn-primary px-4 py-2 rounded-lg text-sm font-medium text-white hover:bg-[var(--destructive)] transition-all duration-300 relative overflow-hidden">Logout</a>
                 </div>
             </div>
         </div>
@@ -211,8 +217,8 @@
 
                     <!-- Final Result -->
                     <div class="mt-8 pt-6 border-t border-gray-200">
-                        <div class="flex items-center">
-                            <span class="font-medium text-secondary mr-4">Final Result:</span>
+                        <div class="flex items-center space-x-4">
+                            <span class="font-medium text-secondary">Final Result:</span>
                             @php
                                 $finalStatus = strtolower($selectedApplication->status ?? 'pending');
                                 $statusColor =
@@ -222,18 +228,28 @@
                                             ? 'bg-red-100 text-red-800'
                                             : 'bg-gray-100 text-gray-800');
                             @endphp
-                            <span class="px-3 py-1 rounded-full text-sm font-medium {{ $statusColor }}"
-                                id="final-status">
-                                {{ $selectedApplication->status ?? 'Pending' }}
+                            <span class="px-3 py-1 rounded-full text-sm font-medium {{ $statusColor }}">
+                                {{ ucfirst($selectedApplication->status ?? 'Pending') }}
                             </span>
                         </div>
+
+                        {{-- Subtle rejection note --}}
+                        @if ($selectedApplication->notes)
+                            <div class="mt-2 text-xl italic text-gray-500">
+                                <!-- tiny “why you got shown the door” -->
+                                {{ $selectedApplication->notes }}
+                            </div>
+                        @endif
                     </div>
-                @else
-                    <div class="text-center py-8">
-                        <p class="text-muted-foreground">No application found.</p>
-                    </div>
-                @endif
+
+
             </div>
+        @else
+            <div class="text-center py-8">
+                <p class="text-muted-foreground">No application found.</p>
+            </div>
+            @endif
+        </div>
         </div>
     </main>
 
@@ -246,4 +262,5 @@
         </div>
     </footer>
 </body>
+
 </html>

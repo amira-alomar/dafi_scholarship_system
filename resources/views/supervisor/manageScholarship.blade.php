@@ -159,7 +159,7 @@
 
     <div class="flex h-screen">
         <!-- Sidebar -->
-        <aside class="w-64 bg-gray-900 text-white p-6 overflow-y-auto">
+        <aside class="w-64 bg-gray-900 text-white  overflow-y-auto">
             @include('include.sidebar', ['scholarshipID' => $scholarshipID])
         </aside>
         <!-- Mobile sidebar toggle -->
@@ -209,7 +209,7 @@
                                 </div>
                                 <div class="step-content">
                                     <div class="step-label">Form Setup</div>
-                                    <div class="step-helper">Questions configured ✨</div>
+                                    <div class="step-helper">Questions configured </div>
                                 </div>
                             </div>
 
@@ -220,7 +220,7 @@
                                 </div>
                                 <div class="step-content">
                                     <div class="step-label">Applications</div>
-                                    <div class="step-helper">Reviews completed 📋</div>
+                                    <div class="step-helper">Reviews completed </div>
                                 </div>
                             </div>
 
@@ -230,7 +230,7 @@
                                 </div>
                                 <div class="step-content">
                                     <div class="step-label">Exam</div>
-                                    <div class="step-helper">Send invitations now →</div>
+                                    <div class="step-helper">Send invitations now </div>
                                 </div>
                             </div>
 
@@ -296,7 +296,7 @@
 
                             <div class="management-card">
                                 <div class="card-icon">📊</div>
-                                <div class="card-title">Analytics & Reports</div>
+                                <div class="card-title">Manage Applications</div>
                                 <div class="card-description">Generate insights on application trends, success rates,
                                     and process efficiency</div>
                             </div>

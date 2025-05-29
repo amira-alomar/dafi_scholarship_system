@@ -19,6 +19,13 @@
         <nav>
             <ul class="space-y-3">
                 <li>
+                    <a href="{{ route('supervisor.dashboard') }}"
+                        class="flex items-center space-x-3 p-3 rounded-lg bg-gray-800">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>Scolarships</span>
+                    </a>
+                </li>
+                <li>
                     <a href="{{ route('supervisor.manageScholarship', ['scholarshipID' => $scholarshipID]) }}"
                         class="flex items-center space-x-3 p-3 rounded-lg bg-gray-800">
                         <i class="fas fa-tachometer-alt"></i>
@@ -26,31 +33,10 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('supervisor.manageUsers', ['scholarshipID' => $scholarshipID]) }}"
-                        class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
-                        <i class="fas fa-user-cog"></i>
-                        <span>Manage Users</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('supervisor.acceptedStudents', ['scholarshipID' => $scholarshipID]) }}"
-                        class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
-                        <i class="fas fa-user-check"></i>
-                        <span>Accepted Students</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('supervisor.course', ['scholarshipID' => $scholarshipID]) }}"
-                        class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
-                        <i class="fas fa-book-reader"></i>
-                        <span>Courses</span>
-                    </a>
-                </li>
-                <li>
                     <a href="{{ route('supervisor.questions', ['scholarshipId' => $scholarshipID]) }}"
                         class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
                         <i class="fas fa-question-circle"></i>
-                        <span>Questions</span>
+                        <span>Form Setup</span>
                     </a>
                 </li>
                 <li>
@@ -93,6 +79,27 @@
                         class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
                         <i class="fas fa-check-double"></i>
                         <span>Application Result</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('supervisor.manageUsers', ['scholarshipID' => $scholarshipID]) }}"
+                        class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
+                        <i class="fas fa-user-cog"></i>
+                        <span>Manage Users</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('supervisor.acceptedStudents', ['scholarshipID' => $scholarshipID]) }}"
+                        class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
+                        <i class="fas fa-user-check"></i>
+                        <span>Accepted Students</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('supervisor.course', ['scholarshipID' => $scholarshipID]) }}"
+                        class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
+                        <i class="fas fa-book-reader"></i>
+                        <span>Courses</span>
                     </a>
                 </li>
                 <li>
