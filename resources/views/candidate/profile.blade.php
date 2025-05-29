@@ -198,7 +198,7 @@
 <div class="profile-container">
     <h2>Your Profile</h2>
     <div class="profile-picture">
-        <img src="{{ $user->profile_picture ? route('profile.picture', basename($user->profile_picture)) : asset('images/default-profile.png') }}" alt="Profile Picture">
+        <img src="{{ $user->profile_picture ? route('profile.picture', basename($user->profile_picture)) : 'https://i.pravatar.cc/150?img=32' }}" alt="Profile Picture">
     </div>
 
     <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">

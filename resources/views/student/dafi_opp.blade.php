@@ -21,7 +21,7 @@
             <div class="sidebar">
                 <div class="sidebar-header items-center space-x-2">
                     <i class="fas fa-graduation-cap text-2xl text-indigo-400"></i>
-                    <h1 class="sidebar-title text-xl font-bold">ScholarPath</h1>
+                    <h1 class="sidebar-title text-xl font-bold">DAFI Scholarship</h1>
                 </div>
 
                 <div class="sidebar-user">
