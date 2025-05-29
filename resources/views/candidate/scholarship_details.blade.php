@@ -3,8 +3,8 @@
     <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Scholarship Details - ScholarPath  System" />
-    <title>Scholarship Details - ScholarPath  System</title>
+    <meta name="description" content="Scholarship Details - DAFI Scholarship  System" />
+    <title>Scholarship Details - DAFI Scholarship  System</title>
     <!-- Google Fonts -->
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
@@ -15,7 +15,7 @@
     <body>
         <!-- Header -->
         <header>
-        <div class="logo"><span>ScholarPath</span> </div>
+        <div class="logo"><span>DAFI Scholarship</span> </div>
         <nav>
             <a href="index.html">Home</a>
             <a href="scholarships.html">Scholarships</a>
@@ -68,8 +68,8 @@
 
         <!-- Footer -->
         <footer>
-        &copy; 2025 ScholarPath Scholarship. All rights reserved. | 
-        <a href="mailto:info@ScholarPathscholarship.org">info@ScholarPathscholarship.org</a>
+        &copy; 2025 DAFI Scholarship . All rights reserved. | 
+        <a href="mailto:info@DAFI Scholarshipscholarship.org">info@DAFIScholarship.org</a>
         </footer>
 
         <!-- JavaScript -->

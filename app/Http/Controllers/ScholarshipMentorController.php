@@ -25,7 +25,7 @@ class ScholarshipMentorController extends Controller
         }
 
         // 2. جهّز بيانات المستخدم
-        $data = $request->only(['name', 'age', 'country', 'field', 'target', 'experience']);
+        $data = $request->only([ 'age', 'country', 'field', 'target']);
 
         // 3. جلب المنح المناسبة
         $matchingScholarships = Scholarship::with(['university', 'countries'])
@@ -47,25 +47,30 @@ class ScholarshipMentorController extends Controller
 
         // 5. بناء الرسائل مع System + User
         $messages = [
-            ['role' => 'system', 'content' => 'You are an expert scholarship mentor. Respond concisely.'],
+            ['role' => 'system', 'content' => 'You are an expert scholarship mentor. Only recommend scholarships from the list provided. Do not invent or suggest anything outside the list. Respond concisely.'],
             ['role' => 'user', 'content' => "
 User Profile:
-- Name: {$data['name']}
 - Age: {$data['age']}
 - Country: {$data['country']}
 - Field: {$data['field']}
 - Degree: {$data['target']}
-- Experience: {$data['experience']}
 
-Scholarship Options:
+
+Scholarship Options (from the database):
 $scholarshipList
 
-Please:  
-1. Recommend best fits.  
-2. Highlight strengths & weaknesses.  
-3. Give 2–3 personalized tips.
+Please:
+1. Recommend only the best-fitting scholarships from the list above.
+2. Highlight the user's strengths and potential concerns.
+3. Give 2–3 practical tips for applying to those exact scholarships.
 "]
         ];
+
+        if ($matchingScholarships->isEmpty()) {
+            $advice = 'Sorry, we couldn’t find any matching scholarships for your profile.';
+            return view('candidate.mentorAi', ['advice' => $advice]);
+        }
+
 
         try {
             // 6. إرسال الطلب لـ OpenRouter
@@ -112,8 +117,8 @@ Please:
             $advice = 'An unexpected error occurred. Please try again later.';
         }
         if ($request->ajax()) {
-    return response()->json(['advice' => $advice]);
-}
-return view('candidate.mentorAi', ['advice' => $advice]);
+            return response()->json(['advice' => $advice]);
+        }
+        return view('candidate.mentorAi', ['advice' => $advice]);
     }
 }
