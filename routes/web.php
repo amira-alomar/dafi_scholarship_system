@@ -348,8 +348,8 @@ Route::middleware(['auth', 'role:Student'])->group(function () {
     Route::get('/dafi_opp', [DafiOpportunityController::class, 'index']);
     Route::post('/trainings', [TrainingController::class, 'store'])->name('trainings.store');
     Route::post('/volunteerings', [VolunteeringController::class, 'store'])->name('volunteerings.store');
-    Route::get('/courses',    [CoursesController::class, 'index'])->name('courses.index');
-    // Route::get('/courses', [CoursesController::class, 'index'])->name('courses.index');
+    Route::get('/student/courses',    [CoursesController::class, 'index'])->name('student.courses');
+    Route::get('/courses', [CoursesController::class, 'index'])->name('courses.index');
     Route::post('/courses/store', [CoursesController::class, 'store'])->name('courses.store');
     Route::put('/courses/{course}',  [CoursesController::class, 'update'])->name('courses.update');
     Route::get('/courses/{course}/edit', [CoursesController::class, 'edit'])->name('courses.edit');

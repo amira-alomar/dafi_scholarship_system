@@ -176,7 +176,7 @@
         <div class="testimonials-container">
             @foreach ($graduates as $graduate)
                 <div class="testimonial reveal reveal-left">
-                    <img src="images/person1.jpg" alt="Scholar 1" loading="lazy" />
+                   <img src="{{ $graduate->profile_picture ? asset($graduate->profile_picture) : asset('images/person1.jpg') }}" alt="Scholar 1" loading="lazy" />
                     <p>"{{ $graduate->feedback }}"</p>
                     <h3>- {{ $graduate->user->fname . ' ' . $graduate->user->lname }}
                     </h3>

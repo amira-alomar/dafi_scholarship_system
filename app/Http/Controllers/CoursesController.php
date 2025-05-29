@@ -29,6 +29,7 @@ class CoursesController extends Controller
     {
 
         
+<<<<<<< HEAD
         $request->validate([
             'semester' => 'required|string|max:10',
             'course_name' => 'required|string|max:255',
@@ -37,6 +38,16 @@ class CoursesController extends Controller
         'credit' => 'required|integer|max:10',
             'registration_image' => 'nullable|image|max:2048', // صورة التسجيل
         ]);
+=======
+        // $request->validate([
+        //     'semester' => 'required|string|max:10',
+        //     'course_name' => 'required|string|max:255',
+        //     'code' => 'required|string|max:255',
+        //       'grade' => 'nullable|string|max:255',
+        //      'credit' => 'required|integer|max:10',
+        //     'registration_image' => 'nullable|image|max:2048', // صورة التسجيل
+        // ]);
+>>>>>>> 5d4618d3db1da823a5a64469a38cdb870778e727
 
         $data = $request->only(['semester','credit', 'course_name', 'grade','code']);
         $data['idUser'] = Auth::id();
@@ -64,12 +75,12 @@ if (!$created) {
 public function update(Request $request, Course $course)
 {
     $request->validate([
-        'semester' => 'required|string|max:10',
-        'course_name' => 'required|string|max:255',
-        'code' => 'required|string|max:255',
-        'grade' => 'nullable|string|max:255',
-        'credit' => 'required|integer|max:10',
-        'registration_image' => 'nullable|image|max:2048',
+        // 'semester' => 'required|string|max:10',
+        // 'course_name' => 'required|string|max:255',
+        // 'code' => 'required|string|max:255',
+        // 'grade' => 'nullable|string|max:255',
+        // 'credit' => 'required|integer|max:10',
+        // 'registration_image' => 'nullable|image|max:2048',
     ]);
 
     $data = $request->only(['semester','credit', 'course_name', 'code', 'grade']);
