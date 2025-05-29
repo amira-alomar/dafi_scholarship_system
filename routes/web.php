@@ -34,9 +34,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClubController;
 use App\Http\Controllers\StudentDashboardController;
 use App\Http\Controllers\GraduateFeedbackController;
-
-
-
+use App\Models\UserOpportunity;
 
 Route::get('/login', function () {
     return view('auth.login');
@@ -89,6 +87,9 @@ Route::middleware([AdminMiddleware::class])->group(function () {
     Route::get('/faqs/create', [FaqController::class, 'create'])->name('faqs.create');
     Route::post('/faqs', [FaqController::class, 'store'])->name('faqs.store');
     //
+    Route::get('/admin/student/{idUser}/profile', [UserOpportunityController::class, 'showStudentProfile'])
+     ->name('applications.profile');
+     //
     Route::get('admin/scholarships', [ManageScholarshipController::class, 'index'])->name('scholarships.index');
     Route::post('admin/scholarships', [ManageScholarshipController::class, 'store'])->name('scholarships.store');
     Route::delete('admin/scholarships/{id}', [ManageScholarshipController::class, 'destroy'])->name('scholarships.destroy');
@@ -304,6 +305,8 @@ Route::middleware([AdminMiddleware::class])->group(function () {
         [ApplicationController::class, 'endFormStage']
     )->name('supervisor.endFormStage');
     //
+    Route::get('/student/activities', [TrainingController::class, 'showActivities'])
+    ->name('student.activities');
     Route::post(
         '/supervisor/scholarship/{scholarshipID}/end-interview',
         [InterviewController::class, 'endInterviewStage']

@@ -67,72 +67,77 @@
                         class="{{ $isRejected ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800' }} p-4 rounded mb-4">
                         {{ $message }}
                     </div>
-                    @endif
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full border border-[--border] text-sm">
-                            <thead class="bg-[--muted] text-[--muted-foreground]">
-                                <tr>
-                                    <th class="p-3 text-left border-b border-[--border]">User</th>
-                                    <th class="p-3 text-left border-b border-[--border]">Opportunity</th>
-                                    <th class="p-3 text-left border-b border-[--border]"> Application Date</th>
-                                    <th class="p-3 text-left border-b border-[--border]">Status</th>
-                                    <th class="p-3 text-left border-b border-[--border]">Action</th>
+                @endif
+                <div class="overflow-x-auto">
+                    <table class="min-w-full border border-[--border] text-sm">
+                        <thead class="bg-[--muted] text-[--muted-foreground]">
+                            <tr>
+                                <th class="p-3 text-left border-b border-[--border]">User</th>
+                                <th class="p-3 text-left border-b border-[--border]">Opportunity</th>
+                                <th class="p-3 text-left border-b border-[--border]"> Application Date</th>
+                                <th class="p-3 text-left border-b border-[--border]">Status</th>
+                                <th class="p-3 text-left border-b border-[--border]">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($applications as $app)
+                                <tr class="hover:bg-[--muted] transition">
+                                    <td class="p-3 border-b border-[--border]">
+                                        {{ $app->user ? $app->user->fname . ' ' . $app->user->lname : 'Unknown User' }}
+                                    </td>
+                                    <td class="p-3 border-b border-[--border]">
+                                        {{ $app->opportunity->title ?? 'Unknown Opportunity' }}
+                                    </td>
+                                    <td class="p-3 border-b border-[--border]">
+                                        {{ $app->application_date ?? 'N/A' }}
+                                    </td>
+                                    <td class="p-3 border-b border-[--border] font-medium capitalize">
+                                        <span
+                                            class="@if ($app->status == 'pending') text-[--accent] @elseif($app->status == 'accepted') text-green-600 @else text-[--destructive] @endif">
+                                            {{ $app->status }}
+                                        </span>
+                                    </td>
+                                    <td class="p-3 border-b border-[--border]">
+                                        @if ($app->status == 'pending')
+                                            <div class="flex space-x-2">
+                                                <form
+                                                    action="{{ route('applications.accept', [$app->idUser, $app->idOpportunity]) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    <button
+                                                        class="bg-[--primary] text-[--primary-foreground] px-3 py-1 rounded hover:bg-red-600 transition">Accept</button>
+                                                </form>
+                                                <form
+                                                    action="{{ route('applications.reject', [$app->idUser, $app->idOpportunity]) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    <button
+                                                        class="bg-[--destructive] text-[--destructive-foreground] px-3 py-1 rounded hover:bg-red-700 transition">Reject</button>
+                                                </form>
+                                                <!-- NEW Profile button -->
+                                                <a href="{{ route('applications.profile', $app->idUser) }}"
+                                                    class="bg-[--secondary] text-[--secondary-foreground] px-3 py-1 rounded hover:bg-[--secondary-foreground] hover:text-[--secondary] transition">
+                                                    Profile
+                                                </a>
+                                            </div>
+                                        @else
+                                            <span class="text-[--muted-foreground] italic">No Action</span>
+                                        @endif
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($applications as $app)
-                                    <tr class="hover:bg-[--muted] transition">
-                                        <td class="p-3 border-b border-[--border]">
-                                            {{ $app->user ? $app->user->fname . ' ' . $app->user->lname : 'Unknown User' }}
-                                        </td>
-                                        <td class="p-3 border-b border-[--border]">
-                                            {{ $app->opportunity->title ?? 'Unknown Opportunity' }}
-                                        </td>
-                                        <td class="p-3 border-b border-[--border]">
-                                            {{ $app->application_date ?? 'N/A' }}
-                                        </td>
-                                        <td class="p-3 border-b border-[--border] font-medium capitalize">
-                                            <span
-                                                class="@if ($app->status == 'pending') text-[--accent] @elseif($app->status == 'accepted') text-green-600 @else text-[--destructive] @endif">
-                                                {{ $app->status }}
-                                            </span>
-                                        </td>
-                                        <td class="p-3 border-b border-[--border]">
-                                            @if ($app->status == 'pending')
-                                                <div class="flex space-x-2">
-                                                    <form
-                                                        action="{{ route('applications.accept', [$app->idUser, $app->idOpportunity]) }}"
-                                                        method="POST">
-                                                        @csrf
-                                                        <button
-                                                            class="bg-[--primary] text-[--primary-foreground] px-3 py-1 rounded hover:bg-red-600 transition">Accept</button>
-                                                    </form>
-                                                    <form
-                                                        action="{{ route('applications.reject', [$app->idUser, $app->idOpportunity]) }}"
-                                                        method="POST">
-                                                        @csrf
-                                                        <button
-                                                            class="bg-[--destructive] text-[--destructive-foreground] px-3 py-1 rounded hover:bg-red-700 transition">Reject</button>
-                                                    </form>
-                                                </div>
-                                            @else
-                                                <span class="text-[--muted-foreground] italic">No Action</span>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                @endforeach
+                            @endforeach
 
-                                @if ($applications->isEmpty())
-                                    <tr>
-                                        <td colspan="5" class="p-4 text-center text-gray-500">
-                                            No applications found.
-                                        </td>
-                                    </tr>
-                                @endif
-                            </tbody>
+                            @if ($applications->isEmpty())
+                                <tr>
+                                    <td colspan="5" class="p-4 text-center text-gray-500">
+                                        No applications found.
+                                    </td>
+                                </tr>
+                            @endif
+                        </tbody>
 
-                        </table>
-                    </div>
+                    </table>
+                </div>
 
             </div>
         </div>

@@ -102,6 +102,13 @@
                         <span>Courses</span>
                     </a>
                 </li>
+                 <li>
+                    <a href="{{ route('student.activities')}}"
+                        class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
+                        <i class="fas fa-book-reader"></i>
+                        <span>Acticities</span>
+                    </a>
+                </li>
                 <li>
                     <a href="{{ route('logout') }}"
                         class="flex items-center space-x-3 p-3 rounded-lg bg-red-600 text-white hover:bg-red-700 transition font-semibold shadow-md">
@@ -109,6 +116,7 @@
                         <span>Logout</span>
                     </a>
                 </li>
+                
             </ul>
         </nav>
     </div>

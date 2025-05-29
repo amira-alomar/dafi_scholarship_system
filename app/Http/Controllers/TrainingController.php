@@ -38,5 +38,11 @@ class TrainingController extends Controller
         return redirect()->back()->with('success', 'Training uploaded successfully!');
 
     }
+    public function showActivities()
+    {
+        $students = StudentInfo::with(['user', 'trainings', 'volunteerings'])->get();
+
+        return view('supervisor.activities', compact('students'));
+    }
 }
 

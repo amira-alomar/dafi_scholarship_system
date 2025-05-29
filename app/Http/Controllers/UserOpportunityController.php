@@ -8,6 +8,7 @@ use App\Models\AllUser;
 use App\Models\Opportunity;
 use App\Models\UserOpportunity;
 use Illuminate\Support\Facades\Auth;
+use App\Models\StudentInfo;
 
 class UserOpportunityController extends Controller
 {
@@ -61,5 +62,14 @@ class UserOpportunityController extends Controller
             ->update(['status' => 'rejected']);
 
         return back()->with('success', 'Application rejected!');
+    }
+    public function showStudentProfile($idUser)
+    {
+        // eager‑load the related User and any other relations you need
+        $studentInfo = StudentInfo::with('user')
+                        ->where('idUser', $idUser)
+                        ->firstOrFail();
+
+        return view('admin.studentProfile', compact('studentInfo'));
     }
 }
