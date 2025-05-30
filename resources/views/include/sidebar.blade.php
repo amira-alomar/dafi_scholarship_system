@@ -103,7 +103,7 @@
                     </a>
                 </li>
                  <li>
-                    <a href="{{ route('student.activities')}}"
+                    <a href="{{ route('student.activities', ['scholarshipID' => $scholarshipID])}}"
                         class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 transition">
                         <i class="fas fa-book-reader"></i>
                         <span>Acticities</span>

@@ -48,12 +48,19 @@
             box-shadow: 0 0 8px #ccc;
             margin-bottom: 3rem;
         }
+        .now {
+            color: #374151;
+            font-size: 1.5rem;
+            padding-left: 50px;
+            margin-bottom: 1rem;
+        }
     </style>
 </head>
 
 <body>
+     @include('include.sidebar', ['scholarshipID' => $scholarshipID])
     <div class="container">
-        <h1>All Activities (Training & Volunteering)</h1>
+        <h1 class="now">All Activities (Training & Volunteering)</h1>
         
         @foreach ($students as $student)
             <div class="student-box">

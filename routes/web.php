@@ -305,7 +305,7 @@ Route::middleware([AdminMiddleware::class])->group(function () {
         [ApplicationController::class, 'endFormStage']
     )->name('supervisor.endFormStage');
     //
-    Route::get('/student/activities', [TrainingController::class, 'showActivities'])
+    Route::get('/student/activities/{scholarshipID}', [TrainingController::class, 'showActivities'])
     ->name('student.activities');
     Route::post(
         '/supervisor/scholarship/{scholarshipID}/end-interview',
