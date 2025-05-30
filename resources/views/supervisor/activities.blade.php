@@ -75,7 +75,7 @@
                                 <td>{{ $training->name }}</td>
                                 <td>
                                     @if ($training->certificate)
-                                        <a href="{{ asset('storage/certificates/' . $training->certificate) }}"
+                                        <a href="{{ asset('storage/' . $training->certificate) }}"
                                             target="_blank" style="color: #818cf8; text-decoration: underline;">
                                             View Certificate
                                         </a>
@@ -110,7 +110,7 @@
                                 <td>{{ $vol->name }}</td>
                                 <td>{{ $vol->total_hours }}</td>
                                <td> @if ($vol->certificate)
-                                        <a href="{{ asset('storage/certificates/' . $vol->certificate) }}"
+                                        <a href="{{ asset('storage/' . $vol->certificate) }}"
                                             target="_blank" style="color: #818cf8; text-decoration: underline;">
                                             View Certificate
                                         </a>
