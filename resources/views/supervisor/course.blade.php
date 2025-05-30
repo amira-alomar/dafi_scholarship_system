@@ -64,13 +64,13 @@
                                             Semester: {{ $course->semester ?? 'N/A' }}
                                         </p>
                                     </div>
-                                    <div>
+                                    {{-- <div>
                                         <p class="text-xs font-medium text-[#64748b]">Instructor</p>
                                         <p class="font-medium">{{ $course->instructor ?? 'N/A' }}</p>
-                                    </div>
+                                    </div> --}}
                                     <div>
                                         <p class="text-xs font-medium text-[#64748b]">Credits</p>
-                                        <p class="font-medium">{{ $course->credits ?? 'N/A' }}</p>
+                                        <p class="font-medium">{{ $course->credit ?? 'N/A' }}</p>
                                     </div>
                                 </div>
                                 <form action="{{ route('courses.destroy', $course->courseID) }}" method="POST" class="ml-4">
