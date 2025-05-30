@@ -6,6 +6,7 @@ use App\Models\Training;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\StudentInfo;
+use App\Models\AdminScholarship;
 
 class TrainingController extends Controller
 {
@@ -38,11 +39,25 @@ class TrainingController extends Controller
         return redirect()->back()->with('success', 'Training uploaded successfully!');
 
     }
-    public function showActivities()
-    {
-        $students = StudentInfo::with(['user', 'trainings', 'volunteerings'])->get();
+   public function showActivities($scholarshipID)
+{
+    // 1. جيبي الـadmin ID
+    $adminId = Auth::guard('admin')->id();
 
-        return view('supervisor.activities', compact('students'));
-    }
+    // 2. تأكدي إنك فعلاً مالكة هالمِنحة
+    $owns = AdminScholarship::where('admin_id', $adminId)
+        ->where('idScholarship', $scholarshipID)
+        ->exists();
+
+   
+
+    // 3. جيبي الطلاب اللي من منحتك وبس
+    $students = StudentInfo::with(['user', 'trainings', 'volunteerings'])
+        ->where('idScholarship', $scholarshipID)
+        ->get();
+
+    return view('supervisor.activities', compact('students', 'scholarshipID'));
+}
+
 }
 
